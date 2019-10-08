@@ -10,7 +10,10 @@ namespace Trainer_v4
 {
     public class TrainerBehaviour : ModBehaviour
     {
-        private static GameSettings _settings = GameSettings.Instance;
+        private static GameSettings Settings
+        {
+            get { return GameSettings.Instance; }
+        }
 
         private void Start()
         {
@@ -22,7 +25,7 @@ namespace Trainer_v4
             }
 
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
-            //StartCoroutine(Update());
+            //StartCoroutine(CustomUpdate());
         }
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -46,8 +49,8 @@ namespace Trainer_v4
 
             if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled || !PropertyHelper.DoStuff)
             {
-                //yield break;
                 return;
+                //yield return new WaitForSeconds(5f);
             }
 
             if (Input.GetKey(KeyCode.F1) && !Main.IsShowed)
@@ -62,10 +65,10 @@ namespace Trainer_v4
 
             if (PropertyHelper.GetProperty("FreeStaff"))
             {
-                _settings.StaffSalaryDue = 0f;
+                Settings.StaffSalaryDue = 0f;
             }
 
-            foreach (Furniture item in _settings.sRoomManager.AllFurniture)
+            foreach (Furniture item in Settings.sRoomManager.AllFurniture)
             {
                 if (PropertyHelper.GetProperty("NoiseReduction"))
                 {
@@ -82,9 +85,9 @@ namespace Trainer_v4
                 }
             }
 
-            for (int i = 0; i < _settings.sRoomManager.Rooms.Count; i++)
+            for (int i = 0; i < Settings.sRoomManager.Rooms.Count; i++)
             {
-                Room room = _settings.sRoomManager.Rooms[i];
+                Room room = Settings.sRoomManager.Rooms[i];
 
                 if (PropertyHelper.GetProperty("CleanRooms"))
                 {
@@ -107,10 +110,10 @@ namespace Trainer_v4
                 }
             }
 
-            for (int i = 0; i < _settings.sActorManager.Actors.Count; i++)
+            for (int i = 0; i < Settings.sActorManager.Actors.Count; i++)
             {
-                Actor act = _settings.sActorManager.Actors[i];
-                Employee employee = _settings.sActorManager.Actors[i].employee;
+                Actor act = Settings.sActorManager.Actors[i];
+                Employee employee = Settings.sActorManager.Actors[i].employee;
 
                 //if (PropertyHelper.GetProperty("DisableSkillDecay"))
                 //{
@@ -187,13 +190,13 @@ namespace Trainer_v4
 
             LoanWindow.factor = 250000;
             GameSettings.MaxFloor = 75; //10 default
-                                        //settings.scenario.MaxFloor = 75;
-                                        //CourierAI.MaxBoxes = PropertyHelper.GetProperty("IncreaseCourierCapacity") ? 108 : 54;
+            //settings.scenario.MaxFloor = 75;
+            //CourierAI.MaxBoxes = PropertyHelper.GetProperty("IncreaseCourierCapacity") ? 108 : 54;
             Server.ISPCost = PropertyHelper.GetProperty("ReduceISPCost") ? 25f : 50f;
 
             if (PropertyHelper.GetProperty("AutoDistributionDeals"))
             {
-                foreach (var x in _settings.simulation.Companies)
+                foreach (var x in Settings.simulation.Companies)
                 {
                     float m = x.Value.GetMoneyWithInsurance(true);
 
@@ -237,21 +240,21 @@ namespace Trainer_v4
 
             if (PropertyHelper.GetProperty("IncreasePrintSpeed"))
             {
-                for (int i = 0; i < _settings.ProductPrinters.Count; i++)
+                for (int i = 0; i < Settings.ProductPrinters.Count; i++)
                 {
-                    _settings.ProductPrinters[i].PrintSpeed = 2f;
+                    Settings.ProductPrinters[i].PrintSpeed = 2f;
                 }
             }
 
             //add printspeed and printprice when it's disabled (else) TODO
             if (PropertyHelper.GetProperty("FreePrint"))
             {
-                _settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
+                Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
             }
 
             if (PropertyHelper.GetProperty("IncreaseBookshelfSkill"))
             {
-                foreach (var bookshelf in _settings.sRoomManager.AllFurniture)
+                foreach (var bookshelf in Settings.sRoomManager.AllFurniture)
                 {
                     if (bookshelf.Type != "Bookshelf")
                         continue;
@@ -266,7 +269,7 @@ namespace Trainer_v4
             //else 0.25 TODO
             if (PropertyHelper.GetProperty("NoMaintenance"))
             {
-                foreach (Furniture furniture in _settings.sRoomManager.AllFurniture)
+                foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
                 {
                     switch (furniture.Type)
                     {
@@ -285,7 +288,7 @@ namespace Trainer_v4
 
             if (PropertyHelper.GetProperty("NoSickness"))
             {
-                _settings.sActorManager.Actors.ForEach(actor => actor.SickDays = 0);
+                Settings.sActorManager.Actors.ForEach(actor => actor.SickDays = 0);
                 //settings.Insurance.SickRatio = 0f;
             }
             //}
@@ -339,7 +342,7 @@ namespace Trainer_v4
 
         public static void ClearLoans()
         {
-            _settings.Loans.Clear();
+            Settings.Loans.Clear();
             HUD.Instance.AddPopupMessage("Trainer: All loans are cleared!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
@@ -355,7 +358,7 @@ namespace Trainer_v4
 
             for (int i = 0; i < Deals.Length; i++)
             {
-                _settings.MyCompany.MakeTransaction(PropertyHelper.rnd.Next(500, 50000),
+                Settings.MyCompany.MakeTransaction(PropertyHelper.rnd.Next(500, 50000),
                        Company.TransactionCategory.Deals);
             }
 
@@ -366,13 +369,13 @@ namespace Trainer_v4
         {
             PropertyHelper.DealIsPushed = true;
 
-            SoftwareProduct[] Products = _settings.simulation.GetAllProducts().Where(pr =>
+            SoftwareProduct[] Products = Settings.simulation.GetAllProducts().Where(pr =>
                   (pr.Type.ToString() == "CMS"
                 || pr.Type.ToString() == "Office Software"
                 || pr.Type.ToString() == "Operating System"
                 || pr.Type.ToString() == "Game")
                 && pr.Userbase > 0
-                && pr.DevCompany.Name != _settings.MyCompany.Name
+                && pr.DevCompany.Name != Settings.MyCompany.Name
                 && pr.ServerReq > 0
                 && !pr.ExternalHostingActive)
                       .ToArray();
@@ -380,7 +383,7 @@ namespace Trainer_v4
             int index = PropertyHelper.rnd.Next(0, Products.Length);
 
             SoftwareProduct prod =
-                _settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
+                Settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
 
             //var servers = settings.GetAllServers();
             //foreach(var srv in servers)
@@ -409,7 +412,7 @@ namespace Trainer_v4
 
         public static void AIBankrupt()
         {
-            SimulatedCompany[] Companies = _settings.simulation.Companies.Values.ToArray();
+            SimulatedCompany[] Companies = Settings.simulation.Companies.Values.ToArray();
 
             for (int i = 0; i < Companies.Length; i++)
             {
@@ -424,7 +427,7 @@ namespace Trainer_v4
                 return;
             }
 
-            Actor[] Actors = _settings.sActorManager.Actors
+            Actor[] Actors = Settings.sActorManager.Actors
                 .Where(actor => actor.employee.RoleString.Contains("Lead")).ToArray();
 
             if (Actors.Length == 0)
@@ -446,7 +449,7 @@ namespace Trainer_v4
                 false, DialogWindow.DialogType.Information);
 
             SoftwareProduct[] Products =
-                _settings.MyCompany.Products.Where(product => product.Userbase == 0).ToArray();
+                Settings.MyCompany.Products.Where(product => product.Userbase == 0).ToArray();
 
             if (Products.Length == 0)
             {
@@ -459,7 +462,7 @@ namespace Trainer_v4
                 int st = (int)product.PhysicalCopies * (int)(product.Price / 2);
 
                 product.PhysicalCopies = 0;
-                _settings.MyCompany.MakeTransaction(st, Company.TransactionCategory.Sales);
+                Settings.MyCompany.MakeTransaction(st, Company.TransactionCategory.Sales);
             }
         }
 
@@ -471,9 +474,9 @@ namespace Trainer_v4
             SimulatedCompany simComp = new SimulatedCompany("Trainer Company", time, type, dict, 0f);
             simComp.CanMakeTransaction(1000000000f);
 
-            SoftwareProduct[] Products = _settings.simulation.GetAllProducts().Where(product =>
-                product.DevCompany == _settings.MyCompany &&
-                product.Inventor != _settings.MyCompany.Name).ToArray();
+            SoftwareProduct[] Products = Settings.simulation.GetAllProducts().Where(product =>
+                product.DevCompany == Settings.MyCompany &&
+                product.Inventor != Settings.MyCompany.Name).ToArray();
 
             if (Products.Length == 0)
             {
@@ -495,9 +498,9 @@ namespace Trainer_v4
 
         public static void ResetAgeOfEmployees()
         {
-            for (int i = 0; i < _settings.sActorManager.Actors.Count; i++)
+            for (int i = 0; i < Settings.sActorManager.Actors.Count; i++)
             {
-                var item = _settings.sActorManager.Actors[i];
+                var item = Settings.sActorManager.Actors[i];
 
                 item.employee.AgeMonth = 240;
                 item.UpdateAgeLook();
@@ -513,15 +516,15 @@ namespace Trainer_v4
                 return;
             }
 
-            for (int index1 = 0; index1 < _settings.sActorManager.Actors.Count; index1++)
+            for (int index1 = 0; index1 < Settings.sActorManager.Actors.Count; index1++)
             {
-                Actor x = _settings.sActorManager.Actors[index1];
+                Actor x = Settings.sActorManager.Actors[index1];
                 for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
                 {
                     x.employee.ChangeSkill((Employee.EmployeeRole)index, 1f, false);
-                    for (int i = 0; i < _settings.Specializations.Length; i++)
+                    for (int i = 0; i < Settings.Specializations.Length; i++)
                     {
-                        string specialization = _settings.Specializations[i];
+                        string specialization = Settings.Specializations[i];
 
                         //x.employee.AddToSpecialization(Employee.EmployeeRole.Designer, specialization, 1f, 0, true);
                         //x.employee.AddToSpecialization(Employee.EmployeeRole.Artist, specialization, 1f, 0, true);
@@ -582,7 +585,7 @@ namespace Trainer_v4
 
         public static void MaxCodeAction(string input)
         {
-            WorkItem WorkItem = _settings.MyCompany.WorkItems
+            WorkItem WorkItem = Settings.MyCompany.WorkItems
                 .Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
                     (item as SoftwareAlpha).Name == input && !(item as SoftwareAlpha).InBeta);
 
@@ -622,7 +625,7 @@ namespace Trainer_v4
 
         public static void MaxArtAction(string input)
         {
-            WorkItem WorkItem = _settings.MyCompany.WorkItems
+            WorkItem WorkItem = Settings.MyCompany.WorkItems
                 .Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
                     (item as SoftwareAlpha).Name == input && !(item as SoftwareAlpha).InBeta);
 
@@ -662,7 +665,7 @@ namespace Trainer_v4
 
         public static void FixBugsAction(string input)
         {
-            WorkItem WorkItem = _settings.MyCompany.WorkItems
+            WorkItem WorkItem = Settings.MyCompany.WorkItems
                 .Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
                     (item as SoftwareAlpha).Name == input && (item as SoftwareAlpha).InBeta);
 
@@ -685,7 +688,7 @@ namespace Trainer_v4
 
         public static void MaxFollowersAction(string input)
         {
-            WorkItem WorkItem = _settings.MyCompany.WorkItems
+            WorkItem WorkItem = Settings.MyCompany.WorkItems
                 .Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
                     (item as SoftwareAlpha).Name == input && !(item as SoftwareAlpha).Paused);
 
@@ -715,7 +718,7 @@ namespace Trainer_v4
         public static void SetProductPriceAction(string input)
         {
             SoftwareProduct Product =
-                _settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
 
             if (Product == null)
             {
@@ -738,7 +741,7 @@ namespace Trainer_v4
         public static void SetProductStockAction(string input)
         {
             SoftwareProduct Product =
-                _settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
 
             if (Product == null)
             {
@@ -761,7 +764,7 @@ namespace Trainer_v4
         public static void AddActiveUsersAction(string input)
         {
             SoftwareProduct Product =
-                _settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
 
             if (Product == null)
             {
@@ -783,7 +786,7 @@ namespace Trainer_v4
 
         public static void TakeoverCompanyAction(string input)
         {
-            SimulatedCompany Company = _settings.simulation.Companies
+            SimulatedCompany Company = Settings.simulation.Companies
                 .FirstOrDefault(company => company.Value.Name == input).Value;
 
             if (Company == null)
@@ -791,7 +794,7 @@ namespace Trainer_v4
                 return;
             }
 
-            Company.BuyOut(_settings.MyCompany, true);
+            Company.BuyOut(Settings.MyCompany, true);
             HUD.Instance.AddPopupMessage("Trainer: Company " + Company.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
@@ -807,14 +810,14 @@ namespace Trainer_v4
         public static void SubDCompanyAction(string input)
         {
             SimulatedCompany Company =
-                _settings.simulation.Companies.FirstOrDefault(company => company.Value.Name == input).Value;
+                Settings.simulation.Companies.FirstOrDefault(company => company.Value.Name == input).Value;
 
             if (Company == null)
             {
                 return;
             }
 
-            Company.MakeSubsidiary(_settings.MyCompany);
+            Company.MakeSubsidiary(Settings.MyCompany);
             Company.IsSubsidiary();
             HUD.Instance.AddPopupMessage("Trainer: Company " + Company.Name + " is now your subsidiary!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
@@ -831,7 +834,7 @@ namespace Trainer_v4
         public static void ForceBankruptAction(string input)
         {
             SimulatedCompany Company =
-                _settings.simulation.Companies.FirstOrDefault(company => company.Value.Name == input).Value;
+                Settings.simulation.Companies.FirstOrDefault(company => company.Value.Name == input).Value;
 
             DevConsole.Console.Log("input => " + input + " Company: " + Company);
 
@@ -854,7 +857,7 @@ namespace Trainer_v4
 
         public static void IncreaseMoneyAction(string input)
         {
-            _settings.MyCompany.MakeTransaction(input.ConvertToIntDef(100000), Company.TransactionCategory.Deals);
+            Settings.MyCompany.MakeTransaction(input.ConvertToIntDef(100000), Company.TransactionCategory.Deals);
             HUD.Instance.AddPopupMessage("Trainer: Money has been added in category Deals!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
