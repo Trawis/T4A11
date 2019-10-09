@@ -29,7 +29,7 @@ namespace Trainer_v4
             Window = WindowManager.SpawnWindow();
             Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = title;
             Window.MinSize.x = 670;
-            Window.MinSize.y = 644;
+            Window.MinSize.y = 708;
             Window.name = "TrainerSettings";
             Window.MainPanel.name = "TrainerSettingsPanel";
 
@@ -87,6 +87,10 @@ namespace Trainer_v4
             Utils.AddButton("Max Art Skill of employees", TrainerBehaviour.EmployeesToMaxArtist, ref Buttons);
 
             Utils.AddButton("Max Design Skill of employees", TrainerBehaviour.EmployeesToMaxDesigner, ref Buttons);
+
+            Utils.AddButton("Max Lead Skill of employees", TrainerBehaviour.EmployeesToMaxLead, ref Buttons);
+
+            Utils.AddButton("Max Service Skill of employees", TrainerBehaviour.EmployeesToMaxService, ref Buttons);
 
             Utils.AddButton("Remove Products", TrainerBehaviour.RemoveSoft, ref Buttons);
 
