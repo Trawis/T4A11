@@ -281,7 +281,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("NoSickness")) //TODO: Test sickness
+            if (PropertyHelper.GetProperty("NoSickness"))
             {
                 Settings.sActorManager.Actors.ForEach(actor => actor.SickDays = 0);
                 foreach (var sickEmployee in TimeOfDay.Instance.Sick)
@@ -289,7 +289,6 @@ namespace Trainer_v4
                     sickEmployee.SpecialState = Actor.HomeState.Default;
                 }
                 TimeOfDay.Instance.Sick.Clear();
-                //settings.Insurance.SickRatio = 0f;
             }
 
             if (PropertyHelper.GetProperty("DisableBurglars"))
