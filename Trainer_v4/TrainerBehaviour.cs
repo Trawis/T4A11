@@ -524,7 +524,7 @@ namespace Trainer_v4
             HUD.Instance.AddPopupMessage("Trainer: Age of employees has been reset!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
-        public static void EmployeesToMax()
+        public static void EmployeesToMaxDesigner()
         {
             if (!PropertyHelper.DoStuff || SelectorController.Instance == null)
             {
@@ -534,21 +534,69 @@ namespace Trainer_v4
             for (int index1 = 0; index1 < Settings.sActorManager.Actors.Count; index1++)
             {
                 Actor x = Settings.sActorManager.Actors[index1];
+                x.employee.ChangeSkill(Employee.EmployeeRole.Designer, 1f, false);
                 for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
                 {
-                    x.employee.ChangeSkill((Employee.EmployeeRole)index, 1f, false);
                     for (int i = 0; i < Settings.Specializations.Length; i++)
                     {
                         string specialization = Settings.Specializations[i];
 
                         x.employee.AddSpecialization(Employee.EmployeeRole.Designer, specialization, false, true, 1);
+                    }
+                }
+            }
+
+            HUD.Instance.AddPopupMessage("Trainer: All employees are now max skilled at design!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0, 1);
+        }
+
+        public static void EmployeesToMaxArtist()
+        {
+            if (!PropertyHelper.DoStuff || SelectorController.Instance == null)
+            {
+                return;
+            }
+
+            for (int index1 = 0; index1 < Settings.sActorManager.Actors.Count; index1++)
+            {
+                Actor x = Settings.sActorManager.Actors[index1];
+                x.employee.ChangeSkill(Employee.EmployeeRole.Artist, 1f, false);
+                for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
+                {
+                    for (int i = 0; i < Settings.Specializations.Length; i++)
+                    {
+                        string specialization = Settings.Specializations[i];
+                        
                         x.employee.AddSpecialization(Employee.EmployeeRole.Artist, specialization, false, true, 1);
+                    }
+                }
+            }
+
+            HUD.Instance.AddPopupMessage("Trainer: All employees are now max skilled at art!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0, 1);
+        }
+
+        public static void EmployeesToMaxProgrammer()
+        {
+            if (!PropertyHelper.DoStuff || SelectorController.Instance == null)
+            {
+                return;
+            }
+
+            for (int index1 = 0; index1 < Settings.sActorManager.Actors.Count; index1++)
+            {
+                Actor x = Settings.sActorManager.Actors[index1];
+                x.employee.ChangeSkill(Employee.EmployeeRole.Programmer, 1f, false);
+                for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
+                {
+                    for (int i = 0; i < Settings.Specializations.Length; i++)
+                    {
+                        string specialization = Settings.Specializations[i];
+
                         x.employee.AddSpecialization(Employee.EmployeeRole.Programmer, specialization, false, true, 1);
                     }
                 }
             }
 
-            HUD.Instance.AddPopupMessage("Trainer: All employees are now max skilled!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0, 1);
+            HUD.Instance.AddPopupMessage("Trainer: All employees are now max skilled at programming!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0, 1);
         }
 
         public static void UnlockAllSpace()
