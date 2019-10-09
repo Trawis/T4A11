@@ -6,7 +6,7 @@ namespace Trainer_v4
 {
     public class Main : ModMeta
     {
-        public static string version = "(v4.0)";
+        public static string version = "(v4.1)";
         public static bool IsShowed
         {
             get

@@ -38,7 +38,9 @@ namespace Trainer_v4
             {"NoSickness", false},
             {"UltraEfficiency", false},
             {"FullSatisfaction", false},
-            {"DisableSkillDecay", false}
+            {"DisableSkillDecay", false},
+            {"DisableBurglars", false},
+            {"DisableFires", false}
         };
 
         public static Dictionary<string, bool> Settings

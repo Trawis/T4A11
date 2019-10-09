@@ -27,7 +27,7 @@ namespace Trainer_v4
         private static void Init()
         {
             Window = WindowManager.SpawnWindow();
-            Window.InitialTitle =  Window.TitleText.text = Window.NonLocTitle = title;
+            Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = title;
             Window.MinSize.x = 670;
             Window.MinSize.y = 580;
             Window.name = "TrainerSettings";
@@ -52,7 +52,7 @@ namespace Trainer_v4
 
             Utils.AddButton("Add Money", new Rect(1, 0, 150, 32), TrainerBehaviour.IncreaseMoney);
 
-            //Utils.AddButton("Add Reputation", new Rect(161, 0, 150, 32), TrainerBehaviour.AddRep);
+            Utils.AddButton("Add Reputation", new Rect(161, 0, 150, 32), TrainerBehaviour.AddRep);
 
             Utils.AddButton("Set Product Price", new Rect(161, 96, 150, 32), TrainerBehaviour.SetProductPrice);
 
@@ -80,9 +80,9 @@ namespace Trainer_v4
 
             Utils.AddButton("Clear all loans", TrainerBehaviour.ClearLoans, ref Buttons);
 
-            //Utils.AddButton("HR Leaders", TrainerBehaviour.HREmployees, ref Buttons);
+            Utils.AddButton("HR Leaders", TrainerBehaviour.HREmployees, ref Buttons);
 
-            //Utils.AddButton("Max Skill of employees", TrainerBehaviour.EmployeesToMax, ref Buttons);
+            Utils.AddButton("Max Skill of employees", TrainerBehaviour.EmployeesToMax, ref Buttons);
 
             Utils.AddButton("Remove Products", TrainerBehaviour.RemoveSoft, ref Buttons);
 
@@ -145,6 +145,13 @@ namespace Trainer_v4
             Utils.AddToggle("Rooms Never Dirty", PropertyHelper.GetProperty("CleanRooms"),
                 a => PropertyHelper.SetProperty("CleanRooms", !PropertyHelper.GetProperty("CleanRooms")), ref col2);
 
+            Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty("DisableBurglars"),
+                a => PropertyHelper.SetProperty("DisableBurglars", !PropertyHelper.GetProperty("DisableBurglars")), ref col2);
+
+            Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty("DisableFires"),
+                a => PropertyHelper.SetProperty("DisableFires", !PropertyHelper.GetProperty("DisableFires")), ref col2);
+
+
             Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty("AutoDistributionDeals"),
                 a => PropertyHelper.SetProperty("AutoDistributionDeals", !PropertyHelper.GetProperty("AutoDistributionDeals")), ref col3);
 
@@ -157,8 +164,8 @@ namespace Trainer_v4
             Utils.AddToggle("Increase Bookshelf Skill", PropertyHelper.GetProperty("IncreaseBookshelfSkill"),
                 a => PropertyHelper.SetProperty("IncreaseBookshelfSkill", !PropertyHelper.GetProperty("IncreaseBookshelfSkill")), ref col3);
 
-            //Utils.AddToggle("Increase Courier Capacity", PropertyHelper.GetProperty("IncreaseCourierCapacity"),
-                //a => PropertyHelper.SetProperty("IncreaseCourierCapacity", !PropertyHelper.GetProperty("IncreaseCourierCapacity")), ref col3);
+            Utils.AddToggle("Increase Courier Capacity", PropertyHelper.GetProperty("IncreaseCourierCapacity"),
+                a => PropertyHelper.SetProperty("IncreaseCourierCapacity", !PropertyHelper.GetProperty("IncreaseCourierCapacity")), ref col3);
 
             Utils.AddToggle("Increase Print Speed", PropertyHelper.GetProperty("IncreasePrintSpeed"),
                 a => PropertyHelper.SetProperty("IncreasePrintSpeed", !PropertyHelper.GetProperty("IncreasePrintSpeed")), ref col3);
@@ -169,8 +176,8 @@ namespace Trainer_v4
             Utils.AddToggle("Reduce Internet Cost", PropertyHelper.GetProperty("ReduceISPCost"),
                 a => PropertyHelper.SetProperty("ReduceISPCost", !PropertyHelper.GetProperty("ReduceISPCost")), ref col3);
 
-            //Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty("DisableSkillDecay"),
-            //    a => PropertyHelper.SetProperty("DisableSkillDecay", !PropertyHelper.GetProperty("DisableSkillDecay")), ref col3);
+            Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty("DisableSkillDecay"),
+                a => PropertyHelper.SetProperty("DisableSkillDecay", !PropertyHelper.GetProperty("DisableSkillDecay")), ref col3);
 
             Utils.DoLoops(Buttons.ToArray(), col1.ToArray(), col2.ToArray(), col3.ToArray());
         }
