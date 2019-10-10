@@ -40,7 +40,8 @@ namespace Trainer_v4
             {"FullSatisfaction", false},
             {"DisableSkillDecay", false},
             {"DisableBurglars", false},
-            {"DisableFires", false}
+            {"DisableFires", false},
+            {"NoServerCost", false}
         };
 
         public static Dictionary<string, bool> Settings

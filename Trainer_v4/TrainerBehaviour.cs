@@ -42,7 +42,6 @@ namespace Trainer_v4
 
         private void Update()
         {
-
             if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled || !PropertyHelper.DoStuff)
             {
                 return;
@@ -107,7 +106,7 @@ namespace Trainer_v4
 
             for (int i = 0; i < Settings.sActorManager.Actors.Count; i++)
             {
-                Actor act = Settings.sActorManager.Actors[i];
+                Actor actor = Settings.sActorManager.Actors[i];
                 Employee employee = Settings.sActorManager.Actors[i].employee;
 
                 if (PropertyHelper.GetProperty("DisableSkillDecay"))
@@ -116,12 +115,14 @@ namespace Trainer_v4
                     {
                         if (employee.IsRole((Employee.EmployeeRole)index))
                         {
-                            employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
+                            employee.ChangeSkillDirect((Employee.EmployeeRole)index, employee.GetSkill((Employee.EmployeeRole)index));
                             foreach (var specialization in Settings.Specializations)
                             {
-                                employee.AddSpecialization(Employee.EmployeeRole.Designer, specialization, false, true, 1);
-                                employee.AddSpecialization(Employee.EmployeeRole.Artist, specialization, false, true, 1);
-                                employee.AddSpecialization(Employee.EmployeeRole.Programmer, specialization, false, true, 1);
+                                employee.SetSpecialization(Employee.EmployeeRole.Designer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Designer, specialization));
+                                employee.SetSpecialization(Employee.EmployeeRole.Artist, specialization, employee.GetSpecialization(Employee.EmployeeRole.Artist, specialization));
+                                employee.SetSpecialization(Employee.EmployeeRole.Programmer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Programmer, specialization));
+                                employee.SetSpecialization(Employee.EmployeeRole.Lead, specialization, employee.GetSpecialization(Employee.EmployeeRole.Lead, specialization));
+                                employee.SetSpecialization(Employee.EmployeeRole.Service, specialization, employee.GetSpecialization(Employee.EmployeeRole.Service, specialization));
                             }
                         }
                     }
@@ -129,8 +130,8 @@ namespace Trainer_v4
 
                 if (PropertyHelper.GetProperty("LockAge"))
                 {
-                    employee.AgeMonth = (int)act.employee.Age * 12; //20*12
-                    act.UpdateAgeLook();
+                    employee.AgeMonth = (int)employee.Age * 12; //20*12
+                    actor.UpdateAgeLook();
                 }
 
                 if (PropertyHelper.GetProperty("NoStress"))
@@ -140,19 +141,18 @@ namespace Trainer_v4
 
                 if (PropertyHelper.GetProperty("FullEfficiency"))
                 {
-                    if (act.employee.RoleString.Contains("Lead"))
+                    if (employee.RoleString.Contains("Lead"))
                     {
-                        act.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 20 : 4;
+                        actor.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 20 : 4;
                     }
                     else
                     {
-                        act.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 10 : 2;
+                        actor.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 10 : 2;
                     }
                 }
 
                 if (PropertyHelper.GetProperty("FullSatisfaction"))
                 {
-                    //act.ChangeSatisfaction(10, 10, Employee.Thought.LoveWork, Employee.Thought.LikeTeamWork, 0);
                     employee.JobSatisfaction = 2f;
                     employee.JobSatisfaction = 2f;
                 }
@@ -167,20 +167,17 @@ namespace Trainer_v4
 
                 if (PropertyHelper.GetProperty("FreeEmployees"))
                 {
-                    //act.employee.Salary = 0;
-                    //act.NegotiateSalary = false;
-                    //act.IgnoreOffSalary = true;
-                    employee.ChangeSalary(0f, 0f, act, false);
+                    employee.ChangeSalary(0f, 0f, actor, false);
                 }
 
                 if (PropertyHelper.GetProperty("NoiseReduction"))
                 {
-                    act.Noisiness = 0;
+                    actor.Noisiness = 0;
                 }
 
                 if (PropertyHelper.GetProperty("NoVacation"))
                 {
-                    act.VacationMonth = SDateTime.NextMonth(24);
+                    actor.VacationMonth = SDateTime.NextMonth(24);
                 }
             }
 
@@ -188,6 +185,11 @@ namespace Trainer_v4
             GameSettings.MaxFloor = 75; //10 default
             AI.MaxBoxes = PropertyHelper.GetProperty("IncreaseCourierCapacity") ? 108 : 54;
             Server.ISPCost = PropertyHelper.GetProperty("ReduceISPCost") ? 25f : 50f;
+
+            if (PropertyHelper.GetProperty("NoServerCost"))
+            {
+                Settings.ServerCost = 0f;
+            }
 
             if (PropertyHelper.GetProperty("AutoDistributionDeals"))
             {
@@ -266,16 +268,27 @@ namespace Trainer_v4
             {
                 foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
                 {
+                    DevConsole.Console.Log(furniture.Type);
                     switch (furniture.Type)
                     {
-                        case "Server":
+                        case "Chair":
+                            furniture.Comfort = 1.5f;
+                            goto case "Ventilation";
+                        case "CCTV":
+                            furniture.upg.RepairMe();
+                            goto case "Ventilation";
                         case "Computer":
-                        case "Product Printer":
-                        case "Ventilation":
-                        case "Radiator":
                         case "Lamp":
+                        case "Server":
+                        case "Product Printer":
+                        case "Radiator":
+                        case "Sink":
                         case "Toilet":
-                            furniture.upg.Quality = 1f;
+                        case "Ventilation":
+                            if (furniture.upg != null)
+                            {
+                                furniture.upg.Quality = 1f;
+                            }
                             break;
                     }
                 }
@@ -283,17 +296,29 @@ namespace Trainer_v4
 
             if (PropertyHelper.GetProperty("NoSickness"))
             {
-                Settings.sActorManager.Actors.ForEach(actor => actor.SickDays = 0);
-                foreach (var sickEmployee in TimeOfDay.Instance.Sick)
+                var sickEmployees = Settings.sActorManager.Actors.Where(employee => employee.SpecialState == Actor.HomeState.Sick);
+                var sickActors = TimeOfDay.Instance.Sick;
+
+                if (sickEmployees != null && sickActors != null)
                 {
-                    sickEmployee.SpecialState = Actor.HomeState.Default;
+                    foreach (var sickEmployee in sickEmployees)
+                    {
+                        if (sickActors.Contains(sickEmployee))
+                        {
+                            TimeOfDay.Instance.Sick.Remove(sickEmployee);
+                        }
+                    }
                 }
-                TimeOfDay.Instance.Sick.Clear();
             }
 
             if (PropertyHelper.GetProperty("DisableBurglars"))
             {
-                Settings.sActorManager.Actors.RemoveAll(x => x.AItype == AI.AIType.Burglar);
+                foreach (var burglar in Settings.sActorManager.Others["Burglars"])
+                {
+                    burglar.Dismiss();
+                    burglar.Despawned = true;
+                    Settings.sActorManager.RemoveFromAwaiting(burglar);
+                }
             }
 
             if (PropertyHelper.GetProperty("DisableFires"))
@@ -544,6 +569,8 @@ namespace Trainer_v4
                         x.employee.AddSpecialization(Employee.EmployeeRole.Designer, specialization, false, true, 1);
                         x.employee.AddSpecialization(Employee.EmployeeRole.Artist, specialization, false, true, 1);
                         x.employee.AddSpecialization(Employee.EmployeeRole.Programmer, specialization, false, true, 1);
+                        x.employee.AddSpecialization(Employee.EmployeeRole.Lead, specialization, false, true, 1);
+                        x.employee.AddSpecialization(Employee.EmployeeRole.Service, specialization, false, true, 1);
                     }
                 }
             }

@@ -6,7 +6,10 @@ namespace Trainer_v4
 {
     public class Main : ModMeta
     {
-        public static string version = "(v4.1)";
+        private TrainerBehaviour _trainerBehaviour;
+        public static Button btn;
+        public static string version = "(v4.2)";
+
         public static bool IsShowed
         {
             get
@@ -14,10 +17,6 @@ namespace Trainer_v4
                 return SettingsWindow.shown;
             }
         }
-
-        public static Button btn;
-
-        private TrainerBehaviour _trainerBehaviour;
 
         public override void Initialize(ModController.DLLMod parentMod)
         {

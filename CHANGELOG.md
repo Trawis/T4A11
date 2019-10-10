@@ -3,6 +3,15 @@ Release notes for changes to the trainer
 
 ---
 
+**4.2**
+
+10.10.2019. for Alpha 11
+- Possible fix for "Disable burglars" option
+- Upgraded "No Maintenance" option
+- Added "No Server Cost" option
+
+---
+
 **4.1**
 
 09.10.2019. for Alpha 11

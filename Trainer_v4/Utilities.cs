@@ -47,37 +47,41 @@ namespace Trainer_v4
             Toggles.Add(Toggle.gameObject);
         }
 
-        public static void DoLoops(GameObject[] Buttons, GameObject[] Col1, GameObject[] Col2, GameObject[] Col3)
+        public static void DoLoops(GameObject[] Column1, GameObject[] Column2, GameObject[] Column3, GameObject[] Column4)
         {
-            for (int i = 0; i < Buttons.Length; i++)
+            for (int i = 0; i < Column1.Length; i++)
             {
-                GameObject item = Buttons[i];
+                GameObject item = Column1[i];
 
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, new Rect(1, (i + 7) * 32, 150, 32),
+                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
+                    new Rect(Constants.FIRST_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                     new Rect(0, 0, 0, 0));
             }
 
-            for (int i = 0; i < Col1.Length; i++)
+            for (int i = 0; i < Column2.Length; i++)
             {
-                GameObject item = Col1[i];
+                GameObject item = Column2[i];
 
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, new Rect(161, (i + 7) * 32, 150, 32),
+                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
+                    new Rect(Constants.SECOND_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                     new Rect(0, 0, 0, 0));
             }
 
-            for (int i = 0; i < Col2.Length; i++)
+            for (int i = 0; i < Column3.Length; i++)
             {
-                GameObject item = Col2[i];
+                GameObject item = Column3[i];
 
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, new Rect(322, (i + 7) * 32, 150, 32),
+                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
+                    new Rect(Constants.THIRD_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                     new Rect(0, 0, 0, 0));
             }
 
-            for (int i = 0; i < Col3.Length; i++)
+            for (int i = 0; i < Column4.Length; i++)
             {
-                GameObject item = Col3[i];
+                GameObject item = Column4[i];
 
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, new Rect(483, (i + 7) * 32, 150, 32),
+                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
+                    new Rect(Constants.FOURTH_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                     new Rect(0, 0, 0, 0));
             }
         }
