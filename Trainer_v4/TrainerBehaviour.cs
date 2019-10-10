@@ -569,8 +569,6 @@ namespace Trainer_v4
                         x.employee.AddSpecialization(Employee.EmployeeRole.Designer, specialization, false, true, 1);
                         x.employee.AddSpecialization(Employee.EmployeeRole.Artist, specialization, false, true, 1);
                         x.employee.AddSpecialization(Employee.EmployeeRole.Programmer, specialization, false, true, 1);
-                        x.employee.AddSpecialization(Employee.EmployeeRole.Lead, specialization, false, true, 1);
-                        x.employee.AddSpecialization(Employee.EmployeeRole.Service, specialization, false, true, 1);
                     }
                 }
             }
