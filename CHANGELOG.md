@@ -3,6 +3,15 @@ Release notes for changes to the trainer
 
 ---
 
+**4.3**
+
+11.10.2019. for Alpha 11
+- Improved "Max Skill Employee" option
+- Removed "Disable Skill Decay" option temporarily
+- Removed "HR Leaders" option
+
+---
+
 **4.2**
 
 10.10.2019. for Alpha 11

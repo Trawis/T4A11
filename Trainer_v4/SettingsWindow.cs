@@ -78,7 +78,7 @@ namespace Trainer_v4
 
             Utils.AddButton("Clear all loans", TrainerBehaviour.ClearLoans, ref column1);
 
-            Utils.AddButton("HR Leaders", TrainerBehaviour.HREmployees, ref column1);
+            //Utils.AddButton("HR Leaders", TrainerBehaviour.HREmployees, ref column1);
 
             Utils.AddButton("Max Skill of employees", TrainerBehaviour.EmployeesToMax, ref column1);
 
@@ -174,8 +174,8 @@ namespace Trainer_v4
             Utils.AddToggle("Reduce Internet Cost", PropertyHelper.GetProperty("ReduceISPCost"),
                 a => PropertyHelper.SetProperty("ReduceISPCost", !PropertyHelper.GetProperty("ReduceISPCost")), ref column4);
 
-            Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty("DisableSkillDecay"),
-                a => PropertyHelper.SetProperty("DisableSkillDecay", !PropertyHelper.GetProperty("DisableSkillDecay")), ref column4);
+            //Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty("DisableSkillDecay"),
+            //    a => PropertyHelper.SetProperty("DisableSkillDecay", !PropertyHelper.GetProperty("DisableSkillDecay")), ref column4);
 
             Utils.AddToggle("No Server Cost", PropertyHelper.GetProperty("NoServerCost"),
                 a => PropertyHelper.SetProperty("NoServerCost", !PropertyHelper.GetProperty("NoServerCost")), ref column4);

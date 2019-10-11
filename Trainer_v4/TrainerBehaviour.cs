@@ -109,24 +109,24 @@ namespace Trainer_v4
                 Actor actor = Settings.sActorManager.Actors[i];
                 Employee employee = Settings.sActorManager.Actors[i].employee;
 
-                if (PropertyHelper.GetProperty("DisableSkillDecay"))
-                {
-                    for (int index = 0; index < 5; index++)
-                    {
-                        if (employee.IsRole((Employee.EmployeeRole)index))
-                        {
-                            employee.ChangeSkillDirect((Employee.EmployeeRole)index, employee.GetSkill((Employee.EmployeeRole)index));
-                            foreach (var specialization in Settings.Specializations)
-                            {
-                                employee.SetSpecialization(Employee.EmployeeRole.Designer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Designer, specialization));
-                                employee.SetSpecialization(Employee.EmployeeRole.Artist, specialization, employee.GetSpecialization(Employee.EmployeeRole.Artist, specialization));
-                                employee.SetSpecialization(Employee.EmployeeRole.Programmer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Programmer, specialization));
-                                employee.SetSpecialization(Employee.EmployeeRole.Lead, specialization, employee.GetSpecialization(Employee.EmployeeRole.Lead, specialization));
-                                employee.SetSpecialization(Employee.EmployeeRole.Service, specialization, employee.GetSpecialization(Employee.EmployeeRole.Service, specialization));
-                            }
-                        }
-                    }
-                }
+                //if (PropertyHelper.GetProperty("DisableSkillDecay"))
+                //{
+                //    for (int index = 0; index < 5; index++)
+                //    {
+                //        if (employee.IsRole((Employee.EmployeeRole)index))
+                //        {
+                //            employee.ChangeSkillDirect((Employee.EmployeeRole)index, employee.GetSkill((Employee.EmployeeRole)index));
+                //            foreach (var specialization in Settings.Specializations)
+                //            {
+                //                employee.SetSpecialization(Employee.EmployeeRole.Designer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Designer, specialization));
+                //                employee.SetSpecialization(Employee.EmployeeRole.Artist, specialization, employee.GetSpecialization(Employee.EmployeeRole.Artist, specialization));
+                //                employee.SetSpecialization(Employee.EmployeeRole.Programmer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Programmer, specialization));
+                //                employee.SetSpecialization(Employee.EmployeeRole.Lead, specialization, employee.GetSpecialization(Employee.EmployeeRole.Lead, specialization));
+                //                employee.SetSpecialization(Employee.EmployeeRole.Service, specialization, employee.GetSpecialization(Employee.EmployeeRole.Service, specialization));
+                //            }
+                //        }
+                //    }
+                //}
 
                 if (PropertyHelper.GetProperty("LockAge"))
                 {
@@ -558,17 +558,34 @@ namespace Trainer_v4
 
             for (int index1 = 0; index1 < Settings.sActorManager.Actors.Count; index1++)
             {
-                Actor x = Settings.sActorManager.Actors[index1];
+                Actor actor = Settings.sActorManager.Actors[index1];
                 for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
                 {
-                    x.employee.ChangeSkill((Employee.EmployeeRole)index, 1f, false);
-                    for (int i = 0; i < Settings.Specializations.Length; i++)
-                    {
-                        string specialization = Settings.Specializations[i];
+                    actor.employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
+                    int maxSpecPoints = GameSettings.GetMaxSpecPoints((Employee.EmployeeRole)index);
 
-                        x.employee.AddSpecialization(Employee.EmployeeRole.Designer, specialization, false, true, 1);
-                        x.employee.AddSpecialization(Employee.EmployeeRole.Artist, specialization, false, true, 1);
-                        x.employee.AddSpecialization(Employee.EmployeeRole.Programmer, specialization, false, true, 1);
+                    switch ((Employee.EmployeeRole)index)
+                    {
+                        case Employee.EmployeeRole.Lead:
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "HR", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Automation", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Socialization", false, true, maxSpecPoints);
+                            break;
+                        case Employee.EmployeeRole.Designer:
+                        case Employee.EmployeeRole.Programmer:
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "System", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Network", false, true, maxSpecPoints);
+                            goto case Employee.EmployeeRole.Artist;
+                        case Employee.EmployeeRole.Artist:
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "2D", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "3D", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Audio", false, true, maxSpecPoints);
+                            break;
+                        case Employee.EmployeeRole.Service:
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Support", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Marketing", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, maxSpecPoints);
+                            break;
                     }
                 }
             }
