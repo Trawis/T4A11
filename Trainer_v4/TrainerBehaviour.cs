@@ -268,15 +268,15 @@ namespace Trainer_v4
             {
                 foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
                 {
-                    DevConsole.Console.Log(furniture.Type);
                     switch (furniture.Type)
                     {
                         case "Chair":
-                            furniture.Comfort = 1.5f;
+                            if (furniture.Comfort < 1.2f)
+                            {
+                                furniture.Comfort = 1.5f;
+                            }
                             goto case "Ventilation";
                         case "CCTV":
-                            furniture.upg.RepairMe();
-                            goto case "Ventilation";
                         case "Computer":
                         case "Lamp":
                         case "Server":
@@ -285,9 +285,10 @@ namespace Trainer_v4
                         case "Sink":
                         case "Toilet":
                         case "Ventilation":
-                            if (furniture.upg != null)
+                            if (furniture.upg != null && furniture.upg.Quality < 0.8f)
                             {
                                 furniture.upg.Quality = 1f;
+                                furniture.upg.Broken = false;
                             }
                             break;
                     }

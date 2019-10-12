@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.3.1**
+
+12.10.2019. for Alpha 11
+- Optimized "No Maintenance" option
+
+---
+
 **4.3**
 
 11.10.2019. for Alpha 11
