@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.3.2**
+
+15.10.2019. for Alpha 11
+- Removed "Disable fires" and "Disable burglars" option
+
+---
+
 **4.3.1**
 
 12.10.2019. for Alpha 11

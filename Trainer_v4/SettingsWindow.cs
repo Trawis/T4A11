@@ -143,11 +143,11 @@ namespace Trainer_v4
             Utils.AddToggle("Rooms Never Dirty", PropertyHelper.GetProperty("CleanRooms"),
                 a => PropertyHelper.SetProperty("CleanRooms", !PropertyHelper.GetProperty("CleanRooms")), ref column3);
 
-            Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty("DisableBurglars"),
-                a => PropertyHelper.SetProperty("DisableBurglars", !PropertyHelper.GetProperty("DisableBurglars")), ref column3);
+            //Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty("DisableBurglars"),
+            //    a => PropertyHelper.SetProperty("DisableBurglars", !PropertyHelper.GetProperty("DisableBurglars")), ref column3);
 
-            Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty("DisableFires"),
-                a => PropertyHelper.SetProperty("DisableFires", !PropertyHelper.GetProperty("DisableFires")), ref column3);
+            //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty("DisableFires"),
+            //    a => PropertyHelper.SetProperty("DisableFires", !PropertyHelper.GetProperty("DisableFires")), ref column3);
 
 
             Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty("AutoDistributionDeals"),
