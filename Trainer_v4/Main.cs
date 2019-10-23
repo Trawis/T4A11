@@ -8,7 +8,7 @@ namespace Trainer_v4
     {
         private TrainerBehaviour _trainerBehaviour;
         public static Button btn;
-        public static string version = "(v4.3.1)";
+        public static string version = "(v4.3.2)";
 
         public static bool IsShowed
         {

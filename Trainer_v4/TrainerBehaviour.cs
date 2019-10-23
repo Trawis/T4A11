@@ -446,9 +446,15 @@ namespace Trainer_v4
 
         public static void Test()
         {
-            GUIListView listView;
-            listView = WindowManager.SpawnList();
-            listView.Initialize();
+            //GUIListView listView;
+            //listView = WindowManager.SpawnList();
+            //listView.Initialize();
+
+            string[] specializations = Settings.Specializations;
+            foreach (string specialization in specializations)
+            {
+                DevConsole.Console.Log(specialization);
+            }
         }
 
         public static void AIBankrupt()
@@ -564,7 +570,7 @@ namespace Trainer_v4
                 {
                     actor.employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
                     int maxSpecPoints = GameSettings.GetMaxSpecPoints((Employee.EmployeeRole)index);
-
+                    
                     switch ((Employee.EmployeeRole)index)
                     {
                         case Employee.EmployeeRole.Lead:

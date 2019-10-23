@@ -92,7 +92,7 @@ namespace Trainer_v4
 
             Utils.AddButton("Unlock all space", TrainerBehaviour.UnlockAllSpace, ref column1);
 
-            //Utils.AddButton("Test", TrainerBehaviour.Test, ref Buttons);
+            //Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
 
 
             Utils.AddToggle("Disable Needs", PropertyHelper.GetProperty("NoNeeds"),
