@@ -92,6 +92,8 @@ namespace Trainer_v4
 
             Utils.AddButton("Unlock all space", TrainerBehaviour.UnlockAllSpace, ref column1);
 
+            Utils.AddButton("Employee skill settings", TrainerBehaviour.DisplayEmployeesWindow, ref column1);
+
             //Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
 
 
@@ -179,6 +181,10 @@ namespace Trainer_v4
 
             Utils.AddToggle("No Server Cost", PropertyHelper.GetProperty("NoServerCost"),
                 a => PropertyHelper.SetProperty("NoServerCost", !PropertyHelper.GetProperty("NoServerCost")), ref column4);
+
+            Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty("ReduceExpansionCost"),
+                a => PropertyHelper.SetProperty("ReduceExpansionCost", !PropertyHelper.GetProperty("ReduceExpansionCost")), ref column4);
+
 
             Utils.DoLoops(column1.ToArray(), column2.ToArray(), column3.ToArray(), column4.ToArray());
 

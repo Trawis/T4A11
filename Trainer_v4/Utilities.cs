@@ -31,11 +31,11 @@ namespace Trainer_v4
             WindowManager.AddElementToWindow(x.gameObject, SettingsWindow.Window, InputBox, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddLabel(string Text, Rect Label)
+        public static void AddLabel(string Text, Rect Label, GUIWindow window)
         {
-            Text x = WindowManager.SpawnLabel();
-            x.text = "<= This cell is universal for\nwinice, Stock, Active Users";
-            WindowManager.AddElementToWindow(x.gameObject, SettingsWindow.Window, Label, new Rect(0, 0, 0, 0));
+            Text label = WindowManager.SpawnLabel();
+            label.text = Text;
+            WindowManager.AddElementToWindow(label.gameObject, window, Label, new Rect(0, 0, 0, 0));
         }
 
         public static void AddToggle(string Text, bool isOn, UnityAction<bool> Action, ref List<GameObject> Toggles)

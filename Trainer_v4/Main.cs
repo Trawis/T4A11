@@ -8,7 +8,7 @@ namespace Trainer_v4
     {
         private TrainerBehaviour _trainerBehaviour;
         public static Button btn;
-        public static string version = "(v4.3.2)";
+        public static string version = "(v4.4)";
 
         public static bool IsShowed
         {
@@ -38,6 +38,20 @@ namespace Trainer_v4
         public static void SpawnWindow()
         {
             SettingsWindow.Show();
+        }
+
+        public static void SpawnEmployeesWindow()
+        {
+            HUD.Instance.employeeWindow.Show();
+
+            btn = WindowManager.SpawnButton();
+            btn.GetComponentInChildren<Text>().text = "Skill Change";
+            btn.onClick.AddListener(() => EmployeeSkillChangeWindow.ShowWindow());
+            btn.name = "EmployeeSkillButton";
+
+            WindowManager.AddElementToElement(btn.gameObject,
+                WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(164, 0, 100, 32),
+                new Rect(0, 0, 0, 0));
         }
 
         public override void ConstructOptionsScreen(RectTransform parent, bool inGame)

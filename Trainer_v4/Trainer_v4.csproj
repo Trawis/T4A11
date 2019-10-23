@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="EmployeeSkillChangeWindow.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="PropertyHelper.cs" />
     <Compile Include="SettingsWindow.cs" />

@@ -41,7 +41,8 @@ namespace Trainer_v4
             {"DisableSkillDecay", false},
             {"DisableBurglars", false},
             {"DisableFires", false},
-            {"NoServerCost", false}
+            {"NoServerCost", false},
+            {"ReduceExpansionCost", false}
         };
 
         public static Dictionary<string, bool> Settings

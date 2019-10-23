@@ -185,6 +185,7 @@ namespace Trainer_v4
             GameSettings.MaxFloor = 75; //10 default
             AI.MaxBoxes = PropertyHelper.GetProperty("IncreaseCourierCapacity") ? 108 : 54;
             Server.ISPCost = PropertyHelper.GetProperty("ReduceISPCost") ? 25f : 50f;
+            Settings.ExpansionCost = PropertyHelper.GetProperty("ReduceExpansionCost") ? 175f : 350f;
 
             if (PropertyHelper.GetProperty("NoServerCost"))
             {
@@ -379,6 +380,11 @@ namespace Trainer_v4
         public static void CheckResearch()
         {
 
+        }
+
+        public static void DisplayEmployeesWindow()
+        {
+            Main.SpawnEmployeesWindow();
         }
 
         public static void ClearLoans()
