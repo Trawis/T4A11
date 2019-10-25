@@ -15,11 +15,16 @@ namespace Trainer_v4
             get { return GameSettings.Instance; }
         }
 
+        private static Dictionary<string, bool> TrainerSettings
+        {
+            get { return PropertyHelper.Settings; }
+        }
+
         private void Start()
         {
             PropertyHelper.rnd = new Random(); // Random is time based, this makes it more random
 
-            if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled)
+            if (!PropertyHelper.GetProperty(TrainerSettings, "ModActive") || !isActiveAndEnabled)
             {
                 return;
             }
@@ -55,7 +60,7 @@ namespace Trainer_v4
 
         private void Update()
         {
-            if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled || !PropertyHelper.DoStuff)
+            if (!PropertyHelper.GetProperty(TrainerSettings, "ModActive") || !isActiveAndEnabled || !PropertyHelper.IsGameLoaded)
             {
                 return;
             }
@@ -70,14 +75,14 @@ namespace Trainer_v4
                 Main.OpenSettingsWindow();
             }
 
-            if (PropertyHelper.GetProperty("FreeStaff"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "FreeStaff"))
             {
                 Settings.StaffSalaryDue = 0f;
             }
 
             foreach (Furniture item in Settings.sRoomManager.AllFurniture)
             {
-                if (PropertyHelper.GetProperty("NoiseReduction"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
                 {
                     item.ActorNoise = 0f;
                     item.EnvironmentNoise = 0f;
@@ -85,7 +90,7 @@ namespace Trainer_v4
                     item.Noisiness = 0;
                 }
 
-                if (PropertyHelper.GetProperty("NoWaterElectricity"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoWaterElectricity"))
                 {
                     item.Water = 0;
                     item.Wattage = 0;
@@ -96,22 +101,22 @@ namespace Trainer_v4
             {
                 Room room = Settings.sRoomManager.Rooms[i];
 
-                if (PropertyHelper.GetProperty("CleanRooms"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "CleanRooms"))
                 {
                     room.ClearDirt();
                 }
 
-                if (PropertyHelper.GetProperty("TemperatureLock"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "TemperatureLock"))
                 {
                     room.Temperature = 21.4f;
                 }
 
-                if (PropertyHelper.GetProperty("FullEnvironment"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "FullEnvironment"))
                 {
                     room.FurnEnvironment = 4;
                 }
 
-                if (PropertyHelper.GetProperty("FullRoomBrightness"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "FullRoomBrightness"))
                 {
                     room.IndirectLighting = 8;
                 }
@@ -122,7 +127,7 @@ namespace Trainer_v4
                 Actor actor = Settings.sActorManager.Actors[i];
                 Employee employee = Settings.sActorManager.Actors[i].employee;
 
-                //if (PropertyHelper.GetProperty("DisableSkillDecay"))
+                //if (PropertyHelper.GetProperty(TrainerSettings, "DisableSkillDecay"))
                 //{
                 //    for (int index = 0; index < 5; index++)
                 //    {
@@ -141,36 +146,36 @@ namespace Trainer_v4
                 //    }
                 //}
 
-                if (PropertyHelper.GetProperty("LockAge"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "LockAge"))
                 {
                     employee.AgeMonth = (int)employee.Age * 12; //20*12
                     actor.UpdateAgeLook();
                 }
 
-                if (PropertyHelper.GetProperty("NoStress"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoStress"))
                 {
                     employee.Stress = 1;
                 }
 
-                if (PropertyHelper.GetProperty("FullEfficiency"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "FullEfficiency"))
                 {
                     if (employee.RoleString.Contains("Lead"))
                     {
-                        actor.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 20 : 4;
+                        actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 20 : 4;
                     }
                     else
                     {
-                        actor.Effectiveness = PropertyHelper.GetProperty("UltraEfficiency") ? 10 : 2;
+                        actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 10 : 2;
                     }
                 }
 
-                if (PropertyHelper.GetProperty("FullSatisfaction"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
                 {
                     employee.JobSatisfaction = 2f;
                     employee.JobSatisfaction = 2f;
                 }
 
-                if (PropertyHelper.GetProperty("NoNeeds"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoNeeds"))
                 {
                     employee.Bladder = 1;
                     employee.Hunger = 1;
@@ -178,17 +183,17 @@ namespace Trainer_v4
                     employee.Social = 1;
                 }
 
-                if (PropertyHelper.GetProperty("FreeEmployees"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "FreeEmployees"))
                 {
                     employee.ChangeSalary(0f, 0f, actor, false);
                 }
 
-                if (PropertyHelper.GetProperty("NoiseReduction"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
                 {
                     actor.Noisiness = 0;
                 }
 
-                if (PropertyHelper.GetProperty("NoVacation"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoVacation"))
                 {
                     actor.VacationMonth = SDateTime.NextMonth(24);
                 }
@@ -196,16 +201,16 @@ namespace Trainer_v4
 
             LoanWindow.factor = 250000;
             GameSettings.MaxFloor = 75; //10 default
-            AI.MaxBoxes = PropertyHelper.GetProperty("IncreaseCourierCapacity") ? 108 : 54;
-            Server.ISPCost = PropertyHelper.GetProperty("ReduceISPCost") ? 25f : 50f;
-            Settings.ExpansionCost = PropertyHelper.GetProperty("ReduceExpansionCost") ? 175f : 350f;
+            AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
+            Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 25f : 50f;
+            Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 
-            if (PropertyHelper.GetProperty("NoServerCost"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoServerCost"))
             {
                 Settings.ServerCost = 0f;
             }
 
-            if (PropertyHelper.GetProperty("AutoDistributionDeals"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoDistributionDeals"))
             {
                 foreach (var x in Settings.simulation.Companies)
                 {
@@ -226,7 +231,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("MoreHostingDeals"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "MoreHostingDeals"))
             {
                 int inGameHour = TimeOfDay.Instance.Hour;
 
@@ -249,7 +254,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("IncreasePrintSpeed"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "IncreasePrintSpeed"))
             {
                 for (int i = 0; i < Settings.ProductPrinters.Count; i++)
                 {
@@ -258,12 +263,12 @@ namespace Trainer_v4
             }
 
             //add printspeed and printprice when it's disabled (else) TODO
-            if (PropertyHelper.GetProperty("FreePrint"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
             {
                 Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
             }
 
-            if (PropertyHelper.GetProperty("IncreaseBookshelfSkill"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill"))
             {
                 foreach (var bookshelf in Settings.sRoomManager.AllFurniture)
                 {
@@ -278,7 +283,7 @@ namespace Trainer_v4
             }
 
             //else 0.25 TODO
-            if (PropertyHelper.GetProperty("NoMaintenance"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoMaintenance"))
             {
                 foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
                 {
@@ -309,7 +314,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("NoSickness"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoSickness"))
             {
                 var sickEmployees = Settings.sActorManager.Actors.Where(employee => employee.SpecialState == Actor.HomeState.Sick);
                 var sickActors = TimeOfDay.Instance.Sick;
@@ -326,7 +331,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("DisableBurglars"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "DisableBurglars"))
             {
                 foreach (var burglar in Settings.sActorManager.Others["Burglars"])
                 {
@@ -336,7 +341,7 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty("DisableFires"))
+            if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
             {
                 foreach (var furniture in Settings.sRoomManager.AllFurniture)
                 {
@@ -494,7 +499,7 @@ namespace Trainer_v4
 
         public static void HREmployees()
         {
-            if (!PropertyHelper.DoStuff || SelectorController.Instance == null)
+            if (!PropertyHelper.IsGameLoaded || SelectorController.Instance == null)
             {
                 return;
             }
@@ -583,7 +588,7 @@ namespace Trainer_v4
 
         public static void EmployeesToMax()
         {
-            if (!PropertyHelper.DoStuff || SelectorController.Instance == null)
+            if (!PropertyHelper.IsGameLoaded || SelectorController.Instance == null)
             {
                 return;
             }
@@ -627,7 +632,7 @@ namespace Trainer_v4
 
         public static void UnlockAllSpace()
         {
-            if (!PropertyHelper.DoStuff)
+            if (!PropertyHelper.IsGameLoaded)
             {
                 return;
             }
@@ -638,7 +643,7 @@ namespace Trainer_v4
 
         public static void UnlockFurniture()
         {
-            if (!PropertyHelper.DoStuff)
+            if (!PropertyHelper.IsGameLoaded)
             {
                 return;
             }
@@ -807,7 +812,7 @@ namespace Trainer_v4
         public static void SetProductPriceAction(string input)
         {
             SoftwareProduct Product =
-                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
 
             if (Product == null)
             {
@@ -830,7 +835,7 @@ namespace Trainer_v4
         public static void SetProductStockAction(string input)
         {
             SoftwareProduct Product =
-                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
 
             if (Product == null)
             {
@@ -853,7 +858,7 @@ namespace Trainer_v4
         public static void AddActiveUsersAction(string input)
         {
             SoftwareProduct Product =
-                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.Product_PriceName);
+                Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
 
             if (Product == null)
             {
@@ -979,12 +984,12 @@ namespace Trainer_v4
 
         public override void OnActivate()
         {
-            PropertyHelper.SetProperty("ModActive", true);
+            PropertyHelper.SetProperty(TrainerSettings, "ModActive", true);
         }
 
         public override void OnDeactivate()
         {
-            PropertyHelper.SetProperty("ModActive", false);
+            PropertyHelper.SetProperty(TrainerSettings, "ModActive", false);
         }
 
         #endregion

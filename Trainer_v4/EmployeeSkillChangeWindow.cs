@@ -10,36 +10,10 @@ namespace Trainer_v4
 {
     public class EmployeeSkillChangeWindow : MonoBehaviour
     {
-        private static List<GameObject> _roleToggles = new List<GameObject>();
-        private static List<GameObject> _specializationToggles = new List<GameObject>();
         private static string _title = "Employee Skill Change, by Trawis";
 
         public static GUIWindow Window;
         public static bool Shown = false;
-
-        private static Dictionary<string, bool> _rolesList = new Dictionary<string, bool>
-        {
-            {"Lead", false},
-            {"Service", false},
-            {"Programmer", false},
-            {"Artist", false},
-            {"Designer", false}
-        };
-
-        private static Dictionary<string, bool> _specializationsList = new Dictionary<string, bool>
-        {
-            {"HR", false},
-            {"Automation", false},
-            {"Socialization", false},
-            {"System", false},
-            {"Network", false},
-            {"2D", false},
-            {"3D", false},
-            {"Audio", false},
-            {"Support", false},
-            {"Marketing", false},
-            {"Law", false}
-        };
 
         public static void Show()
         {
@@ -68,53 +42,40 @@ namespace Trainer_v4
                   .onClick.AddListener(() => Shown = false);
             }
 
-            //_roles.UpdateContent(rolesList);
-            //_roles.Selected = 1;
+            List<GameObject> roleToggles = new List<GameObject>();
+            List<GameObject> specializationToggles = new List<GameObject>();
 
             Utils.AddLabel("Roles", new Rect(10, 0, 150, 32), Window);
 
-            foreach (var role in _rolesList)
+            foreach (var role in PropertyHelper.RolesList)
             {
-                Utils.AddToggle(role.Key, GetToggle(_rolesList, role.Key), a => SetToggle(_rolesList, role.Key, !GetToggle(_rolesList ,role.Key)), ref _roleToggles);
+                Utils.AddToggle(role.Key, PropertyHelper.GetProperty(PropertyHelper.RolesList, role.Key), 
+                                     a => PropertyHelper.SetProperty(PropertyHelper.RolesList, role.Key, 
+                                         !PropertyHelper.GetProperty(PropertyHelper.RolesList, role.Key)), 
+                                     ref roleToggles);
             }
 
-            foreach (var specialization in _specializationsList)
+            Utils.AddButton("Set Skills", TrainerBehaviour.AIBankrupt, ref roleToggles);
+
+            foreach (var specialization in PropertyHelper.SpecializationsList)
             {
-                Utils.AddToggle(specialization.Key, 
-                                GetToggle(_specializationsList, specialization.Key), 
-                                a => SetToggle(_specializationsList, specialization.Key, !GetToggle(_specializationsList, specialization.Key)), 
-                                ref _specializationToggles);
+                Utils.AddToggle(specialization.Key,
+                                PropertyHelper.GetProperty(PropertyHelper.SpecializationsList, specialization.Key),
+                                a => PropertyHelper.SetProperty(PropertyHelper.SpecializationsList, specialization.Key, 
+                                    !PropertyHelper.GetProperty(PropertyHelper.SpecializationsList, specialization.Key)),
+                                ref specializationToggles);
             }
 
-            Utils.CreateGameObjects(Constants.FIRST_COLUMN, 1, _roleToggles.ToArray(), Window);
-            Utils.CreateGameObjects(Constants.SECOND_COLUMN, 1, _specializationToggles.ToArray(), Window);
+            Utils.CreateGameObjects(Constants.FIRST_COLUMN, 1, roleToggles.ToArray(), Window);
+            Utils.CreateGameObjects(Constants.SECOND_COLUMN, 1, specializationToggles.ToArray(), Window);
 
             int[] columnsCount = new int[]
             {
-                _rolesList.Count(),
-                _specializationsList.Count()
+                roleToggles.Count(),
+                specializationToggles.Count()
             };
 
-            Utils.SetWindowSize(columnsCount, 300, 32, Window);
-        }
-
-        private static bool GetToggle(Dictionary<string, bool> properties, string key)
-        {
-            bool value;
-            if (properties.TryGetValue(key, out value))
-            {
-                return value;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private static void SetToggle(Dictionary<string, bool> properties, string key, bool value)
-        {
-            DevConsole.Console.Log("set " + key + " " + value);
-            properties[key] = value;
+            Utils.SetWindowSize(columnsCount, 300, 64, Window);
         }
     }
 }

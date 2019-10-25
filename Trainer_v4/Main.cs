@@ -9,7 +9,7 @@ namespace Trainer_v4
         private TrainerBehaviour _trainerBehaviour;
         public static Button TrainerButton;
         public static Button SkillChangeButton;
-        public static string Version = "(v4.4.1)";
+        public static string Version = "(v4.4.2)";
 
         public static bool IsShowed
         {
@@ -75,7 +75,7 @@ namespace Trainer_v4
 
             foreach (var Pair in PropertyHelper.Settings)
             {
-                data[Pair.Key] = PropertyHelper.GetProperty(Pair.Key);
+                data[Pair.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, Pair.Key);
             }
 
             return data;
@@ -86,7 +86,7 @@ namespace Trainer_v4
             var keys = PropertyHelper.Settings.Keys.ToList();
             foreach (var key in keys)
             {
-                PropertyHelper.SetProperty(key, data.Get(key, PropertyHelper.GetProperty(key)));
+                PropertyHelper.SetProperty(PropertyHelper.Settings, key, data.Get(key, PropertyHelper.GetProperty(PropertyHelper.Settings, key)));
             }
         }
 

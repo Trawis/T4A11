@@ -53,7 +53,7 @@ namespace Trainer_v4
             List<GameObject> column4 = new List<GameObject>();
 
             Utils.AddInputBox("Product Name Here", new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-                boxText => PropertyHelper.Product_PriceName = boxText);
+                boxText => PropertyHelper.ProductPriceName = boxText);
 
 
             Utils.AddButton("Add Money", new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney);
@@ -104,94 +104,95 @@ namespace Trainer_v4
 
             //Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
 
+            var settings = PropertyHelper.Settings;
 
-            Utils.AddToggle("Disable Needs", PropertyHelper.GetProperty("NoNeeds"),
-                a => PropertyHelper.SetProperty("NoNeeds", !PropertyHelper.GetProperty("NoNeeds")), ref column2);
+            Utils.AddToggle("Disable Needs", PropertyHelper.GetProperty(settings, "NoNeeds"),
+                a => PropertyHelper.SetProperty(settings, "NoNeeds", !PropertyHelper.GetProperty(settings, "NoNeeds")), ref column2);
 
-            Utils.AddToggle("Disable Stress", PropertyHelper.GetProperty("NoStress"),
-                a => PropertyHelper.SetProperty("NoStress", !PropertyHelper.GetProperty("NoStress")), ref column2);
+            Utils.AddToggle("Disable Stress", PropertyHelper.GetProperty(settings, "NoStress"),
+                a => PropertyHelper.SetProperty(settings, "NoStress", !PropertyHelper.GetProperty(settings, "NoStress")), ref column2);
 
-            Utils.AddToggle("Free Employees", PropertyHelper.GetProperty("FreeEmployees"),
-                a => PropertyHelper.SetProperty("FreeEmployees", !PropertyHelper.GetProperty("FreeEmployees")), ref column2);
+            Utils.AddToggle("Free Employees", PropertyHelper.GetProperty(settings, "FreeEmployees"),
+                a => PropertyHelper.SetProperty(settings, "FreeEmployees", !PropertyHelper.GetProperty(settings, "FreeEmployees")), ref column2);
 
-            Utils.AddToggle("Free Staff", PropertyHelper.GetProperty("FreeStaff"),
-                a => PropertyHelper.SetProperty("FreeStaff", !PropertyHelper.GetProperty("FreeStaff")), ref column2);
+            Utils.AddToggle("Free Staff", PropertyHelper.GetProperty(settings, "FreeStaff"),
+                a => PropertyHelper.SetProperty(settings, "FreeStaff", !PropertyHelper.GetProperty(settings, "FreeStaff")), ref column2);
 
-            Utils.AddToggle("Full Efficiency", PropertyHelper.GetProperty("FullEfficiency"),
-                a => PropertyHelper.SetProperty("FullEfficiency", !PropertyHelper.GetProperty("FullEfficiency")), ref column2);
+            Utils.AddToggle("Full Efficiency", PropertyHelper.GetProperty(settings, "FullEfficiency"),
+                a => PropertyHelper.SetProperty(settings, "FullEfficiency", !PropertyHelper.GetProperty(settings, "FullEfficiency")), ref column2);
 
-            Utils.AddToggle("Full Satisfaction", PropertyHelper.GetProperty("FullSatisfaction"),
-                a => PropertyHelper.SetProperty("FullSatisfaction", !PropertyHelper.GetProperty("FullSatisfaction")), ref column2);
+            Utils.AddToggle("Full Satisfaction", PropertyHelper.GetProperty(settings, "FullSatisfaction"),
+                a => PropertyHelper.SetProperty(settings, "FullSatisfaction", !PropertyHelper.GetProperty(settings, "FullSatisfaction")), ref column2);
 
-            Utils.AddToggle("Lock Age of Employees", PropertyHelper.GetProperty("LockAge"),
-                a => PropertyHelper.SetProperty("LockAge", !PropertyHelper.GetProperty("LockAge")), ref column2);
+            Utils.AddToggle("Lock Age of Employees", PropertyHelper.GetProperty(settings, "LockAge"),
+                a => PropertyHelper.SetProperty(settings, "LockAge", !PropertyHelper.GetProperty(settings, "LockAge")), ref column2);
 
-            Utils.AddToggle("No Vacation", PropertyHelper.GetProperty("NoVacation"),
-                a => PropertyHelper.SetProperty("NoVacation", !PropertyHelper.GetProperty("NoVacation")), ref column2);
+            Utils.AddToggle("No Vacation", PropertyHelper.GetProperty(settings, "NoVacation"),
+                a => PropertyHelper.SetProperty(settings, "NoVacation", !PropertyHelper.GetProperty(settings, "NoVacation")), ref column2);
 
-            Utils.AddToggle("No Sickness", PropertyHelper.GetProperty("NoSickness"),
-                a => PropertyHelper.SetProperty("NoSickness", !PropertyHelper.GetProperty("NoSickness")), ref column2);
+            Utils.AddToggle("No Sickness", PropertyHelper.GetProperty(settings, "NoSickness"),
+                a => PropertyHelper.SetProperty(settings, "NoSickness", !PropertyHelper.GetProperty(settings, "NoSickness")), ref column2);
 
-            Utils.AddToggle("Ultra Efficiency (Tick Full Eff first)", PropertyHelper.GetProperty("UltraEfficiency"),
-                a => PropertyHelper.SetProperty("UltraEfficiency", !PropertyHelper.GetProperty("UltraEfficiency")), ref column2);
+            Utils.AddToggle("Ultra Efficiency (Tick Full Eff first)", PropertyHelper.GetProperty(settings, "UltraEfficiency"),
+                a => PropertyHelper.SetProperty(settings, "UltraEfficiency", !PropertyHelper.GetProperty(settings, "UltraEfficiency")), ref column2);
 
-            Utils.AddToggle("Full Environment", PropertyHelper.GetProperty("FullEnvironment"),
-                a => PropertyHelper.SetProperty("FullEnvironment", !PropertyHelper.GetProperty("FullEnvironment")), ref column3);
+            Utils.AddToggle("Full Environment", PropertyHelper.GetProperty(settings, "FullEnvironment"),
+                a => PropertyHelper.SetProperty(settings, "FullEnvironment", !PropertyHelper.GetProperty(settings, "FullEnvironment")), ref column3);
 
-            Utils.AddToggle("Full Sun Light", PropertyHelper.GetProperty("FullRoomBrightness"),
-                a => PropertyHelper.SetProperty("FullRoomBrightness", !PropertyHelper.GetProperty("FullRoomBrightness")), ref column3);
+            Utils.AddToggle("Full Sun Light", PropertyHelper.GetProperty(settings, "FullRoomBrightness"),
+                a => PropertyHelper.SetProperty(settings, "FullRoomBrightness", !PropertyHelper.GetProperty(settings, "FullRoomBrightness")), ref column3);
 
-            Utils.AddToggle("Lock Temperature To 21", PropertyHelper.GetProperty("TemperatureLock"),
-                a => PropertyHelper.SetProperty("TemperatureLock", !PropertyHelper.GetProperty("TemperatureLock")), ref column3);
+            Utils.AddToggle("Lock Temperature To 21", PropertyHelper.GetProperty(settings, "TemperatureLock"),
+                a => PropertyHelper.SetProperty(settings, "TemperatureLock", !PropertyHelper.GetProperty(settings, "TemperatureLock")), ref column3);
 
-            Utils.AddToggle("No Maintenance", PropertyHelper.GetProperty("NoMaintenance"),
-                a => PropertyHelper.SetProperty("NoMaintenance", !PropertyHelper.GetProperty("NoMaintenance")), ref column3);
+            Utils.AddToggle("No Maintenance", PropertyHelper.GetProperty(settings, "NoMaintenance"),
+                a => PropertyHelper.SetProperty(settings, "NoMaintenance", !PropertyHelper.GetProperty(settings, "NoMaintenance")), ref column3);
 
-            Utils.AddToggle("Noise Reduction", PropertyHelper.GetProperty("NoiseReduction"),
-                a => PropertyHelper.SetProperty("NoiseReduction", !PropertyHelper.GetProperty("NoiseReduction")), ref column3);
+            Utils.AddToggle("Noise Reduction", PropertyHelper.GetProperty(settings, "NoiseReduction"),
+                a => PropertyHelper.SetProperty(settings, "NoiseReduction", !PropertyHelper.GetProperty(settings, "NoiseReduction")), ref column3);
 
-            Utils.AddToggle("Rooms Never Dirty", PropertyHelper.GetProperty("CleanRooms"),
-                a => PropertyHelper.SetProperty("CleanRooms", !PropertyHelper.GetProperty("CleanRooms")), ref column3);
+            Utils.AddToggle("Rooms Never Dirty", PropertyHelper.GetProperty(settings, "CleanRooms"),
+                a => PropertyHelper.SetProperty(settings, "CleanRooms", !PropertyHelper.GetProperty(settings, "CleanRooms")), ref column3);
 
-            //Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty("DisableBurglars"),
-            //    a => PropertyHelper.SetProperty("DisableBurglars", !PropertyHelper.GetProperty("DisableBurglars")), ref column3);
+            //Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty(settings, "DisableBurglars"),
+            //    a => PropertyHelper.SetProperty(settings, "DisableBurglars", !PropertyHelper.GetProperty(settings, "DisableBurglars")), ref column3);
 
-            //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty("DisableFires"),
-            //    a => PropertyHelper.SetProperty("DisableFires", !PropertyHelper.GetProperty("DisableFires")), ref column3);
+            //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
+            //    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
 
 
-            Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty("AutoDistributionDeals"),
-                a => PropertyHelper.SetProperty("AutoDistributionDeals", !PropertyHelper.GetProperty("AutoDistributionDeals")), ref column4);
+            Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty(settings, "AutoDistributionDeals"),
+                a => PropertyHelper.SetProperty(settings, "AutoDistributionDeals", !PropertyHelper.GetProperty(settings, "AutoDistributionDeals")), ref column4);
 
-            Utils.AddToggle("Free Print", PropertyHelper.GetProperty("FreePrint"),
-                a => PropertyHelper.SetProperty("FreePrint", !PropertyHelper.GetProperty("FreePrint")), ref column4);
+            Utils.AddToggle("Free Print", PropertyHelper.GetProperty(settings, "FreePrint"),
+                a => PropertyHelper.SetProperty(settings, "FreePrint", !PropertyHelper.GetProperty(settings, "FreePrint")), ref column4);
 
-            Utils.AddToggle("Free Water & Electricity", PropertyHelper.GetProperty("NoWaterElectricity"),
-                a => PropertyHelper.SetProperty("NoWaterElectricity", !PropertyHelper.GetProperty("NoWaterElectricity")), ref column4);
+            Utils.AddToggle("Free Water & Electricity", PropertyHelper.GetProperty(settings, "NoWaterElectricity"),
+                a => PropertyHelper.SetProperty(settings, "NoWaterElectricity", !PropertyHelper.GetProperty(settings, "NoWaterElectricity")), ref column4);
 
-            Utils.AddToggle("Increase Bookshelf Skill", PropertyHelper.GetProperty("IncreaseBookshelfSkill"),
-                a => PropertyHelper.SetProperty("IncreaseBookshelfSkill", !PropertyHelper.GetProperty("IncreaseBookshelfSkill")), ref column4);
+            Utils.AddToggle("Increase Bookshelf Skill", PropertyHelper.GetProperty(settings, "IncreaseBookshelfSkill"),
+                a => PropertyHelper.SetProperty(settings, "IncreaseBookshelfSkill", !PropertyHelper.GetProperty(settings, "IncreaseBookshelfSkill")), ref column4);
 
-            Utils.AddToggle("Increase Courier Capacity", PropertyHelper.GetProperty("IncreaseCourierCapacity"),
-                a => PropertyHelper.SetProperty("IncreaseCourierCapacity", !PropertyHelper.GetProperty("IncreaseCourierCapacity")), ref column4);
+            Utils.AddToggle("Increase Courier Capacity", PropertyHelper.GetProperty(settings, "IncreaseCourierCapacity"),
+                a => PropertyHelper.SetProperty(settings, "IncreaseCourierCapacity", !PropertyHelper.GetProperty(settings, "IncreaseCourierCapacity")), ref column4);
 
-            Utils.AddToggle("Increase Print Speed", PropertyHelper.GetProperty("IncreasePrintSpeed"),
-                a => PropertyHelper.SetProperty("IncreasePrintSpeed", !PropertyHelper.GetProperty("IncreasePrintSpeed")), ref column4);
+            Utils.AddToggle("Increase Print Speed", PropertyHelper.GetProperty(settings, "IncreasePrintSpeed"),
+                a => PropertyHelper.SetProperty(settings, "IncreasePrintSpeed", !PropertyHelper.GetProperty(settings, "IncreasePrintSpeed")), ref column4);
 
-            Utils.AddToggle("More Hosting Deals", PropertyHelper.GetProperty("MoreHostingDeals"),
-                a => PropertyHelper.SetProperty("MoreHostingDeals", !PropertyHelper.GetProperty("MoreHostingDeals")), ref column4);
+            Utils.AddToggle("More Hosting Deals", PropertyHelper.GetProperty(settings, "MoreHostingDeals"),
+                a => PropertyHelper.SetProperty(settings, "MoreHostingDeals", !PropertyHelper.GetProperty(settings, "MoreHostingDeals")), ref column4);
 
-            Utils.AddToggle("Reduce Internet Cost", PropertyHelper.GetProperty("ReduceISPCost"),
-                a => PropertyHelper.SetProperty("ReduceISPCost", !PropertyHelper.GetProperty("ReduceISPCost")), ref column4);
+            Utils.AddToggle("Reduce Internet Cost", PropertyHelper.GetProperty(settings, "ReduceISPCost"),
+                a => PropertyHelper.SetProperty(settings, "ReduceISPCost", !PropertyHelper.GetProperty(settings, "ReduceISPCost")), ref column4);
 
-            //Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty("DisableSkillDecay"),
-            //    a => PropertyHelper.SetProperty("DisableSkillDecay", !PropertyHelper.GetProperty("DisableSkillDecay")), ref column4);
+            //Utils.AddToggle("Disable Skill Decay", PropertyHelper.GetProperty(settings, "DisableSkillDecay"),
+            //    a => PropertyHelper.SetProperty(settings, "DisableSkillDecay", !PropertyHelper.GetProperty(settings, "DisableSkillDecay")), ref column4);
 
-            Utils.AddToggle("No Server Cost", PropertyHelper.GetProperty("NoServerCost"),
-                a => PropertyHelper.SetProperty("NoServerCost", !PropertyHelper.GetProperty("NoServerCost")), ref column4);
+            Utils.AddToggle("No Server Cost", PropertyHelper.GetProperty(settings, "NoServerCost"),
+                a => PropertyHelper.SetProperty(settings, "NoServerCost", !PropertyHelper.GetProperty(settings, "NoServerCost")), ref column4);
 
-            Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty("ReduceExpansionCost"),
-                a => PropertyHelper.SetProperty("ReduceExpansionCost", !PropertyHelper.GetProperty("ReduceExpansionCost")), ref column4);
+            Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty(settings, "ReduceExpansionCost"),
+                a => PropertyHelper.SetProperty(settings, "ReduceExpansionCost", !PropertyHelper.GetProperty(settings, "ReduceExpansionCost")), ref column4);
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
             Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);
