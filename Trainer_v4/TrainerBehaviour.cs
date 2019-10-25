@@ -20,6 +20,8 @@ namespace Trainer_v4
             get { return PropertyHelper.Settings; }
         }
 
+        private static EmployeeWindow EmployeeWindow;
+
         private void Start()
         {
             PropertyHelper.rnd = new Random(); // Random is time based, this makes it more random
@@ -354,6 +356,17 @@ namespace Trainer_v4
             }
         }
 
+        public static void DisplayEmployeesWindow()
+        {
+            if (Main.SkillChangeButton != null)
+            {
+                Destroy(Main.SkillChangeButton);
+            }
+
+            Main.OpenEmployeesWindow();
+            Main.CloseSettingsWindow();
+        }
+
         public static void CheckDesign(DesignDocument document)
         {
             var actors = GameSettings.Instance.sActorManager.Actors;
@@ -400,15 +413,39 @@ namespace Trainer_v4
 
         }
 
-        public static void DisplayEmployeesWindow()
+        public static void SetSkillPerEmployee()
         {
-            if (Main.SkillChangeButton != null)
+            Actor[] selectedActors = EmployeeWindow.EmployeeList.GetSelected<Actor>().ToArray();
+            if (selectedActors.Length <= 0)
             {
-                Destroy(Main.SkillChangeButton);
+                HUD.Instance.AddPopupMessage("Select one or more employees.", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+                return;
             }
 
-            Main.OpenEmployeesWindow();
-            Main.CloseSettingsWindow();
+            var selectedRoles = PropertyHelper.RolesList.Where(r => r.Value);
+            var selectedSpecializations = PropertyHelper.SpecializationsList.Where(s => s.Value);
+
+            var roleStringToEnum = new Dictionary<string, Employee.EmployeeRole>
+            {
+                {"Lead", Employee.EmployeeRole.Lead},
+                {"Service", Employee.EmployeeRole.Service},
+                {"Programmer", Employee.EmployeeRole.Programmer},
+                {"Artist", Employee.EmployeeRole.Artist},
+                {"Designer", Employee.EmployeeRole.Designer}
+            };
+
+            foreach (var actor in selectedActors)
+            {
+                foreach (var role in selectedRoles)
+                {
+                    actor.employee.ChangeSkillDirect(roleStringToEnum[role.Key], 1f);
+
+                    foreach (var specialization in selectedSpecializations)
+                    {
+                        actor.employee.AddSpecialization(roleStringToEnum[role.Key], specialization.Key, false, true, 5);
+                    }
+                }
+            }
         }
 
         public static void ClearLoans()

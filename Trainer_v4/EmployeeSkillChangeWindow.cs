@@ -55,7 +55,7 @@ namespace Trainer_v4
                                      ref roleToggles);
             }
 
-            Utils.AddButton("Set Skills", TrainerBehaviour.AIBankrupt, ref roleToggles);
+            Utils.AddButton("Set Skills", TrainerBehaviour.SetSkillPerEmployee, ref roleToggles);
 
             foreach (var specialization in PropertyHelper.SpecializationsList)
             {
