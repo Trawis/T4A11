@@ -7,13 +7,13 @@ namespace Trainer_v4
 {
     public static class Constants
     {
-        public const int ROWS_TO_SKIP = 7;
+        public const int SETTINGS_WINDOW_SKIP_ROWS = 7;
 
         public const int ELEMENT_WIDTH = 150;
         public const int ELEMENT_HEIGHT = 32;
 
-        public const int Y_WINDOW_OFFSET = 260;
-        public const int X_WINDOW = 670;
+        public const int Y_SETTINGS_WINDOW_OFFSET = 260;
+        public const int X_SETTINGS_WINDOW = 670;
 
         public const int FIRST_COLUMN = 1;
         public const int SECOND_COLUMN = 161;

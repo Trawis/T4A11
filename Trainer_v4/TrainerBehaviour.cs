@@ -25,20 +25,33 @@ namespace Trainer_v4
             }
 
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
+            //StartCoroutine(CustomUpdate());
         }
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
             //Other scenes include MainScene and Customization
-            if (scene.name.Equals("MainMenu") && Main.btn != null)
+            if (scene.name.Equals("MainMenu") && Main.TrainerButton != null)
             {
-                Destroy(Main.btn.gameObject);
+                Destroy(Main.TrainerButton.gameObject);
             }
             else if (scene.name.Equals("MainScene") && isActiveAndEnabled)
             {
-                Main.SpawnButton();
+                Main.CreateTrainerButton();
             }
         }
+
+        //private IEnumerator CustomUpdate()
+        //{
+        //    while (true)
+        //    {
+        //        yield return new WaitForSeconds(1);
+        //        if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled || !PropertyHelper.DoStuff)
+        //        {
+        //            yield return null;
+        //        }
+        //    }
+        //}
 
         private void Update()
         {
@@ -49,12 +62,12 @@ namespace Trainer_v4
 
             if (Input.GetKey(KeyCode.F1) && !Main.IsShowed)
             {
-                Main.SpawnWindow();
+                Main.OpenSettingsWindow();
             }
 
             if (Input.GetKey(KeyCode.F2) && Main.IsShowed)
             {
-                Main.SpawnWindow();
+                Main.OpenSettingsWindow();
             }
 
             if (PropertyHelper.GetProperty("FreeStaff"))
@@ -384,7 +397,13 @@ namespace Trainer_v4
 
         public static void DisplayEmployeesWindow()
         {
-            Main.SpawnEmployeesWindow();
+            if (Main.SkillChangeButton != null)
+            {
+                Destroy(Main.SkillChangeButton);
+            }
+
+            Main.OpenEmployeesWindow();
+            Main.CloseSettingsWindow();
         }
 
         public static void ClearLoans()
@@ -576,7 +595,7 @@ namespace Trainer_v4
                 {
                     actor.employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
                     int maxSpecPoints = GameSettings.GetMaxSpecPoints((Employee.EmployeeRole)index);
-                    
+
                     switch ((Employee.EmployeeRole)index)
                     {
                         case Employee.EmployeeRole.Lead:

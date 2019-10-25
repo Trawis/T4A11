@@ -8,27 +8,35 @@ namespace Trainer_v4
 {
     public class SettingsWindow : MonoBehaviour
     {
-        private static string title = "Trainer Settings, by Trawis " + Main.version;
+        private static string _title = "Trainer Settings, by Trawis " + Main.Version;
 
         public static GUIWindow Window;
-        public static bool shown = false;
+        public static bool Shown = false;
 
         public static void Show()
         {
-            if (shown)
+            if (Shown)
             {
                 Window.Close();
-                shown = false;
+                Shown = false;
                 return;
             }
             Init();
-            shown = true;
+            Shown = true;
+        }
+
+        public static void Close()
+        {
+            if (Shown)
+            {
+                Shown = false;
+            }
         }
 
         private static void Init()
         {
             Window = WindowManager.SpawnWindow();
-            Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = title;
+            Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = _title;
             Window.name = "TrainerSettings";
             Window.MainPanel.name = "TrainerSettingsPanel";
 
@@ -36,7 +44,7 @@ namespace Trainer_v4
             {
                 Window.GetComponentsInChildren<Button>()
                   .SingleOrDefault(x => x.name == "CloseButton")
-                  .onClick.AddListener(() => shown = false);
+                  .onClick.AddListener(() => Shown = false);
             }
 
             List<GameObject> column1 = new List<GameObject>();
@@ -185,16 +193,19 @@ namespace Trainer_v4
             Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty("ReduceExpansionCost"),
                 a => PropertyHelper.SetProperty("ReduceExpansionCost", !PropertyHelper.GetProperty("ReduceExpansionCost")), ref column4);
 
+            Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
+            Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);
+            Utils.CreateGameObjects(Constants.THIRD_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column3.ToArray(), Window);
+            Utils.CreateGameObjects(Constants.FOURTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column4.ToArray(), Window);
 
-            Utils.DoLoops(column1.ToArray(), column2.ToArray(), column3.ToArray(), column4.ToArray());
+            int[] columnsCount = new int[]
+            {
+                column1.Count(), column2.Count(), column3.Count(), column4.Count()
+            };
 
-            SetWindowSize(column1.Count(), column2.Count(), column3.Count(), column4.Count());
+            Utils.SetWindowSize(columnsCount, Constants.X_SETTINGS_WINDOW, Constants.Y_SETTINGS_WINDOW_OFFSET, Window);
         }
 
-        private static void SetWindowSize(int a, int b, int c, int d)
-        {
-            Window.MinSize.x = Constants.X_WINDOW;
-            Window.MinSize.y = Mathf.Max(a, b, c, d) * Constants.ELEMENT_HEIGHT + Constants.Y_WINDOW_OFFSET;
-        }
+        
     }
 }

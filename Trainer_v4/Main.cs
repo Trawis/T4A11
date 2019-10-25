@@ -7,14 +7,15 @@ namespace Trainer_v4
     public class Main : ModMeta
     {
         private TrainerBehaviour _trainerBehaviour;
-        public static Button btn;
-        public static string version = "(v4.4)";
+        public static Button TrainerButton;
+        public static Button SkillChangeButton;
+        public static string Version = "(v4.4.1)";
 
         public static bool IsShowed
         {
             get
             {
-                return SettingsWindow.shown;
+                return SettingsWindow.Shown;
             }
         }
 
@@ -23,34 +24,39 @@ namespace Trainer_v4
             _trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
         }
 
-        public static void SpawnButton()
+        public static void CreateTrainerButton()
         {
-            btn = WindowManager.SpawnButton();
-            btn.GetComponentInChildren<Text>().text = "Trainer " + version;
-            btn.onClick.AddListener(() => SettingsWindow.Show());
-            btn.name = "TrainerButton";
+            TrainerButton = WindowManager.SpawnButton();
+            TrainerButton.GetComponentInChildren<Text>().text = "Trainer " + Version;
+            TrainerButton.onClick.AddListener(() => SettingsWindow.Show());
+            TrainerButton.name = "TrainerButton";
 
-            WindowManager.AddElementToElement(btn.gameObject,
+            WindowManager.AddElementToElement(TrainerButton.gameObject,
                 WindowManager.FindElementPath("MainPanel/Holder/FanPanel").gameObject, new Rect(164, 0, 100, 32),
                 new Rect(0, 0, 0, 0));
         }
 
-        public static void SpawnWindow()
+        public static void OpenSettingsWindow()
         {
             SettingsWindow.Show();
         }
 
-        public static void SpawnEmployeesWindow()
+        public static void CloseSettingsWindow()
+        {
+            SettingsWindow.Close();
+        }
+
+        public static void OpenEmployeesWindow()
         {
             HUD.Instance.employeeWindow.Show();
 
-            btn = WindowManager.SpawnButton();
-            btn.GetComponentInChildren<Text>().text = "Skill Change";
-            btn.onClick.AddListener(() => EmployeeSkillChangeWindow.ShowWindow());
-            btn.name = "EmployeeSkillButton";
+            SkillChangeButton = WindowManager.SpawnButton();
+            SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
+            SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
+            SkillChangeButton.name = "EmployeeSkillButton";
 
-            WindowManager.AddElementToElement(btn.gameObject,
-                WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(164, 0, 100, 32),
+            WindowManager.AddElementToElement(SkillChangeButton.gameObject,
+                WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
                 new Rect(0, 0, 0, 0));
         }
 

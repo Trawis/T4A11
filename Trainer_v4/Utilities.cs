@@ -14,7 +14,7 @@ namespace Trainer_v4
             x.onClick.AddListener(Action);
             Buttons.Add(x.gameObject);
         }
-        
+
         public static void AddButton(string Text, Rect Button, UnityAction Action)
         {
             Button x = WindowManager.SpawnButton();
@@ -47,43 +47,22 @@ namespace Trainer_v4
             Toggles.Add(Toggle.gameObject);
         }
 
-        public static void DoLoops(GameObject[] Column1, GameObject[] Column2, GameObject[] Column3, GameObject[] Column4)
+        public static void CreateGameObjects(int column, int skipRows, GameObject[] gameObjects, GUIWindow window)
         {
-            for (int i = 0; i < Column1.Length; i++)
+            for (int i = 0; i < gameObjects.Length; i++)
             {
-                GameObject item = Column1[i];
+                GameObject item = gameObjects[i];
 
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
-                    new Rect(Constants.FIRST_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
+                WindowManager.AddElementToWindow(item, window,
+                    new Rect(column, (i + skipRows) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                     new Rect(0, 0, 0, 0));
             }
+        }
 
-            for (int i = 0; i < Column2.Length; i++)
-            {
-                GameObject item = Column2[i];
-
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
-                    new Rect(Constants.SECOND_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-                    new Rect(0, 0, 0, 0));
-            }
-
-            for (int i = 0; i < Column3.Length; i++)
-            {
-                GameObject item = Column3[i];
-
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
-                    new Rect(Constants.THIRD_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-                    new Rect(0, 0, 0, 0));
-            }
-
-            for (int i = 0; i < Column4.Length; i++)
-            {
-                GameObject item = Column4[i];
-
-                WindowManager.AddElementToWindow(item, SettingsWindow.Window, 
-                    new Rect(Constants.FOURTH_COLUMN, (i + Constants.ROWS_TO_SKIP) * Constants.ELEMENT_HEIGHT, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-                    new Rect(0, 0, 0, 0));
-            }
+        public static void SetWindowSize(int[] colums, int coordinateX, int yWindowOffset, GUIWindow window)
+        {
+            window.MinSize.x = coordinateX;
+            window.MinSize.y = Mathf.Max(colums) * Constants.ELEMENT_HEIGHT + yWindowOffset;
         }
     }
 }
