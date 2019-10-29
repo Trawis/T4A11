@@ -439,24 +439,15 @@ namespace Trainer_v4
                 return;
             }
 
-            var roleStringToEnum = new Dictionary<string, Employee.EmployeeRole>
-            {
-                {"Lead", Employee.EmployeeRole.Lead},
-                {"Service", Employee.EmployeeRole.Service},
-                {"Programmer", Employee.EmployeeRole.Programmer},
-                {"Artist", Employee.EmployeeRole.Artist},
-                {"Designer", Employee.EmployeeRole.Designer}
-            };
-
             foreach (var actor in selectedActors)
             {
                 foreach (var role in selectedRoles)
                 {
-                    actor.employee.ChangeSkillDirect(roleStringToEnum[role.Key], 1f);
+                    actor.employee.ChangeSkillDirect(PropertyHelper.RoleStringToEnum[role.Key], 1f);
 
                     foreach (var specialization in selectedSpecializations)
                     {
-                        actor.employee.AddSpecialization(roleStringToEnum[role.Key], specialization.Key, false, true, 5);
+                        actor.employee.AddSpecialization(PropertyHelper.RoleStringToEnum[role.Key], specialization.Key, false, true, 5);
                     }
                 }
             }

@@ -69,6 +69,15 @@ namespace Trainer_v4
             {"Law", false}
         };
 
+        public static Dictionary<string, Employee.EmployeeRole> RoleStringToEnum = new Dictionary<string, Employee.EmployeeRole>
+        {
+            {"Lead", Employee.EmployeeRole.Lead},
+            {"Service", Employee.EmployeeRole.Service},
+            {"Programmer", Employee.EmployeeRole.Programmer},
+            {"Artist", Employee.EmployeeRole.Artist},
+            {"Designer", Employee.EmployeeRole.Designer}
+        };
+
         public static Dictionary<string, bool> Settings
         {
             get { return _settings; }
