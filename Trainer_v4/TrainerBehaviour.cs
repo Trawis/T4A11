@@ -41,10 +41,12 @@ namespace Trainer_v4
             if (scene.name.Equals("MainMenu") && Main.TrainerButton != null)
             {
                 Destroy(Main.TrainerButton.gameObject);
+                Destroy(Main.SkillChangeButton.gameObject);
             }
             else if (scene.name.Equals("MainScene") && isActiveAndEnabled)
             {
                 Main.CreateTrainerButton();
+                Main.AttachSkillChangeButtonToEmployeeWindow();
             }
         }
 
@@ -67,12 +69,12 @@ namespace Trainer_v4
                 return;
             }
 
-            if (Input.GetKey(KeyCode.F1) && !Main.IsShowed)
+            if (Input.GetKey(KeyCode.F1) && !Main.IsSettingsWindowShown)
             {
                 Main.OpenSettingsWindow();
             }
 
-            if (Input.GetKey(KeyCode.F2) && Main.IsShowed)
+            if (Input.GetKey(KeyCode.F2) && Main.IsSettingsWindowShown)
             {
                 Main.OpenSettingsWindow();
             }
@@ -214,22 +216,22 @@ namespace Trainer_v4
 
             if (PropertyHelper.GetProperty(TrainerSettings, "AutoDistributionDeals"))
             {
-                foreach (var x in Settings.simulation.Companies)
+                foreach (var company in Settings.simulation.Companies)
                 {
-                    float m = x.Value.GetMoneyWithInsurance(true);
+                    float money = company.Value.GetMoneyWithInsurance(true);
 
-                    if (m < 10000000f)
-                        x.Value.DistributionDeal = 0.05f;
-                    else if (m > 10000000f && m < 100000000f)
-                        x.Value.DistributionDeal = 0.10f;
-                    else if (m > 100000000f && m < 250000000f)
-                        x.Value.DistributionDeal = 0.15f;
-                    else if (m > 250000000f && m < 500000000f)
-                        x.Value.DistributionDeal = 0.20f;
-                    else if (m > 500000000f && m < 1000000000f)
-                        x.Value.DistributionDeal = 0.25f;
-                    else if (m > 1000000000f)
-                        x.Value.DistributionDeal = 0.30f;
+                    if (money < 10000000f)
+                        company.Value.DistributionDeal = 0.05f;
+                    else if (money > 10000000f && money < 100000000f)
+                        company.Value.DistributionDeal = 0.10f;
+                    else if (money > 100000000f && money < 250000000f)
+                        company.Value.DistributionDeal = 0.15f;
+                    else if (money > 250000000f && money < 500000000f)
+                        company.Value.DistributionDeal = 0.20f;
+                    else if (money > 500000000f && money < 1000000000f)
+                        company.Value.DistributionDeal = 0.25f;
+                    else if (money > 1000000000f)
+                        company.Value.DistributionDeal = 0.30f;
                 }
             }
 
@@ -354,23 +356,14 @@ namespace Trainer_v4
                     }
                 }
             }
-        }
 
-        public static void DisplayEmployeesWindow()
-        {
-            if (Main.SkillChangeButton != null)
-            {
-                Destroy(Main.SkillChangeButton);
-            }
-
-            Main.OpenEmployeesWindow();
-            Main.CloseSettingsWindow();
+            Main.AttachSkillChangeButtonToEmployeeWindow();
         }
 
         public static void CheckDesign(DesignDocument document)
         {
             var actors = GameSettings.Instance.sActorManager.Actors;
-            Actor bestActor = actors[0];
+            Actor bestActor = actors.FirstOrDefault();
 
             foreach (var actor in actors)
             {
@@ -415,15 +408,36 @@ namespace Trainer_v4
 
         public static void SetSkillPerEmployee()
         {
-            Actor[] selectedActors = EmployeeWindow.EmployeeList.GetSelected<Actor>().ToArray();
-            if (selectedActors.Length <= 0)
+            var selectables = SelectorController.Instance.Selected.ToArray();
+            var actors = Settings.sActorManager.Actors.ToArray();
+            List<Actor> selectedActors = new List<Actor>();
+
+            foreach (var actor in actors)
             {
-                HUD.Instance.AddPopupMessage("Select one or more employees.", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
-                return;
+                if (selectables.Contains(actor))
+                {
+                    selectedActors.Add(actor);
+                }
             }
 
             var selectedRoles = PropertyHelper.RolesList.Where(r => r.Value);
             var selectedSpecializations = PropertyHelper.SpecializationsList.Where(s => s.Value);
+
+            if (selectedActors.Count == 0)
+            {
+                WindowManager.SpawnDialog("Select one or more employees.", false, DialogWindow.DialogType.Warning);
+                return;
+            }
+            else if (selectedRoles.Count() == 0)
+            {
+                WindowManager.SpawnDialog("Select one or more roles.", false, DialogWindow.DialogType.Warning);
+                return;
+            }
+            else if (selectedSpecializations.Count() == 0)
+            {
+                WindowManager.SpawnDialog("Select one or more specializations.", false, DialogWindow.DialogType.Warning);
+                return;
+            }
 
             var roleStringToEnum = new Dictionary<string, Employee.EmployeeRole>
             {

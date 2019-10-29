@@ -45,24 +45,27 @@ namespace Trainer_v4
             List<GameObject> roleToggles = new List<GameObject>();
             List<GameObject> specializationToggles = new List<GameObject>();
 
-            Utils.AddLabel("Roles", new Rect(10, 0, 150, 32), Window);
+            Utils.AddLabel("Roles", new Rect(10, 5, 150, 32), Window);
+            Utils.AddLabel("Specializations", new Rect(161, 5, 150, 32), Window);
 
-            foreach (var role in PropertyHelper.RolesList)
+            var rolesList = PropertyHelper.RolesList;
+            foreach (var role in rolesList)
             {
-                Utils.AddToggle(role.Key, PropertyHelper.GetProperty(PropertyHelper.RolesList, role.Key), 
-                                     a => PropertyHelper.SetProperty(PropertyHelper.RolesList, role.Key, 
-                                         !PropertyHelper.GetProperty(PropertyHelper.RolesList, role.Key)), 
+                Utils.AddToggle(role.Key, PropertyHelper.GetProperty(rolesList, role.Key), 
+                                     a => PropertyHelper.SetProperty(rolesList, role.Key, 
+                                         !PropertyHelper.GetProperty(rolesList, role.Key)), 
                                      ref roleToggles);
             }
 
             Utils.AddButton("Set Skills", TrainerBehaviour.SetSkillPerEmployee, ref roleToggles);
 
-            foreach (var specialization in PropertyHelper.SpecializationsList)
+            var specializationsList = PropertyHelper.SpecializationsList;
+            foreach (var specialization in specializationsList)
             {
                 Utils.AddToggle(specialization.Key,
-                                PropertyHelper.GetProperty(PropertyHelper.SpecializationsList, specialization.Key),
-                                a => PropertyHelper.SetProperty(PropertyHelper.SpecializationsList, specialization.Key, 
-                                    !PropertyHelper.GetProperty(PropertyHelper.SpecializationsList, specialization.Key)),
+                                PropertyHelper.GetProperty(specializationsList, specialization.Key),
+                                a => PropertyHelper.SetProperty(specializationsList, specialization.Key, 
+                                    !PropertyHelper.GetProperty(specializationsList, specialization.Key)),
                                 ref specializationToggles);
             }
 

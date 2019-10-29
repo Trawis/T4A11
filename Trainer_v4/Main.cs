@@ -7,11 +7,12 @@ namespace Trainer_v4
     public class Main : ModMeta
     {
         private TrainerBehaviour _trainerBehaviour;
+        private static bool _isSkillChangeButtonAttached = false;
         public static Button TrainerButton;
         public static Button SkillChangeButton;
-        public static string Version = "(v4.4.3)";
+        public static string Version = "(v4.4.4)";
 
-        public static bool IsShowed
+        public static bool IsSettingsWindowShown
         {
             get
             {
@@ -41,23 +42,21 @@ namespace Trainer_v4
             SettingsWindow.Show();
         }
 
-        public static void CloseSettingsWindow()
+        public static void AttachSkillChangeButtonToEmployeeWindow()
         {
-            SettingsWindow.Close();
-        }
+            if (!_isSkillChangeButtonAttached)
+            {
+                SkillChangeButton = WindowManager.SpawnButton();
+                SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
+                SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
+                SkillChangeButton.name = "EmployeeSkillButton";
 
-        public static void OpenEmployeesWindow()
-        {
-            HUD.Instance.employeeWindow.Show();
+                WindowManager.AddElementToElement(SkillChangeButton.gameObject,
+                    WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
+                    new Rect(0, 0, 0, 0));
 
-            SkillChangeButton = WindowManager.SpawnButton();
-            SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
-            SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
-            SkillChangeButton.name = "EmployeeSkillButton";
-
-            WindowManager.AddElementToElement(SkillChangeButton.gameObject,
-                WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
-                new Rect(0, 0, 0, 0));
+                _isSkillChangeButtonAttached = true;
+            }
         }
 
         public override void ConstructOptionsScreen(RectTransform parent, bool inGame)

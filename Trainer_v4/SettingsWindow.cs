@@ -86,8 +86,6 @@ namespace Trainer_v4
 
             Utils.AddButton("Clear all loans", TrainerBehaviour.ClearLoans, ref column1);
 
-            //Utils.AddButton("HR Leaders", TrainerBehaviour.HREmployees, ref column1);
-
             Utils.AddButton("Max Skill of employees", TrainerBehaviour.EmployeesToMax, ref column1);
 
             Utils.AddButton("Remove Products", TrainerBehaviour.RemoveSoft, ref column1);
@@ -99,8 +97,6 @@ namespace Trainer_v4
             Utils.AddButton("Unlock all furniture", TrainerBehaviour.UnlockFurniture, ref column1);
 
             Utils.AddButton("Unlock all space", TrainerBehaviour.UnlockAllSpace, ref column1);
-
-            Utils.AddButton("Employee skill settings", TrainerBehaviour.DisplayEmployeesWindow, ref column1);
 
             //Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
 
