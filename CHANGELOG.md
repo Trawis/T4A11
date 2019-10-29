@@ -3,6 +3,14 @@ Release notes for changes to the trainer
 
 ---
 
+**4.4.5**
+
+29.10.2019. for Alpha 11
+- Added skill settings per employee
+- Refactor
+
+---
+
 **4.3.2**
 
 15.10.2019. for Alpha 11
