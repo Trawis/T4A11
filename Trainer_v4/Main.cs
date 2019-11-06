@@ -12,14 +12,6 @@ namespace Trainer_v4
         public static Button SkillChangeButton;
         public static string Version = "(v4.4.5)";
 
-        public static bool IsSettingsWindowShown
-        {
-            get
-            {
-                return SettingsWindow.Shown;
-            }
-        }
-
         public override void Initialize(ModController.DLLMod parentMod)
         {
             _trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
@@ -40,6 +32,11 @@ namespace Trainer_v4
         public static void OpenSettingsWindow()
         {
             SettingsWindow.Show();
+        }
+
+        public static void CloseSettingsWindow()
+        {
+            SettingsWindow.Close();
         }
 
         public static void AttachSkillChangeButtonToEmployeeWindow()

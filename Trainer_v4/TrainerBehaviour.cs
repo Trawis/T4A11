@@ -69,14 +69,14 @@ namespace Trainer_v4
                 return;
             }
 
-            if (Input.GetKey(KeyCode.F1) && !Main.IsSettingsWindowShown)
+            if (Input.GetKey(KeyCode.F1))
             {
                 Main.OpenSettingsWindow();
             }
 
-            if (Input.GetKey(KeyCode.F2) && Main.IsSettingsWindowShown)
+            if (Input.GetKey(KeyCode.F2))
             {
-                Main.OpenSettingsWindow();
+                Main.CloseSettingsWindow();
             }
 
             if (PropertyHelper.GetProperty(TrainerSettings, "FreeStaff"))

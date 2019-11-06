@@ -21,6 +21,7 @@ namespace Trainer_v4
                 Shown = false;
                 return;
             }
+
             Init();
             Shown = true;
         }
@@ -29,12 +30,15 @@ namespace Trainer_v4
         {
             if (Shown)
             {
+                Window.Close();
                 Shown = false;
             }
         }
 
         private static void Init()
         {
+            var settings = PropertyHelper.Settings;
+
             Window = WindowManager.SpawnWindow();
             Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = _title;
             Window.name = "TrainerSettings";
@@ -54,7 +58,6 @@ namespace Trainer_v4
 
             Utils.AddInputBox("Product Name Here", new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
                 boxText => PropertyHelper.ProductPriceName = boxText);
-
 
             Utils.AddButton("Add Money", new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney);
 
@@ -99,8 +102,6 @@ namespace Trainer_v4
             Utils.AddButton("Unlock all space", TrainerBehaviour.UnlockAllSpace, ref column1);
 
             //Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
-
-            var settings = PropertyHelper.Settings;
 
             Utils.AddToggle("Disable Needs", PropertyHelper.GetProperty(settings, "NoNeeds"),
                 a => PropertyHelper.SetProperty(settings, "NoNeeds", !PropertyHelper.GetProperty(settings, "NoNeeds")), ref column2);
@@ -156,7 +157,6 @@ namespace Trainer_v4
             //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
             //    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
 
-
             Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty(settings, "AutoDistributionDeals"),
                 a => PropertyHelper.SetProperty(settings, "AutoDistributionDeals", !PropertyHelper.GetProperty(settings, "AutoDistributionDeals")), ref column4);
 
@@ -202,7 +202,5 @@ namespace Trainer_v4
 
             Utils.SetWindowSize(columnsCount, Constants.X_SETTINGS_WINDOW, Constants.Y_SETTINGS_WINDOW_OFFSET, Window);
         }
-
-        
     }
 }

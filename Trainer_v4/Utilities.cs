@@ -7,44 +7,44 @@ namespace Trainer_v4
 {
     public class Utilities
     {
-        public static void AddButton(string Text, UnityAction Action, ref List<GameObject> Buttons)
+        public static void AddButton(string text, UnityAction action, ref List<GameObject> buttons)
         {
-            Button x = WindowManager.SpawnButton();
-            x.GetComponentInChildren<Text>().text = Text;
-            x.onClick.AddListener(Action);
-            Buttons.Add(x.gameObject);
+            Button button = WindowManager.SpawnButton();
+            button.GetComponentInChildren<Text>().text = text;
+            button.onClick.AddListener(action);
+            buttons.Add(button.gameObject);
         }
 
-        public static void AddButton(string Text, Rect Button, UnityAction Action)
+        public static void AddButton(string text, Rect rectButton, UnityAction action)
         {
-            Button x = WindowManager.SpawnButton();
-            x.GetComponentInChildren<Text>().text = Text;
-            x.onClick.AddListener(Action);
-            WindowManager.AddElementToWindow(x.gameObject, SettingsWindow.Window, Button, new Rect(0, 0, 0, 0));
+            Button button = WindowManager.SpawnButton();
+            button.GetComponentInChildren<Text>().text = text;
+            button.onClick.AddListener(action);
+            WindowManager.AddElementToWindow(button.gameObject, SettingsWindow.Window, rectButton, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddInputBox(string Text, Rect InputBox, UnityAction<string> Action)
+        public static void AddInputBox(string text, Rect rectInputBox, UnityAction<string> action)
         {
-            InputField x = WindowManager.SpawnInputbox();
-            x.text = Text;
-            x.onValueChanged.AddListener(Action);
-            WindowManager.AddElementToWindow(x.gameObject, SettingsWindow.Window, InputBox, new Rect(0, 0, 0, 0));
+            InputField inputBox = WindowManager.SpawnInputbox();
+            inputBox.text = text;
+            inputBox.onValueChanged.AddListener(action);
+            WindowManager.AddElementToWindow(inputBox.gameObject, SettingsWindow.Window, rectInputBox, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddLabel(string Text, Rect Label, GUIWindow window)
+        public static void AddLabel(string text, Rect labelRect, GUIWindow window)
         {
             Text label = WindowManager.SpawnLabel();
-            label.text = Text;
-            WindowManager.AddElementToWindow(label.gameObject, window, Label, new Rect(0, 0, 0, 0));
+            label.text = text;
+            WindowManager.AddElementToWindow(label.gameObject, window, labelRect, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddToggle(string Text, bool isOn, UnityAction<bool> Action, ref List<GameObject> Toggles)
+        public static void AddToggle(string text, bool isOn, UnityAction<bool> action, ref List<GameObject> toggles)
         {
-            Toggle Toggle = WindowManager.SpawnCheckbox();
-            Toggle.GetComponentInChildren<Text>().text = Text;
-            Toggle.isOn = isOn;
-            Toggle.onValueChanged.AddListener(Action);
-            Toggles.Add(Toggle.gameObject);
+            Toggle toggle = WindowManager.SpawnCheckbox();
+            toggle.GetComponentInChildren<Text>().text = text;
+            toggle.isOn = isOn;
+            toggle.onValueChanged.AddListener(action);
+            toggles.Add(toggle.gameObject);
         }
 
         public static void CreateGameObjects(int column, int skipRows, GameObject[] gameObjects, GUIWindow window)
@@ -59,9 +59,9 @@ namespace Trainer_v4
             }
         }
 
-        public static void SetWindowSize(int[] colums, int coordinateX, int yWindowOffset, GUIWindow window)
+        public static void SetWindowSize(int[] colums, int xCoordinate, int yWindowOffset, GUIWindow window)
         {
-            window.MinSize.x = coordinateX;
+            window.MinSize.x = xCoordinate;
             window.MinSize.y = Mathf.Max(colums) * Constants.ELEMENT_HEIGHT + yWindowOffset;
         }
     }
