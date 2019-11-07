@@ -151,6 +151,9 @@ namespace Trainer_v4
             Utils.AddToggle("Rooms Never Dirty", PropertyHelper.GetProperty(settings, "CleanRooms"),
                 a => PropertyHelper.SetProperty(settings, "CleanRooms", !PropertyHelper.GetProperty(settings, "CleanRooms")), ref column3);
 
+            Utils.AddToggle("No Education Cost", PropertyHelper.GetProperty(settings, "NoEducationCost"),
+                a => PropertyHelper.SetProperty(settings, "NoEducationCost", !PropertyHelper.GetProperty(settings, "NoEducationCost")), ref column3);
+
             //Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty(settings, "DisableBurglars"),
             //    a => PropertyHelper.SetProperty(settings, "DisableBurglars", !PropertyHelper.GetProperty(settings, "DisableBurglars")), ref column3);
 
@@ -189,6 +192,9 @@ namespace Trainer_v4
 
             Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty(settings, "ReduceExpansionCost"),
                 a => PropertyHelper.SetProperty(settings, "ReduceExpansionCost", !PropertyHelper.GetProperty(settings, "ReduceExpansionCost")), ref column4);
+            
+            Utils.AddToggle("Increase Max Server Load", PropertyHelper.GetProperty(settings, "IncreaseMaxServerLoad"),
+                a => PropertyHelper.SetProperty(settings, "IncreaseMaxServerLoad", !PropertyHelper.GetProperty(settings, "IncreaseMaxServerLoad")), ref column4);
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
             Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);

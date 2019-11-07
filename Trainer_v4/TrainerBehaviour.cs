@@ -20,11 +20,9 @@ namespace Trainer_v4
             get { return PropertyHelper.Settings; }
         }
 
-        private static EmployeeWindow EmployeeWindow;
-
         private void Start()
         {
-            PropertyHelper.rnd = new Random(); // Random is time based, this makes it more random
+            PropertyHelper.random = new Random(); // Random is time based, this makes it more random
 
             if (!PropertyHelper.GetProperty(TrainerSettings, "ModActive") || !isActiveAndEnabled)
             {
@@ -32,7 +30,6 @@ namespace Trainer_v4
             }
 
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
-            //StartCoroutine(CustomUpdate());
         }
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -48,19 +45,22 @@ namespace Trainer_v4
                 Main.CreateTrainerButton();
                 Main.AttachSkillChangeButtonToEmployeeWindow();
             }
-        }
+            else if (scene.name.Equals("Customization") && isActiveAndEnabled)
+            {
+                ActorCustomization.StartYears = new int[]
+                {
+                    1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
+                };
 
-        //private IEnumerator CustomUpdate()
-        //{
-        //    while (true)
-        //    {
-        //        yield return new WaitForSeconds(1);
-        //        if (!PropertyHelper.GetProperty("ModActive") || !isActiveAndEnabled || !PropertyHelper.DoStuff)
-        //        {
-        //            yield return null;
-        //        }
-        //    }
-        //}
+                ActorCustomization.StartLoans = new int[]
+                {
+                    0, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000
+                };
+            }
+
+            PropertyHelper.LoadedScene = scene.name;
+            DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
+        }
 
         private void Update()
         {
@@ -214,6 +214,28 @@ namespace Trainer_v4
                 Settings.ServerCost = 0f;
             }
 
+            if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseMaxServerLoad"))
+            {
+                ServerGroup[] serverGroups = GameSettings.Instance.GetAllServerGroups().ToArray();
+                for (int index = 0; index < serverGroups.Length; ++index)
+                {
+                    ServerGroup serverGroup = serverGroups[index];
+                    Dictionary<IServerItem, float> serverGroupItems = serverGroup.Items.ToDictionary(x => x, (Func<IServerItem, float>)(x => x.GetLoadRequirement().BandwidthFactor(TimeOfDay.Instance.GetDate(false)));
+                    foreach (KeyValuePair<IServerItem, float> keyValuePair in serverGroupItems)
+                    {
+                        keyValuePair.Key.HandleLoad(2f);
+                    }
+                }
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoEducationCost"))
+            {
+                EducationWindow.EdCost = new float[3]
+                {
+                    0f, 0f, 0f 
+                };
+            }
+
             if (PropertyHelper.GetProperty(TrainerSettings, "AutoDistributionDeals"))
             {
                 foreach (var company in Settings.simulation.Companies)
@@ -360,6 +382,7 @@ namespace Trainer_v4
             Main.AttachSkillChangeButtonToEmployeeWindow();
         }
 
+        //TODO: Automate software phases
         public static void CheckDesign(DesignDocument document)
         {
             var actors = GameSettings.Instance.sActorManager.Actors;
@@ -447,7 +470,7 @@ namespace Trainer_v4
 
                     foreach (var specialization in selectedSpecializations)
                     {
-                        actor.employee.AddSpecialization(PropertyHelper.RoleStringToEnum[role.Key], specialization.Key, false, true, 5);
+                        actor.employee.AddSpecialization(PropertyHelper.RoleStringToEnum[role.Key], specialization.Key, false, true, 3);
                     }
                 }
             }
@@ -471,7 +494,7 @@ namespace Trainer_v4
 
             for (int i = 0; i < Deals.Length; i++)
             {
-                Settings.MyCompany.MakeTransaction(PropertyHelper.rnd.Next(500, 50000),
+                Settings.MyCompany.MakeTransaction(PropertyHelper.random.Next(500, 50000),
                        Company.TransactionCategory.Deals);
             }
 
@@ -493,7 +516,7 @@ namespace Trainer_v4
                 && !pr.ExternalHostingActive)
                       .ToArray();
 
-            int index = PropertyHelper.rnd.Next(0, Products.Length);
+            int index = PropertyHelper.random.Next(0, Products.Length);
 
             SoftwareProduct prod =
                 Settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
@@ -641,29 +664,28 @@ namespace Trainer_v4
                 for (int index = 0; index < Enum.GetNames(typeof(Employee.EmployeeRole)).Length; index++)
                 {
                     actor.employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
-                    int maxSpecPoints = GameSettings.GetMaxSpecPoints((Employee.EmployeeRole)index);
 
                     switch ((Employee.EmployeeRole)index)
                     {
                         case Employee.EmployeeRole.Lead:
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "HR", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Automation", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Socialization", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "HR", false, true, 3);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Automation", false, true, 3);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Socialization", false, true, 3);
                             break;
                         case Employee.EmployeeRole.Designer:
                         case Employee.EmployeeRole.Programmer:
-                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "System", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Network", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "System", false, true, 3);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Network", false, true, 3);
                             goto case Employee.EmployeeRole.Artist;
                         case Employee.EmployeeRole.Artist:
-                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "2D", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "3D", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Audio", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "2D", false, true, 3);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "3D", false, true, 3);
+                            actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Audio", false, true, 3);
                             break;
                         case Employee.EmployeeRole.Service:
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Support", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Marketing", false, true, maxSpecPoints);
-                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, maxSpecPoints);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Support", false, true, 3);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Marketing", false, true, 3);
+                            actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, 3);
                             break;
                     }
                 }

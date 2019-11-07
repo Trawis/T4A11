@@ -6,11 +6,16 @@ namespace Trainer_v4
 {
     public static class PropertyHelper
     {
-        public static System.Random rnd { get; set; }
-        public static bool IsGameLoaded { get { return GetProperty(_settings, "ModActive") && GameSettings.Instance != null && HUD.Instance != null; } }
+        public static System.Random random { get; set; }
+        public static string LoadedScene { get; set; }
         public static bool RewardIsGained { get; set; }
         public static bool DealIsPushed { get; set; }
         public static string ProductPriceName { get; set; }
+
+        public static bool IsGameLoaded
+        {
+            get { return GetProperty(_settings, "ModActive") && GameSettings.Instance != null && HUD.Instance != null; }
+        }
 
         private static Dictionary<string, bool> _settings = new Dictionary<string, bool>
         {
@@ -42,7 +47,9 @@ namespace Trainer_v4
             {"DisableBurglars", false},
             {"DisableFires", false},
             {"NoServerCost", false},
-            {"ReduceExpansionCost", false}
+            {"ReduceExpansionCost", false},
+            {"IncreaseMaxServerLoad", false},
+            {"NoEducationCost", false}
         };
 
         private static Dictionary<string, bool> _rolesList = new Dictionary<string, bool>
