@@ -8,6 +8,7 @@ namespace Trainer_v4
     {
         public static System.Random Random { get; set; }
         public static string LoadedScene { get; set; }
+        public static float DifficultyCoefficient { get; set; }
         public static bool RewardIsGained { get; set; }
         public static bool DealIsPushed { get; set; }
         public static string ProductPriceName { get; set; }
@@ -21,6 +22,11 @@ namespace Trainer_v4
         {
             get { return ActorCustomization.Instance != null; }
         }
+
+        public static float[] MaxDistributionMoneyGrabPercentage = new float[]
+        {
+            1f, 0.75f, 0.5f
+        };
 
         private static Dictionary<string, bool> _settings = new Dictionary<string, bool>
         {

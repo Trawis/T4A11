@@ -59,6 +59,7 @@ namespace Trainer_v4
 
             PropertyHelper.LoadedScene = scene.name;
             DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
+            PropertyHelper.DifficultyCoefficient = PropertyHelper.MaxDistributionMoneyGrabPercentage[Settings.Difficulty];
         }
 
         private void Update()
@@ -228,17 +229,17 @@ namespace Trainer_v4
                     float money = company.Value.GetMoneyWithInsurance(true);
 
                     if (money < 10000000f)
-                        company.Value.DistributionDeal = 0.05f;
+                        company.Value.DistributionDeal = 0.05f * PropertyHelper.DifficultyCoefficient;
                     else if (money > 10000000f && money < 100000000f)
-                        company.Value.DistributionDeal = 0.10f;
+                        company.Value.DistributionDeal = 0.10f * PropertyHelper.DifficultyCoefficient;
                     else if (money > 100000000f && money < 250000000f)
-                        company.Value.DistributionDeal = 0.15f;
+                        company.Value.DistributionDeal = 0.15f * PropertyHelper.DifficultyCoefficient;
                     else if (money > 250000000f && money < 500000000f)
-                        company.Value.DistributionDeal = 0.20f;
+                        company.Value.DistributionDeal = 0.20f * PropertyHelper.DifficultyCoefficient;
                     else if (money > 500000000f && money < 1000000000f)
-                        company.Value.DistributionDeal = 0.25f;
+                        company.Value.DistributionDeal = 0.25f * PropertyHelper.DifficultyCoefficient;
                     else if (money > 1000000000f)
-                        company.Value.DistributionDeal = 0.30f;
+                        company.Value.DistributionDeal = 0.30f * PropertyHelper.DifficultyCoefficient;
                 }
             }
 
