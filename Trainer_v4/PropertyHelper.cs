@@ -6,7 +6,7 @@ namespace Trainer_v4
 {
     public static class PropertyHelper
     {
-        public static System.Random random { get; set; }
+        public static System.Random Random { get; set; }
         public static string LoadedScene { get; set; }
         public static bool RewardIsGained { get; set; }
         public static bool DealIsPushed { get; set; }
@@ -14,7 +14,12 @@ namespace Trainer_v4
 
         public static bool IsGameLoaded
         {
-            get { return GetProperty(_settings, "ModActive") && GameSettings.Instance != null && HUD.Instance != null; }
+            get { return GameSettings.Instance != null && HUD.Instance != null; }
+        }
+
+        public static bool IsNewGameStarted
+        {
+            get { return ActorCustomization.Instance != null; }
         }
 
         private static Dictionary<string, bool> _settings = new Dictionary<string, bool>
@@ -48,7 +53,6 @@ namespace Trainer_v4
             {"DisableFires", false},
             {"NoServerCost", false},
             {"ReduceExpansionCost", false},
-            {"IncreaseMaxServerLoad", false},
             {"NoEducationCost", false}
         };
 

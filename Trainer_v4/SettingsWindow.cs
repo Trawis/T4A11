@@ -192,9 +192,6 @@ namespace Trainer_v4
 
             Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty(settings, "ReduceExpansionCost"),
                 a => PropertyHelper.SetProperty(settings, "ReduceExpansionCost", !PropertyHelper.GetProperty(settings, "ReduceExpansionCost")), ref column4);
-            
-            Utils.AddToggle("Increase Max Server Load", PropertyHelper.GetProperty(settings, "IncreaseMaxServerLoad"),
-                a => PropertyHelper.SetProperty(settings, "IncreaseMaxServerLoad", !PropertyHelper.GetProperty(settings, "IncreaseMaxServerLoad")), ref column4);
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
             Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);

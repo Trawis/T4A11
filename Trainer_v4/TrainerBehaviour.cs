@@ -22,9 +22,9 @@ namespace Trainer_v4
 
         private void Start()
         {
-            PropertyHelper.random = new Random(); // Random is time based, this makes it more random
+            PropertyHelper.Random = new Random();
 
-            if (!PropertyHelper.GetProperty(TrainerSettings, "ModActive") || !isActiveAndEnabled)
+            if (!isActiveAndEnabled)
             {
                 return;
             }
@@ -34,7 +34,6 @@ namespace Trainer_v4
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            //Other scenes include MainScene and Customization
             if (scene.name.Equals("MainMenu") && Main.TrainerButton != null)
             {
                 Destroy(Main.TrainerButton.gameObject);
@@ -64,7 +63,7 @@ namespace Trainer_v4
 
         private void Update()
         {
-            if (!PropertyHelper.GetProperty(TrainerSettings, "ModActive") || !isActiveAndEnabled || !PropertyHelper.IsGameLoaded)
+            if (!isActiveAndEnabled || !PropertyHelper.IsGameLoaded)
             {
                 return;
             }
@@ -214,25 +213,11 @@ namespace Trainer_v4
                 Settings.ServerCost = 0f;
             }
 
-            if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseMaxServerLoad"))
-            {
-                ServerGroup[] serverGroups = GameSettings.Instance.GetAllServerGroups().ToArray();
-                for (int index = 0; index < serverGroups.Length; ++index)
-                {
-                    ServerGroup serverGroup = serverGroups[index];
-                    Dictionary<IServerItem, float> serverGroupItems = serverGroup.Items.ToDictionary(x => x, (Func<IServerItem, float>)(x => x.GetLoadRequirement().BandwidthFactor(TimeOfDay.Instance.GetDate(false)));
-                    foreach (KeyValuePair<IServerItem, float> keyValuePair in serverGroupItems)
-                    {
-                        keyValuePair.Key.HandleLoad(2f);
-                    }
-                }
-            }
-
             if (PropertyHelper.GetProperty(TrainerSettings, "NoEducationCost"))
             {
                 EducationWindow.EdCost = new float[3]
                 {
-                    0f, 0f, 0f 
+                    0f, 0f, 0f
                 };
             }
 
@@ -494,7 +479,7 @@ namespace Trainer_v4
 
             for (int i = 0; i < Deals.Length; i++)
             {
-                Settings.MyCompany.MakeTransaction(PropertyHelper.random.Next(500, 50000),
+                Settings.MyCompany.MakeTransaction(PropertyHelper.Random.Next(500, 50000),
                        Company.TransactionCategory.Deals);
             }
 
@@ -516,19 +501,10 @@ namespace Trainer_v4
                 && !pr.ExternalHostingActive)
                       .ToArray();
 
-            int index = PropertyHelper.random.Next(0, Products.Length);
+            int index = PropertyHelper.Random.Next(0, Products.Length);
 
-            SoftwareProduct prod =
-                Settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
+            SoftwareProduct prod = Settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
 
-            //var servers = settings.GetAllServers();
-            //foreach(var srv in servers)
-            //{
-            //    foreach(var item in srv.Items)
-            //    {
-            //        item.HandleLoad(100f);
-            //    }
-            //}
             ServerDeal deal = new ServerDeal(Products[index]) { Request = true };
             deal.StillValid(true);
             HUD.Instance.dealWindow.InsertDeal(deal);
@@ -570,7 +546,8 @@ namespace Trainer_v4
             }
 
             Actor[] Actors = Settings.sActorManager.Actors
-                .Where(actor => actor.employee.RoleString.Contains("Lead")).ToArray();
+                                     .Where(actor => actor.employee.RoleString.Contains("Lead"))
+                                     .ToArray();
 
             if (Actors.Length == 0)
             {
@@ -590,8 +567,9 @@ namespace Trainer_v4
             WindowManager.SpawnDialog("Products stock with no active users have been sold in half a price.",
                 false, DialogWindow.DialogType.Information);
 
-            SoftwareProduct[] Products =
-                Settings.MyCompany.Products.Where(product => product.Userbase == 0).ToArray();
+            SoftwareProduct[] Products = Settings.MyCompany.Products
+                                                 .Where(product => product.Userbase == 0)
+                                                 .ToArray();
 
             if (Products.Length == 0)
             {

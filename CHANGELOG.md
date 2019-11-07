@@ -7,7 +7,6 @@ Release notes for changes to the trainer
 
 07.11.2019. for Alpha 11
 - Added new loans and years when starting a new game
-- Added option to increase maximum server load
 - Added option to disable education cost
 
 ---
