@@ -15,20 +15,20 @@ namespace Trainer_v4
             buttons.Add(button.gameObject);
         }
 
-        public static void AddButton(string text, Rect rectButton, UnityAction action)
+        public static void AddButton(string text, Rect rectButton, UnityAction action, GUIWindow window)
         {
             Button button = WindowManager.SpawnButton();
             button.GetComponentInChildren<Text>().text = text;
             button.onClick.AddListener(action);
-            WindowManager.AddElementToWindow(button.gameObject, SettingsWindow.Window, rectButton, new Rect(0, 0, 0, 0));
+            WindowManager.AddElementToWindow(button.gameObject, window, rectButton, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddInputBox(string text, Rect rectInputBox, UnityAction<string> action)
+        public static void AddInputBox(string text, Rect rectInputBox, UnityAction<string> action, GUIWindow window)
         {
             InputField inputBox = WindowManager.SpawnInputbox();
             inputBox.text = text;
             inputBox.onValueChanged.AddListener(action);
-            WindowManager.AddElementToWindow(inputBox.gameObject, SettingsWindow.Window, rectInputBox, new Rect(0, 0, 0, 0));
+            WindowManager.AddElementToWindow(inputBox.gameObject, window, rectInputBox, new Rect(0, 0, 0, 0));
         }
 
         public static void AddLabel(string text, Rect labelRect, GUIWindow window)

@@ -57,31 +57,31 @@ namespace Trainer_v4
             List<GameObject> column4 = new List<GameObject>();
 
             Utils.AddInputBox("Product Name Here", new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-                boxText => PropertyHelper.ProductPriceName = boxText);
+                boxText => PropertyHelper.ProductPriceName = boxText, Window);
 
-            Utils.AddButton("Add Money", new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney);
+            Utils.AddButton("Add Money", new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney, Window);
 
-            Utils.AddButton("Add Reputation", new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddRep);
+            Utils.AddButton("Add Reputation", new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddRep, Window);
 
-            Utils.AddButton("Set Product Price", new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice);
+            Utils.AddButton("Set Product Price", new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
 
-            Utils.AddButton("Set Product Stock", new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock);
+            Utils.AddButton("Set Product Stock", new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
 
-            Utils.AddButton("Set Active Users", new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers);
+            Utils.AddButton("Set Active Users", new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
 
-            Utils.AddButton("Max Followers", new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers);
+            Utils.AddButton("Max Followers", new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers, Window);
 
-            Utils.AddButton("Fix Bugs", new Rect(Constants.SECOND_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.FixBugs);
+            Utils.AddButton("Fix Bugs", new Rect(Constants.SECOND_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.FixBugs, Window);
 
-            //Utils.AddButton("Max Code", new Rect(Constants.THIRD_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxCode);
+            //Utils.AddButton("Max Code", new Rect(Constants.THIRD_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxCode, Window);
 
-            //Utils.AddButton("Max Art", new Rect(Constants.FOURTH_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxArt);
+            //Utils.AddButton("Max Art", new Rect(Constants.FOURTH_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxArt, Window);
 
-            Utils.AddButton("Takeover Company", new Rect(Constants.FIRST_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.TakeoverCompany);
+            Utils.AddButton("Takeover Company", new Rect(Constants.FIRST_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.TakeoverCompany, Window);
 
-            Utils.AddButton("Subsidiary Company", new Rect(Constants.SECOND_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SubDCompany);
+            Utils.AddButton("Subsidiary Company", new Rect(Constants.SECOND_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SubDCompany, Window);
 
-            Utils.AddButton("Bankrupt", new Rect(Constants.THIRD_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.ForceBankrupt);
+            Utils.AddButton("Bankrupt", new Rect(Constants.THIRD_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.ForceBankrupt, Window);
 
             Utils.AddButton("AI Bankrupt All", TrainerBehaviour.AIBankrupt, ref column1);
 
