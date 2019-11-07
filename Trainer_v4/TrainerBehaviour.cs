@@ -47,7 +47,6 @@ namespace Trainer_v4
                     case "MainScene":
                         Main.CreateTrainerButton();
                         Main.AttachSkillChangeButtonToEmployeeWindow();
-                        PropertyHelper.DifficultyCoefficient = PropertyHelper.MaxDistributionPercentage[Settings.Difficulty];
                         break;
                     case "Customization":
                         ActorCustomization.StartYears = new int[]
@@ -233,19 +232,20 @@ namespace Trainer_v4
                 foreach (var company in Settings.simulation.Companies)
                 {
                     float money = company.Value.GetMoneyWithInsurance(true);
+                    float coefficient = PropertyHelper.MaxDistributionPercentage[Settings.Difficulty];
 
                     if (money < 10000000f)
-                        company.Value.DistributionDeal = 0.05f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.05f * coefficient;
                     else if (money > 10000000f && money < 100000000f)
-                        company.Value.DistributionDeal = 0.10f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.10f * coefficient;
                     else if (money > 100000000f && money < 250000000f)
-                        company.Value.DistributionDeal = 0.15f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.15f * coefficient;
                     else if (money > 250000000f && money < 500000000f)
-                        company.Value.DistributionDeal = 0.20f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.20f * coefficient;
                     else if (money > 500000000f && money < 1000000000f)
-                        company.Value.DistributionDeal = 0.25f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.25f * coefficient;
                     else if (money > 1000000000f)
-                        company.Value.DistributionDeal = 0.30f * PropertyHelper.DifficultyCoefficient;
+                        company.Value.DistributionDeal = 0.30f * coefficient;
                 }
             }
 

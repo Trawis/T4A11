@@ -6,7 +6,6 @@ namespace Trainer_v4
     {
         public static System.Random Random { get; set; }
         public static string LoadedScene { get; set; }
-        public static float DifficultyCoefficient { get; set; }
         public static bool RewardIsGained { get; set; }
         public static bool DealIsPushed { get; set; }
         public static string ProductPriceName { get; set; }
