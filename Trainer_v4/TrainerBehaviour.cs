@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -34,32 +33,39 @@ namespace Trainer_v4
 
         private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name.Equals("MainMenu") && Main.TrainerButton != null)
+            if (isActiveAndEnabled)
             {
-                Destroy(Main.TrainerButton.gameObject);
-                Destroy(Main.SkillChangeButton.gameObject);
-            }
-            else if (scene.name.Equals("MainScene") && isActiveAndEnabled)
-            {
-                Main.CreateTrainerButton();
-                Main.AttachSkillChangeButtonToEmployeeWindow();
-            }
-            else if (scene.name.Equals("Customization") && isActiveAndEnabled)
-            {
-                ActorCustomization.StartYears = new int[]
+                switch (scene.name)
                 {
-                    1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
-                };
-
-                ActorCustomization.StartLoans = new int[]
-                {
-                    0, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000
-                };
+                    case "MainMenu":
+                        if (Main.TrainerButton != null)
+                        {
+                            Destroy(Main.TrainerButton.gameObject);
+                            Destroy(Main.SkillChangeButton.gameObject);
+                        }
+                        break;
+                    case "MainScene":
+                        Main.CreateTrainerButton();
+                        Main.AttachSkillChangeButtonToEmployeeWindow();
+                        PropertyHelper.DifficultyCoefficient = PropertyHelper.MaxDistributionPercentage[Settings.Difficulty];
+                        break;
+                    case "Customization":
+                        ActorCustomization.StartYears = new int[]
+                        {
+                            1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
+                        };
+                        ActorCustomization.StartLoans = new int[]
+                        {
+                            0, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000
+                        };
+                        break;
+                    default:
+                        goto case "MainMenu";
+                }
             }
 
             PropertyHelper.LoadedScene = scene.name;
             DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
-            PropertyHelper.DifficultyCoefficient = PropertyHelper.MaxDistributionMoneyGrabPercentage[Settings.Difficulty];
         }
 
         private void Update()
@@ -1025,15 +1031,9 @@ namespace Trainer_v4
 
         #region Overrides
 
-        public override void OnActivate()
-        {
-            PropertyHelper.SetProperty(TrainerSettings, "ModActive", true);
-        }
+        public override void OnActivate() { }
 
-        public override void OnDeactivate()
-        {
-            PropertyHelper.SetProperty(TrainerSettings, "ModActive", false);
-        }
+        public override void OnDeactivate() { }
 
         #endregion
     }

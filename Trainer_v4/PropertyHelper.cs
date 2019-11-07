@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace Trainer_v4
 {
@@ -23,7 +21,7 @@ namespace Trainer_v4
             get { return ActorCustomization.Instance != null; }
         }
 
-        public static float[] MaxDistributionMoneyGrabPercentage = new float[]
+        public static float[] MaxDistributionPercentage = new float[]
         {
             1f, 0.75f, 0.5f
         };
