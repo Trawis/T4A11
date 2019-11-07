@@ -59,9 +59,9 @@ namespace Trainer_v4
             }
         }
 
-        public static void SetWindowSize(int[] colums, int xCoordinate, int yWindowOffset, GUIWindow window)
+        public static void SetWindowSize(int[] colums, int xWindowSize, int yWindowOffset, GUIWindow window)
         {
-            window.MinSize.x = xCoordinate;
+            window.MinSize.x = xWindowSize;
             window.MinSize.y = Mathf.Max(colums) * Constants.ELEMENT_HEIGHT + yWindowOffset;
         }
     }

@@ -10,6 +10,9 @@
         public const int Y_SETTINGS_WINDOW_OFFSET = 260;
         public const int X_SETTINGS_WINDOW = 670;
 
+        public const int Y_EMPLOYEESKILLCHANGE_WINDOW_OFFSET = 64;
+        public const int X_EMPLOYEESKILLCHANGE_WINDOW = 300;
+
         public const int FIRST_COLUMN = 1;
         public const int SECOND_COLUMN = 161;
         public const int THIRD_COLUMN = 322;

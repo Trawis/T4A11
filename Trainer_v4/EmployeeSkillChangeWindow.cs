@@ -78,7 +78,7 @@ namespace Trainer_v4
                 specializationToggles.Count()
             };
 
-            Utils.SetWindowSize(columnsCount, 300, 64, Window);
+            Utils.SetWindowSize(columnsCount, Constants.X_EMPLOYEESKILLCHANGE_WINDOW, Constants.Y_EMPLOYEESKILLCHANGE_WINDOW_OFFSET, Window);
         }
     }
 }
