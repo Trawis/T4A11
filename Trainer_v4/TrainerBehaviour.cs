@@ -528,10 +528,33 @@ namespace Trainer_v4
             //listView = WindowManager.SpawnList();
             //listView.Initialize();
 
-            string[] specializations = Settings.Specializations;
-            foreach (string specialization in specializations)
+            //string[] specializations = Settings.Specializations;
+            //foreach (string specialization in specializations)
+            //{
+            //    DevConsole.Console.Log(specialization);
+            //}
+
+            var designDocuments = Settings.MyCompany.WorkItems.OfType<DesignDocument>().Where(d => !d.HasFinished).ToList();
+
+            foreach (var designDocument in designDocuments)
             {
-                DevConsole.Console.Log(specialization);
+                for (int i = 0; i < DesignDocument.MaxIteration; i++)
+                {
+                    if (designDocument.Parent == null && designDocument.Iteration < 3)
+                    {
+                        //designDocument.Working.Clear();
+                        for (int index = 0; index < designDocument.Features.Length; index++)
+                        {
+                            designDocument.Features[index].ArtDone = designDocument.Features[index].CodeDone = false;
+                            designDocument.Features[index].Progress = 1f;
+                            designDocument.Features[index].DevTime = 1f;
+                            designDocument.Features[index].Qual = 1f;
+                            designDocument.Features[index].LastIterationProg = 1f;
+                        }
+                        DevConsole.Console.Log(designDocument.GetProgress());
+                        designDocument.Iteration++;
+                    }
+                }
             }
         }
 
