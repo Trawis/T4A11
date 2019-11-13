@@ -377,13 +377,13 @@ namespace Trainer_v4
             {
                 var designDocuments = Settings.MyCompany.WorkItems
                                                         .OfType<DesignDocument>()
-                                                        .Where(d => !d.HasFinished && d.Iteration == 4)
+                                                        .Where(d => d.HasFinished)
                                                         .ToList();
 
-                foreach (var designDocument in designDocuments)
+                designDocuments.ForEach(designDocument =>
                 {
                     designDocument.PromoteAction();
-                }
+                });
             }
 
             Main.AttachSkillChangeButtonToEmployeeWindow();
