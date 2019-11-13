@@ -3,6 +3,12 @@ Release notes for changes to the trainer
 
 ---
 
+**4.5.7**
+13.11.2019. for Alpha 11
+- Added option to increase employees walk speed
+
+---
+
 **4.5**
 
 07.11.2019. for Alpha 11
