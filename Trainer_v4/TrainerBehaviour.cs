@@ -362,7 +362,7 @@ namespace Trainer_v4
             }
 
             LoanWindow.factor = 250000;
-            GameSettings.MaxFloor = 75; //10 default
+            GameSettings.MaxFloor = 100; //10 default
             AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
             Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 25f : 50f;
             Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
