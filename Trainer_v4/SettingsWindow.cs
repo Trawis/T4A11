@@ -83,6 +83,8 @@ namespace Trainer_v4
 
             Utils.AddButton("Bankrupt", new Rect(Constants.THIRD_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.ForceBankrupt, Window);
 
+            #region column1
+
             Utils.AddButton("AI Bankrupt All", TrainerBehaviour.AIBankrupt, ref column1);
 
             Utils.AddButton("Days per month", TrainerBehaviour.MonthDays, ref column1);
@@ -102,6 +104,10 @@ namespace Trainer_v4
             Utils.AddButton("Unlock all space", TrainerBehaviour.UnlockAllSpace, ref column1);
 
             Utils.AddButton("Test", TrainerBehaviour.Test, ref column1);
+
+            #endregion
+
+            #region column2
 
             Utils.AddToggle("Disable Needs", PropertyHelper.GetProperty(settings, "NoNeeds"),
                 a => PropertyHelper.SetProperty(settings, "NoNeeds", !PropertyHelper.GetProperty(settings, "NoNeeds")), ref column2);
@@ -133,6 +139,13 @@ namespace Trainer_v4
             Utils.AddToggle("Ultra Efficiency (Tick Full Eff first)", PropertyHelper.GetProperty(settings, "UltraEfficiency"),
                 a => PropertyHelper.SetProperty(settings, "UltraEfficiency", !PropertyHelper.GetProperty(settings, "UltraEfficiency")), ref column2);
 
+            Utils.AddToggle("Increase Walk Speed", PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed"),
+                a => PropertyHelper.SetProperty(settings, "IncreaseWalkSpeed", !PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed")), ref column2);
+
+            #endregion
+
+            #region column3
+
             Utils.AddToggle("Full Environment", PropertyHelper.GetProperty(settings, "FullEnvironment"),
                 a => PropertyHelper.SetProperty(settings, "FullEnvironment", !PropertyHelper.GetProperty(settings, "FullEnvironment")), ref column3);
 
@@ -159,6 +172,10 @@ namespace Trainer_v4
 
             //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
             //    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
+
+            #endregion
+
+            #region column4
 
             Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty(settings, "AutoDistributionDeals"),
                 a => PropertyHelper.SetProperty(settings, "AutoDistributionDeals", !PropertyHelper.GetProperty(settings, "AutoDistributionDeals")), ref column4);
@@ -192,6 +209,8 @@ namespace Trainer_v4
 
             Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty(settings, "ReduceExpansionCost"),
                 a => PropertyHelper.SetProperty(settings, "ReduceExpansionCost", !PropertyHelper.GetProperty(settings, "ReduceExpansionCost")), ref column4);
+
+            #endregion
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
             Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);

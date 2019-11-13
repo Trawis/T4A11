@@ -206,6 +206,8 @@ namespace Trainer_v4
                 {
                     actor.VacationMonth = SDateTime.NextMonth(24);
                 }
+
+                actor.WalkSpeed = PropertyHelper.GetProperty(TrainerSettings, "IncreaseWalkSpeed") ? 4f : 2f;
             }
 
             LoanWindow.factor = 250000;
@@ -423,38 +425,27 @@ namespace Trainer_v4
 
         public static void SetSkillPerEmployee()
         {
-            var selectables = SelectorController.Instance.Selected.ToArray();
-            var actors = Settings.sActorManager.Actors.ToArray();
-            List<Actor> selectedActors = new List<Actor>();
-
-            foreach (var actor in actors)
-            {
-                if (selectables.Contains(actor))
-                {
-                    selectedActors.Add(actor);
-                }
-            }
-
-            var selectedRoles = PropertyHelper.RolesList.Where(r => r.Value);
-            var selectedSpecializations = PropertyHelper.SpecializationsList.Where(s => s.Value);
+            var selectedActors = SelectorController.Instance.Selected.OfType<Actor>().ToList();
+            var selectedRoles = PropertyHelper.RolesList.Where(r => r.Value).ToList();
+            var selectedSpecializations = PropertyHelper.SpecializationsList.Where(s => s.Value).ToList();
 
             if (selectedActors.Count == 0)
             {
-                WindowManager.SpawnDialog("Select one or more employees.", false, DialogWindow.DialogType.Warning);
+                WindowManager.SpawnDialog("Select one or more employees.", false, DialogWindow.DialogType.Error);
                 return;
             }
             else if (selectedRoles.Count() == 0)
             {
-                WindowManager.SpawnDialog("Select one or more roles.", false, DialogWindow.DialogType.Warning);
+                WindowManager.SpawnDialog("Select one or more roles.", false, DialogWindow.DialogType.Error);
                 return;
             }
             else if (selectedSpecializations.Count() == 0)
             {
-                WindowManager.SpawnDialog("Select one or more specializations.", false, DialogWindow.DialogType.Warning);
+                WindowManager.SpawnDialog("Select one or more specializations.", false, DialogWindow.DialogType.Error);
                 return;
             }
 
-            foreach (var actor in selectedActors)
+            selectedActors.ForEach(actor =>
             {
                 foreach (var role in selectedRoles)
                 {
@@ -465,7 +456,7 @@ namespace Trainer_v4
                         actor.employee.AddSpecialization(PropertyHelper.RoleStringToEnum[role.Key], specialization.Key, false, true, 3);
                     }
                 }
-            }
+            });
         }
 
         public static void ClearLoans()
