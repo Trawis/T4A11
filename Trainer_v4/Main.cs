@@ -10,7 +10,7 @@ namespace Trainer_v4
         private static bool _isSkillChangeButtonAttached = false;
         public static Button TrainerButton;
         public static Button SkillChangeButton;
-        public static string Version = "(v4.5.8)";
+        public static string Version = "(v4.5.9)";
 
         public override void Initialize(ModController.DLLMod parentMod)
         {
