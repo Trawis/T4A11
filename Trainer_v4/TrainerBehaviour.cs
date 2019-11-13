@@ -373,6 +373,19 @@ namespace Trainer_v4
                 }
             }
 
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndDesign"))
+            {
+                var designDocuments = Settings.MyCompany.WorkItems
+                                                        .OfType<DesignDocument>()
+                                                        .Where(d => !d.HasFinished && d.Iteration == 4)
+                                                        .ToList();
+
+                foreach (var designDocument in designDocuments)
+                {
+                    designDocument.PromoteAction();
+                }
+            }
+
             Main.AttachSkillChangeButtonToEmployeeWindow();
         }
 
@@ -515,16 +528,6 @@ namespace Trainer_v4
 
         public static void Test()
         {
-            //GUIListView listView;
-            //listView = WindowManager.SpawnList();
-            //listView.Initialize();
-
-            //string[] specializations = Settings.Specializations;
-            //foreach (string specialization in specializations)
-            //{
-            //    DevConsole.Console.Log(specialization);
-            //}
-
             var designDocuments = Settings.MyCompany.WorkItems.OfType<DesignDocument>().Where(d => !d.HasFinished).ToList();
 
             foreach (var designDocument in designDocuments)

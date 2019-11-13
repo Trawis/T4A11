@@ -210,6 +210,9 @@ namespace Trainer_v4
             Utils.AddToggle("Reduce Expansion Cost", PropertyHelper.GetProperty(settings, "ReduceExpansionCost"),
                 a => PropertyHelper.SetProperty(settings, "ReduceExpansionCost", !PropertyHelper.GetProperty(settings, "ReduceExpansionCost")), ref column4);
 
+            Utils.AddToggle("Auto Design End", PropertyHelper.GetProperty(settings, "AutoEndDesign"),
+                a => PropertyHelper.SetProperty(settings, "AutoEndDesign", !PropertyHelper.GetProperty(settings, "AutoEndDesign")), ref column4);
+
             #endregion
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
