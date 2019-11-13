@@ -84,11 +84,6 @@ namespace Trainer_v4
                 Main.CloseSettingsWindow();
             }
 
-            if (PropertyHelper.GetProperty(TrainerSettings, "FreeStaff"))
-            {
-                Settings.StaffSalaryDue = 0f;
-            }
-
             foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
             {
                 if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
@@ -105,10 +100,13 @@ namespace Trainer_v4
                     furniture.Wattage = 0;
                 }
 
-                //TODO: add printspeed and printprice when it's disabled (else)
-                if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
+                if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
                 {
-                    Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
+                    furniture.Parent.Temperature = 21f;
+                    if (furniture.Parent.IsOnFire)
+                    {
+                        furniture.Parent.StopFire();
+                    }
                 }
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
@@ -266,19 +264,6 @@ namespace Trainer_v4
                 actor.WalkSpeed = PropertyHelper.GetProperty(TrainerSettings, "IncreaseWalkSpeed") ? 4f : 2f;
             }
 
-            if (PropertyHelper.GetProperty(TrainerSettings, "NoServerCost"))
-            {
-                Settings.ServerCost = 0f;
-            }
-
-            if (PropertyHelper.GetProperty(TrainerSettings, "NoEducationCost"))
-            {
-                EducationWindow.EdCost = new float[3]
-                {
-                    0f, 0f, 0f
-                };
-            }
-
             if (PropertyHelper.GetProperty(TrainerSettings, "AutoDistributionDeals"))
             {
                 foreach (var company in Settings.simulation.Companies)
@@ -324,14 +309,6 @@ namespace Trainer_v4
                 }
             }
 
-            if (PropertyHelper.GetProperty(TrainerSettings, "IncreasePrintSpeed"))
-            {
-                for (int i = 0; i < Settings.ProductPrinters.Count; i++)
-                {
-                    Settings.ProductPrinters[i].PrintSpeed = 2f;
-                }
-            }
-
             if (PropertyHelper.GetProperty(TrainerSettings, "DisableBurglars"))
             {
                 foreach (var burglar in Settings.sActorManager.Others["Burglars"])
@@ -339,18 +316,6 @@ namespace Trainer_v4
                     burglar.Dismiss();
                     burglar.Despawned = true;
                     Settings.sActorManager.RemoveFromAwaiting(burglar);
-                }
-            }
-
-            if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
-            {
-                foreach (var furniture in Settings.sRoomManager.AllFurniture)
-                {
-                    furniture.Parent.Temperature = 21f;
-                    if (furniture.Parent.IsOnFire)
-                    {
-                        furniture.Parent.StopFire();
-                    }
                 }
             }
 
@@ -365,6 +330,35 @@ namespace Trainer_v4
                 {
                     designDocument.PromoteAction();
                 });
+            }
+
+            //TODO: add printspeed and printprice when it's disabled (else)
+            if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
+            {
+                Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "IncreasePrintSpeed"))
+            {
+                Settings.ProductPrinters.ForEach(p => p.PrintSpeed = 2f);
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoEducationCost"))
+            {
+                EducationWindow.EdCost = new float[3]
+                {
+                    0f, 0f, 0f
+                };
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "FreeStaff"))
+            {
+                Settings.StaffSalaryDue = 0f;
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "NoServerCost"))
+            {
+                Settings.ServerCost = 0f;
             }
 
             LoanWindow.factor = 250000;
