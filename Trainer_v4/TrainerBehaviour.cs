@@ -89,20 +89,63 @@ namespace Trainer_v4
                 Settings.StaffSalaryDue = 0f;
             }
 
-            foreach (Furniture item in Settings.sRoomManager.AllFurniture)
+            foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
             {
                 if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
                 {
-                    item.ActorNoise = 0f;
-                    item.EnvironmentNoise = 0f;
-                    item.FinalNoise = 0f;
-                    item.Noisiness = 0;
+                    furniture.ActorNoise = 0f;
+                    furniture.EnvironmentNoise = 0f;
+                    furniture.FinalNoise = 0f;
+                    furniture.Noisiness = 0;
                 }
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "NoWaterElectricity"))
                 {
-                    item.Water = 0;
-                    item.Wattage = 0;
+                    furniture.Water = 0;
+                    furniture.Wattage = 0;
+                }
+
+                //TODO: add printspeed and printprice when it's disabled (else)
+                if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
+                {
+                    Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
+                }
+
+                if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
+                {
+                    foreach (var auraValue in furniture.AuraValues) //TODO: Check
+                    {
+                        furniture.AuraValues[1] = 0.75f;
+                    }
+                }
+
+                //TODO: else 0.25
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoMaintenance"))
+                {
+                    switch (furniture.Type)
+                    {
+                        case "Chair":
+                            if (furniture.Comfort < 1.2f)
+                            {
+                                furniture.Comfort = 1.5f;
+                            }
+                            goto case "Ventilation";
+                        case "CCTV":
+                        case "Computer":
+                        case "Lamp":
+                        case "Server":
+                        case "Product Printer":
+                        case "Radiator":
+                        case "Sink":
+                        case "Toilet":
+                        case "Ventilation":
+                            if (furniture.upg != null && furniture.upg.Quality < 0.8f)
+                            {
+                                furniture.upg.Quality = 1f;
+                                furniture.upg.Broken = false;
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -154,6 +197,19 @@ namespace Trainer_v4
                 //        }
                 //    }
                 //}
+
+                if (PropertyHelper.GetProperty(TrainerSettings, "NoSickness") && actor.SpecialState == Actor.HomeState.Sick)
+                {
+                    var sickActors = TimeOfDay.Instance.Sick;
+
+                    if (sickActors != null)
+                    {
+                        if (sickActors.Contains(actor))
+                        {
+                            TimeOfDay.Instance.Sick.Remove(actor);
+                        }
+                    }
+                }
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "LockAge"))
                 {
@@ -209,12 +265,6 @@ namespace Trainer_v4
 
                 actor.WalkSpeed = PropertyHelper.GetProperty(TrainerSettings, "IncreaseWalkSpeed") ? 4f : 2f;
             }
-
-            LoanWindow.factor = 250000;
-            GameSettings.MaxFloor = 75; //10 default
-            AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
-            Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 25f : 50f;
-            Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 
             if (PropertyHelper.GetProperty(TrainerSettings, "NoServerCost"))
             {
@@ -282,75 +332,6 @@ namespace Trainer_v4
                 }
             }
 
-            //add printspeed and printprice when it's disabled (else) TODO
-            if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
-            {
-                Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
-            }
-
-            if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill"))
-            {
-                foreach (var bookshelf in Settings.sRoomManager.AllFurniture)
-                {
-                    if (bookshelf.Type != "Bookshelf")
-                        continue;
-
-                    foreach (var x in bookshelf.AuraValues)
-                    {
-                        bookshelf.AuraValues[1] = 0.75f;
-                    }
-                }
-            }
-
-            //else 0.25 TODO
-            if (PropertyHelper.GetProperty(TrainerSettings, "NoMaintenance"))
-            {
-                foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
-                {
-                    switch (furniture.Type)
-                    {
-                        case "Chair":
-                            if (furniture.Comfort < 1.2f)
-                            {
-                                furniture.Comfort = 1.5f;
-                            }
-                            goto case "Ventilation";
-                        case "CCTV":
-                        case "Computer":
-                        case "Lamp":
-                        case "Server":
-                        case "Product Printer":
-                        case "Radiator":
-                        case "Sink":
-                        case "Toilet":
-                        case "Ventilation":
-                            if (furniture.upg != null && furniture.upg.Quality < 0.8f)
-                            {
-                                furniture.upg.Quality = 1f;
-                                furniture.upg.Broken = false;
-                            }
-                            break;
-                    }
-                }
-            }
-
-            if (PropertyHelper.GetProperty(TrainerSettings, "NoSickness"))
-            {
-                var sickEmployees = Settings.sActorManager.Actors.Where(employee => employee.SpecialState == Actor.HomeState.Sick);
-                var sickActors = TimeOfDay.Instance.Sick;
-
-                if (sickEmployees != null && sickActors != null)
-                {
-                    foreach (var sickEmployee in sickEmployees)
-                    {
-                        if (sickActors.Contains(sickEmployee))
-                        {
-                            TimeOfDay.Instance.Sick.Remove(sickEmployee);
-                        }
-                    }
-                }
-            }
-
             if (PropertyHelper.GetProperty(TrainerSettings, "DisableBurglars"))
             {
                 foreach (var burglar in Settings.sActorManager.Others["Burglars"])
@@ -385,6 +366,12 @@ namespace Trainer_v4
                     designDocument.PromoteAction();
                 });
             }
+
+            LoanWindow.factor = 250000;
+            GameSettings.MaxFloor = 75; //10 default
+            AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
+            Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 25f : 50f;
+            Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 
             Main.AttachSkillChangeButtonToEmployeeWindow();
         }
