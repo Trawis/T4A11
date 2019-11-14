@@ -3,6 +3,15 @@ Release notes for changes to the trainer
 
 ---
 
+**4.5.9**
+
+13.11.2019. for Alpha 11
+- Added option to automatic end design phase when done
+- Increased Max Floor to 100
+- Optimization
+
+---
+
 **4.5.7**
 
 13.11.2019. for Alpha 11

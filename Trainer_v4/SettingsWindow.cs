@@ -139,9 +139,6 @@ namespace Trainer_v4
             Utils.AddToggle("Ultra Efficiency (Tick Full Eff first)", PropertyHelper.GetProperty(settings, "UltraEfficiency"),
                 a => PropertyHelper.SetProperty(settings, "UltraEfficiency", !PropertyHelper.GetProperty(settings, "UltraEfficiency")), ref column2);
 
-            Utils.AddToggle("Increase Walk Speed", PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed"),
-                a => PropertyHelper.SetProperty(settings, "IncreaseWalkSpeed", !PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed")), ref column2);
-
             #endregion
 
             #region column3
@@ -172,6 +169,12 @@ namespace Trainer_v4
 
             //Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
             //    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
+
+            Utils.AddToggle("Auto Design End", PropertyHelper.GetProperty(settings, "AutoEndDesign"),
+                a => PropertyHelper.SetProperty(settings, "AutoEndDesign", !PropertyHelper.GetProperty(settings, "AutoEndDesign")), ref column3);
+
+            Utils.AddToggle("Increase Walk Speed", PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed"),
+                a => PropertyHelper.SetProperty(settings, "IncreaseWalkSpeed", !PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed")), ref column3);
 
             #endregion
 
