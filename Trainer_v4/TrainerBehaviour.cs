@@ -111,10 +111,7 @@ namespace Trainer_v4
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
                 {
-                    foreach (var auraValue in furniture.AuraValues) //TODO: Check
-                    {
-                        furniture.AuraValues[1] = 0.75f;
-                    }
+                    furniture.AuraValues[1] = 0.75f;
                 }
 
                 //TODO: else 0.25
@@ -235,7 +232,6 @@ namespace Trainer_v4
                 if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
                 {
                     employee.JobSatisfaction = 2f;
-                    employee.JobSatisfaction = 2f;
                 }
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "NoNeeds"))
@@ -329,6 +325,33 @@ namespace Trainer_v4
                 designDocuments.ForEach(designDocument =>
                 {
                     designDocument.PromoteAction();
+                });
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndResearch"))
+            {
+                var researchWorks = Settings.MyCompany.WorkItems
+                                                      .OfType<ResearchWork>()
+                                                      .Where(rw => rw.Finished)
+                                                      .ToList();
+
+                researchWorks.ForEach(researchWork =>
+                {
+                    researchWork.FinishNow();
+                });
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndPatent"))
+            {
+                var legalWorks = Settings.MyCompany.WorkItems
+                                                   .OfType<LegalWork>()
+                                                   .Where(lw => lw.CurrentStage() == "Finished" &&
+                                                                lw.Type == LegalWork.WorkType.Patent)
+                                                   .ToList();
+
+                legalWorks.ForEach(legalWork =>
+                {
+                    legalWork.PatentNow();
                 });
             }
 
