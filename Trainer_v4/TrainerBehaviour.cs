@@ -950,16 +950,16 @@ namespace Trainer_v4
 
         public static void TakeoverCompanyAction(string input)
         {
-            SimulatedCompany Company = Settings.simulation.Companies
+            SimulatedCompany simulatedCompany = Settings.simulation.Companies
                 .FirstOrDefault(company => company.Value.Name == input).Value;
 
-            if (Company == null)
+            if (simulatedCompany == null)
             {
                 return;
             }
 
-            Company.BuyOut(Settings.MyCompany, true);
-            HUD.Instance.AddPopupMessage("Trainer: Company " + Company.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+            //Settings.MyCompany.BuyOut(, true);
+            HUD.Instance.AddPopupMessage("Trainer: Company " + simulatedCompany.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
         public static void TakeoverCompany()
