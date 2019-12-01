@@ -111,10 +111,7 @@ namespace Trainer_v4
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
                 {
-                    foreach (var auraValue in furniture.AuraValues) //TODO: Check
-                    {
-                        furniture.AuraValues[1] = 0.75f;
-                    }
+                    furniture.AuraValues[1] = 0.75f;
                 }
 
                 //TODO: else 0.25
@@ -235,7 +232,6 @@ namespace Trainer_v4
                 if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
                 {
                     employee.JobSatisfaction = 2f;
-                    employee.JobSatisfaction = 2f;
                 }
 
                 if (PropertyHelper.GetProperty(TrainerSettings, "NoNeeds"))
@@ -332,6 +328,33 @@ namespace Trainer_v4
                 });
             }
 
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndResearch"))
+            {
+                var researchWorks = Settings.MyCompany.WorkItems
+                                                      .OfType<ResearchWork>()
+                                                      .Where(rw => rw.Finished)
+                                                      .ToList();
+
+                researchWorks.ForEach(researchWork =>
+                {
+                    researchWork.FinishNow();
+                });
+            }
+
+            if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndPatent"))
+            {
+                var legalWorks = Settings.MyCompany.WorkItems
+                                                   .OfType<LegalWork>()
+                                                   .Where(lw => lw.CurrentStage() == "Finished" &&
+                                                                lw.Type == LegalWork.WorkType.Patent)
+                                                   .ToList();
+
+                legalWorks.ForEach(legalWork =>
+                {
+                    legalWork.PatentNow();
+                });
+            }
+
             //TODO: add printspeed and printprice when it's disabled (else)
             if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
             {
@@ -361,7 +384,7 @@ namespace Trainer_v4
                 Settings.ServerCost = 0f;
             }
 
-            LoanWindow.factor = 250000;
+            //LoanWindow.factor = 250000;
             GameSettings.MaxFloor = 100; //10 default
             AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
             Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 25f : 50f;
@@ -927,16 +950,16 @@ namespace Trainer_v4
 
         public static void TakeoverCompanyAction(string input)
         {
-            SimulatedCompany Company = Settings.simulation.Companies
+            SimulatedCompany simulatedCompany = Settings.simulation.Companies
                 .FirstOrDefault(company => company.Value.Name == input).Value;
 
-            if (Company == null)
+            if (simulatedCompany == null)
             {
                 return;
             }
 
-            Company.BuyOut(Settings.MyCompany, true);
-            HUD.Instance.AddPopupMessage("Trainer: Company " + Company.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+            //Settings.MyCompany.BuyOut(, true);
+            HUD.Instance.AddPopupMessage("Trainer: Company " + simulatedCompany.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
         }
 
         public static void TakeoverCompany()

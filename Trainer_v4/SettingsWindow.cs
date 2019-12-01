@@ -173,6 +173,12 @@ namespace Trainer_v4
             Utils.AddToggle("Auto Design End", PropertyHelper.GetProperty(settings, "AutoEndDesign"),
                 a => PropertyHelper.SetProperty(settings, "AutoEndDesign", !PropertyHelper.GetProperty(settings, "AutoEndDesign")), ref column3);
 
+            Utils.AddToggle("Auto Research End", PropertyHelper.GetProperty(settings, "AutoEndResearch"),
+                a => PropertyHelper.SetProperty(settings, "AutoEndResearch", !PropertyHelper.GetProperty(settings, "AutoEndResearch")), ref column3);
+            
+            Utils.AddToggle("Auto Patent End", PropertyHelper.GetProperty(settings, "AutoEndPatent"),
+                a => PropertyHelper.SetProperty(settings, "AutoEndPatent", !PropertyHelper.GetProperty(settings, "AutoEndPatent")), ref column3);
+
             Utils.AddToggle("Increase Walk Speed", PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed"),
                 a => PropertyHelper.SetProperty(settings, "IncreaseWalkSpeed", !PropertyHelper.GetProperty(settings, "IncreaseWalkSpeed")), ref column3);
 

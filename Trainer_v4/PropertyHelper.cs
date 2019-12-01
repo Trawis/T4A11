@@ -58,7 +58,9 @@ namespace Trainer_v4
             {"ReduceExpansionCost", false},
             {"NoEducationCost", false},
             {"IncreaseWalkSpeed", false},
-            {"AutoEndDesign", false}
+            {"AutoEndDesign", false},
+            {"AutoEndResearch", false},
+            {"AutoEndPatent", false}
         };
 
         private static Dictionary<string, bool> _rolesList = new Dictionary<string, bool>

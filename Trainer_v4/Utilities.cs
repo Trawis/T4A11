@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Trainer_v4
 {
-    public class Utilities
+    public static class Utilities
     {
         public static void AddButton(string text, UnityAction action, ref List<GameObject> buttons)
         {
