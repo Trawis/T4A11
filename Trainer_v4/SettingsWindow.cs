@@ -186,8 +186,8 @@ namespace Trainer_v4
 
             #region column4
 
-            Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty(settings, "AutoDistributionDeals"),
-                a => PropertyHelper.SetProperty(settings, "AutoDistributionDeals", !PropertyHelper.GetProperty(settings, "AutoDistributionDeals")), ref column4);
+            //Utils.AddToggle("Auto Distribution Deals", PropertyHelper.GetProperty(settings, "AutoDistributionDeals"),
+            //    a => PropertyHelper.SetProperty(settings, "AutoDistributionDeals", !PropertyHelper.GetProperty(settings, "AutoDistributionDeals")), ref column4);
 
             Utils.AddToggle("Free Print", PropertyHelper.GetProperty(settings, "FreePrint"),
                 a => PropertyHelper.SetProperty(settings, "FreePrint", !PropertyHelper.GetProperty(settings, "FreePrint")), ref column4);
