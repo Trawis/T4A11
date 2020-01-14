@@ -3,6 +3,31 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.1**
+
+14.01.2020. for Alpha 11
+- Added option to reduce Box Price
+- Changed ISPCost values
+
+---
+
+**4.7**
+
+13.01.2020. for Alpha 11
+- Removed Auto Distribution Deals option
+
+---
+
+**4.6**
+
+01.12.2019. for Alpha 11
+- Added option to automatic end research phase when done
+- Added option to automatic end patent phase when done
+- Removed Loan Factor change in the code
+- Refactored some portion of code
+
+---
+
 **4.5.9**
 
 13.11.2019. for Alpha 11
