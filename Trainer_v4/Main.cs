@@ -4,94 +4,88 @@ using UnityEngine.UI;
 
 namespace Trainer_v4
 {
-    public class Main : ModMeta
-    {
-        private TrainerBehaviour _trainerBehaviour;
-        private static bool _isSkillChangeButtonAttached = false;
-        public static Button TrainerButton;
-        public static Button SkillChangeButton;
-        public static string Version = "(v4.7.1)";
+	public class Main : ModMeta
+	{
+		private TrainerBehaviour _trainerBehaviour;
+		public static Button TrainerButton;
+		public static Button SkillChangeButton;
+		public static string Version = "(v4.7.2)";
 
-        public override void Initialize(ModController.DLLMod parentMod)
-        {
-            _trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
-        }
+		public override void Initialize(ModController.DLLMod parentMod)
+		{
+			_trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
+		}
 
-        public static void CreateTrainerButton()
-        {
-            TrainerButton = WindowManager.SpawnButton();
-            TrainerButton.GetComponentInChildren<Text>().text = "Trainer " + Version;
-            TrainerButton.onClick.AddListener(() => SettingsWindow.Show());
-            TrainerButton.name = "TrainerButton";
+		public static void CreateTrainerButton()
+		{
+			TrainerButton = WindowManager.SpawnButton();
+			TrainerButton.GetComponentInChildren<Text>().text = "Trainer " + Version;
+			TrainerButton.onClick.AddListener(() => SettingsWindow.Show());
+			TrainerButton.name = "TrainerButton";
 
-            WindowManager.AddElementToElement(TrainerButton.gameObject,
-                WindowManager.FindElementPath("MainPanel/Holder/FanPanel").gameObject, new Rect(164, 0, 100, 32),
-                new Rect(0, 0, 0, 0));
-        }
+			WindowManager.AddElementToElement(TrainerButton.gameObject,
+					WindowManager.FindElementPath("MainPanel/Holder/FanPanel").gameObject, new Rect(164, 0, 100, 32),
+					new Rect(0, 0, 0, 0));
+		}
 
-        public static void OpenSettingsWindow()
-        {
-            SettingsWindow.Show();
-        }
+		public static void OpenSettingsWindow()
+		{
+			SettingsWindow.Show();
+		}
 
-        public static void CloseSettingsWindow()
-        {
-            SettingsWindow.Close();
-        }
+		public static void CloseSettingsWindow()
+		{
+			SettingsWindow.Close();
+		}
 
-        public static void AttachSkillChangeButtonToEmployeeWindow()
-        {
-            if (!_isSkillChangeButtonAttached)
-            {
-                SkillChangeButton = WindowManager.SpawnButton();
-                SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
-                SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
-                SkillChangeButton.name = "EmployeeSkillButton";
+		public static void AttachSkillChangeButtonToEmployeeWindow()
+		{
+			SkillChangeButton = WindowManager.SpawnButton();
+			SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
+			SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
+			SkillChangeButton.name = "EmployeeSkillButton";
 
-                WindowManager.AddElementToElement(SkillChangeButton.gameObject,
-                    WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
-                    new Rect(0, 0, 0, 0));
+			WindowManager.AddElementToElement(SkillChangeButton.gameObject,
+					WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
+					new Rect(0, 0, 0, 0));
+		}
 
-                _isSkillChangeButtonAttached = true;
-            }
-        }
+		public override void ConstructOptionsScreen(RectTransform parent, bool inGame)
+		{
+			Text label = WindowManager.SpawnLabel();
+			label.text = "Please load a game and press 'Trainer' button.";
 
-        public override void ConstructOptionsScreen(RectTransform parent, bool inGame)
-        {
-            Text label = WindowManager.SpawnLabel();
-            label.text = "Please load a game and press 'Trainer' button.";
+			WindowManager.AddElementToElement(label.gameObject, parent.gameObject, new Rect(0, 0, 400, 128),
+					new Rect(0, 0, 0, 0));
+		}
 
-            WindowManager.AddElementToElement(label.gameObject, parent.gameObject, new Rect(0, 0, 400, 128),
-                new Rect(0, 0, 0, 0));
-        }
+		public override WriteDictionary Serialize(GameReader.LoadMode mode)
+		{
+			var data = new WriteDictionary();
 
-        public override WriteDictionary Serialize(GameReader.LoadMode mode)
-        {
-            var data = new WriteDictionary();
+			foreach (var Pair in PropertyHelper.Settings)
+			{
+				data[Pair.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, Pair.Key);
+			}
 
-            foreach (var Pair in PropertyHelper.Settings)
-            {
-                data[Pair.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, Pair.Key);
-            }
+			return data;
+		}
 
-            return data;
-        }
+		public override void Deserialize(WriteDictionary data, GameReader.LoadMode mode)
+		{
+			var keys = PropertyHelper.Settings.Keys.ToList();
+			foreach (var key in keys)
+			{
+				PropertyHelper.SetProperty(PropertyHelper.Settings, key, data.Get(key, PropertyHelper.GetProperty(PropertyHelper.Settings, key)));
+			}
+		}
 
-        public override void Deserialize(WriteDictionary data, GameReader.LoadMode mode)
-        {
-            var keys = PropertyHelper.Settings.Keys.ToList();
-            foreach (var key in keys)
-            {
-                PropertyHelper.SetProperty(PropertyHelper.Settings, key, data.Get(key, PropertyHelper.GetProperty(PropertyHelper.Settings, key)));
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return "Trainer v4";
-            }
-        }
-    }
+		public override string Name
+		{
+			get
+			{
+				return "Trainer v4";
+			}
+		}
+	}
 }

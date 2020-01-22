@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.2**
+
+22.01.2020. for Alpha 11
+- Fixed disappearing Skill Change Button
+
+---
+
 **4.7.1**
 
 14.01.2020. for Alpha 11

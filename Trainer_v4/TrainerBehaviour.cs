@@ -390,8 +390,6 @@ namespace Trainer_v4
 			AI.BoxPrice = PropertyHelper.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
 			Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
 			Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
-
-			Main.AttachSkillChangeButtonToEmployeeWindow();
 		}
 
 		//TODO: Automate software phases
