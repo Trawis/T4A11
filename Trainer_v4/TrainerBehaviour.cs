@@ -591,7 +591,7 @@ namespace Trainer_v4
 
 		public static void SellProductStock()
 		{
-			WindowManager.SpawnDialog("Products stock with no active users have been sold in half a price.",
+			WindowManager.SpawnDialog("Stock of products with no active users were sold at half the price.",
 					false, DialogWindow.DialogType.Information);
 
 			SoftwareProduct[] Products = Settings.MyCompany.Products
@@ -653,7 +653,7 @@ namespace Trainer_v4
 				item.UpdateAgeLook();
 			}
 
-			HUD.Instance.AddPopupMessage("Trainer: Age of employees has been reset!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+			HUD.Instance.AddPopupMessage("Trainer: Employees age has been reset!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
 
 		public static void EmployeesToMax()
@@ -707,7 +707,7 @@ namespace Trainer_v4
 			}
 
 			Example.TakeAllLand();
-			HUD.Instance.AddPopupMessage("Trainer: All plots are now unlocked!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+			HUD.Instance.AddPopupMessage("Trainer: All plots has been unlocked!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
 
 		public static void UnlockFurniture()
@@ -837,7 +837,7 @@ namespace Trainer_v4
 				return;
 			}
 
-				((SoftwareAlpha)WorkItem).FixedBugs = ((SoftwareAlpha)WorkItem).MaxBugs;
+			((SoftwareAlpha)WorkItem).FixedBugs = ((SoftwareAlpha)WorkItem).MaxBugs;
 		}
 
 		public static void FixBugs()
@@ -954,10 +954,15 @@ namespace Trainer_v4
 
 			if (simulatedCompany == null)
 			{
+				HUD.Instance.AddPopupMessage("Trainer: Company " + input + " not found!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 				return;
 			}
 
-			//Settings.MyCompany.BuyOut(, true);
+			Settings.MyCompany.BuyOut(new Company[1]
+			{
+				simulatedCompany.OwnerCompany
+			}, true);
+
 			HUD.Instance.AddPopupMessage("Trainer: Company " + simulatedCompany.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
 
