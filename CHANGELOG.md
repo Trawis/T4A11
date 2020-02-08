@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.3**
+
+08.02.2020. for Alpha 11
+- Added localization support
+
+---
+
 **4.7.2**
 
 22.01.2020. for Alpha 11
