@@ -5,7 +5,6 @@ namespace Trainer_v4
     public static class PropertyHelper
     {
         public static System.Random Random { get; set; }
-        public static string LoadedScene { get; set; }
         public static bool RewardIsGained { get; set; }
         public static bool DealIsPushed { get; set; }
         public static string ProductPriceName { get; set; }
@@ -22,7 +21,7 @@ namespace Trainer_v4
 
         public static float[] MaxDistributionPercentage
         {
-			get { return new float[] { 1f, 0.75f, 0.5f }; }
+			get { return new [] { 1f, 0.75f, 0.5f }; }
         }
 
         private static Dictionary<string, bool> _settings = new Dictionary<string, bool>

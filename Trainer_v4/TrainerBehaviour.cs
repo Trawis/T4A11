@@ -62,9 +62,6 @@ namespace Trainer_v4
 						goto case "MainMenu";
 				}
 			}
-
-			//PropertyHelper.LoadedScene = scene.name;
-			//DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
 		}
 
 		private void Update()

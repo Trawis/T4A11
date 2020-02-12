@@ -7,9 +7,9 @@ namespace Trainer_v4
 	public class Main : ModMeta
 	{
 		private TrainerBehaviour _trainerBehaviour;
-		public static Button TrainerButton;
-		public static Button SkillChangeButton;
-		public static string Version = "(v4.7.4)";
+		public static Button TrainerButton { get; set; }
+		public static Button SkillChangeButton { get; set; }
+		public static string Version { get { return "(v4.7.4)"; } }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{

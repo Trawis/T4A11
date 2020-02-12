@@ -18,7 +18,7 @@
         public static readonly int THIRD_COLUMN = 322;
         public static readonly int FOURTH_COLUMN = 483;
 
-        public static readonly int FIRST_ROW = 0;
+        public static readonly int FIRST_ROW;
         public static readonly int SECOND_ROW = 32;
         public static readonly int THIRD_ROW = 64;
         public static readonly int FOURTH_ROW = 96;
