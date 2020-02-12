@@ -315,9 +315,9 @@ namespace Trainer_v4
 			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndDesign"))
 			{
 				var designDocuments = Settings.MyCompany.WorkItems
-																								.OfType<DesignDocument>()
-																								.Where(d => d.HasFinished)
-																								.ToList();
+														.OfType<DesignDocument>()
+														.Where(d => d.HasFinished)
+														.ToList();
 
 				designDocuments.ForEach(designDocument =>
 				{
@@ -328,24 +328,32 @@ namespace Trainer_v4
 			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndResearch"))
 			{
 				var researchWorks = Settings.MyCompany.WorkItems
-																							.OfType<ResearchWork>()
-																							.Where(rw => rw.Finished)
-																							.ToList();
+													  .OfType<ResearchWork>()
+													  .Where(rw => rw.Finished)
+													  .ToList();
 
 				researchWorks.ForEach(researchWork =>
 				{
-					researchWork.FinishNow();
+					GameSettings.Instance.MyCompany.AddResearch(researchWork.Spec, researchWork.Year);
+					TechLevel tech = GameSettings.Instance.simulation.AddTechLevel(researchWork.Spec, researchWork.Year);
+					if (tech != null)
+					{
+						LegalWork legalWork = new LegalWork(tech);
+						GameSettings.Instance.MyCompany.WorkItems.Add(legalWork);
+						GameSettings.Instance.ApplyDefaultTeams(legalWork, ((int)legalWork.Type).ToString() + "Team");
+					}
+					researchWork.Kill(false);
 				});
 			}
 
 			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndPatent"))
 			{
 				var legalWorks = Settings.MyCompany.WorkItems
-																					 .OfType<LegalWork>()
-																					 .Where(lw => lw.CurrentStage() == "Finished" &&
-																												lw.Type == LegalWork.WorkType.Patent)
-																					 .ToList();
-
+												   .OfType<LegalWork>()
+												   .Where(lw => lw.CurrentStage() == "Finished" &&
+																lw.Type == LegalWork.WorkType.Patent)
+												   .ToList();
+													
 				legalWorks.ForEach(legalWork =>
 				{
 					legalWork.PatentNow();

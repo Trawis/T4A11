@@ -7,6 +7,7 @@ Release notes for changes to the trainer
 
 12.02.2020. for Alpha 11
 - Added "Multitasking" specialization when maxing out employee(s) skill(s)
+- Fixed AutoEndResearch option
 
 ---
 
