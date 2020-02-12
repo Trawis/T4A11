@@ -63,8 +63,8 @@ namespace Trainer_v4
 				}
 			}
 
-			PropertyHelper.LoadedScene = scene.name;
-			DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
+			//PropertyHelper.LoadedScene = scene.name;
+			//DevConsole.Console.Log("Loaded scene: " + PropertyHelper.LoadedScene);
 		}
 
 		private void Update()
@@ -370,7 +370,7 @@ namespace Trainer_v4
 			{
 				EducationWindow.EdCost = new float[3]
 				{
-										0f, 0f, 0f
+					0f, 0f, 0f
 				};
 			}
 
@@ -516,9 +516,6 @@ namespace Trainer_v4
 								.ToArray();
 
 			int index = PropertyHelper.Random.Next(0, Products.Length);
-
-			SoftwareProduct prod = Settings.simulation.GetProduct(Products.ElementAt(index).SoftwareID, false);
-
 			ServerDeal deal = new ServerDeal(Products[index]) { Request = true };
 			deal.StillValid(true);
 			HUD.Instance.dealWindow.InsertDeal(deal);
@@ -526,7 +523,7 @@ namespace Trainer_v4
 
 		public static void ChangeEducationDays()
 		{
-
+			throw new NotImplementedException();
 		}
 
 		public static void Test()
@@ -676,6 +673,7 @@ namespace Trainer_v4
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "HR", false, true, 3);
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Automation", false, true, 3);
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Socialization", false, true, 3);
+							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Multitasking", false, true, 3);
 							break;
 						case Employee.EmployeeRole.Designer:
 						case Employee.EmployeeRole.Programmer:

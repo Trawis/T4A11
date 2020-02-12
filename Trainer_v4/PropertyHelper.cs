@@ -20,10 +20,10 @@ namespace Trainer_v4
             get { return ActorCustomization.Instance != null; }
         }
 
-        public static float[] MaxDistributionPercentage = new float[]
+        public static float[] MaxDistributionPercentage
         {
-            1f, 0.75f, 0.5f
-        };
+			get { return new float[] { 1f, 0.75f, 0.5f }; }
+        }
 
         private static Dictionary<string, bool> _settings = new Dictionary<string, bool>
         {
@@ -61,8 +61,8 @@ namespace Trainer_v4
             {"AutoEndDesign", false},
             {"AutoEndResearch", false},
             {"AutoEndPatent", false},
-						{"ReduceBoxPrice", false}
-				};
+			{"ReduceBoxPrice", false}
+		};
 
         private static Dictionary<string, bool> _rolesList = new Dictionary<string, bool>
         {
@@ -78,6 +78,7 @@ namespace Trainer_v4
             {"HR", false},
             {"Automation", false},
             {"Socialization", false},
+			{"Multitasking", false},
             {"System", false},
             {"Network", false},
             {"2D", false},
@@ -88,14 +89,20 @@ namespace Trainer_v4
             {"Law", false}
         };
 
-        public static Dictionary<string, Employee.EmployeeRole> RoleStringToEnum = new Dictionary<string, Employee.EmployeeRole>
+        public static Dictionary<string, Employee.EmployeeRole> RoleStringToEnum
         {
-            {"Lead", Employee.EmployeeRole.Lead},
-            {"Service", Employee.EmployeeRole.Service},
-            {"Programmer", Employee.EmployeeRole.Programmer},
-            {"Artist", Employee.EmployeeRole.Artist},
-            {"Designer", Employee.EmployeeRole.Designer}
-        };
+			get
+			{
+				return new Dictionary<string, Employee.EmployeeRole>
+				{
+					{"Lead", Employee.EmployeeRole.Lead},
+					{"Service", Employee.EmployeeRole.Service},
+					{"Programmer", Employee.EmployeeRole.Programmer},
+					{"Artist", Employee.EmployeeRole.Artist},
+					{"Designer", Employee.EmployeeRole.Designer}
+				};
+			}
+        }
 
         public static Dictionary<string, bool> Settings
         {
@@ -127,7 +134,7 @@ namespace Trainer_v4
 
         public static void SetProperty(Dictionary<string, bool> properties, string key, bool value)
         {
-            DevConsole.Console.Log("set " + key + " " + value);
+            //DevConsole.Console.Log("set " + key + " " + value);
             properties[key] = value;
         }
     }

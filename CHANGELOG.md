@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.4**
+
+12.02.2020. for Alpha 11
+- Added "Multitasking" specialization when maxing out employee(s) skill(s)
+
+---
+
 **4.7.3**
 
 08.02.2020. for Alpha 11

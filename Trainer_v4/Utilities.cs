@@ -7,7 +7,7 @@ namespace Trainer_v4
 {
     public static class Utilities
     {
-        public static void AddButton(string text, UnityAction action, ref List<GameObject> buttons)
+        public static void AddButton(string text, UnityAction action, List<GameObject> buttons)
         {
             Button button = WindowManager.SpawnButton();
             button.GetComponentInChildren<Text>().text = text;
@@ -38,7 +38,7 @@ namespace Trainer_v4
             WindowManager.AddElementToWindow(label.gameObject, window, labelRect, new Rect(0, 0, 0, 0));
         }
 
-        public static void AddToggle(string text, bool isOn, UnityAction<bool> action, ref List<GameObject> toggles)
+        public static void AddToggle(string text, bool isOn, UnityAction<bool> action, List<GameObject> toggles)
         {
             Toggle toggle = WindowManager.SpawnCheckbox();
             toggle.GetComponentInChildren<Text>().text = text;

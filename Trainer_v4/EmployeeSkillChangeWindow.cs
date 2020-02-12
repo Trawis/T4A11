@@ -11,7 +11,7 @@ namespace Trainer_v4
         private static string _title = "Employee Skill Change, by Trawis";
 
         public static GUIWindow Window;
-        public static bool Shown = false;
+        public static bool Shown;
 
         public static void Show()
         {
@@ -52,10 +52,10 @@ namespace Trainer_v4
                 Utils.AddToggle(role.Key, PropertyHelper.GetProperty(rolesList, role.Key), 
                                      a => PropertyHelper.SetProperty(rolesList, role.Key, 
                                          !PropertyHelper.GetProperty(rolesList, role.Key)), 
-                                     ref roleToggles);
+                                     roleToggles);
             }
 
-            Utils.AddButton("Set Skills", TrainerBehaviour.SetSkillPerEmployee, ref roleToggles);
+            Utils.AddButton("Set Skills", TrainerBehaviour.SetSkillPerEmployee, roleToggles);
 
             var specializationsList = PropertyHelper.SpecializationsList;
             foreach (var specialization in specializationsList)
@@ -64,7 +64,7 @@ namespace Trainer_v4
                                 PropertyHelper.GetProperty(specializationsList, specialization.Key),
                                 a => PropertyHelper.SetProperty(specializationsList, specialization.Key, 
                                     !PropertyHelper.GetProperty(specializationsList, specialization.Key)),
-                                ref specializationToggles);
+                                specializationToggles);
             }
 
             Utils.CreateGameObjects(Constants.FIRST_COLUMN, 1, roleToggles.ToArray(), Window);
