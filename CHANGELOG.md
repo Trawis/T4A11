@@ -3,6 +3,16 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.5**
+
+14.02.2020. for Alpha 11
+- Overhauled Add Reputation option:
+	* Max Reputation change business reputation to maximum (5 stars)
+	* Max Market Recognition change recoginition for each software type and category (5 hearts)
+- Fixed Takeover Company option
+
+---
+
 **4.7.4**
 
 12.02.2020. for Alpha 11

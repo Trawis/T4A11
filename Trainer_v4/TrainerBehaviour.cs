@@ -353,7 +353,7 @@ namespace Trainer_v4
 												   .Where(lw => lw.CurrentStage() == "Finished" &&
 																lw.Type == LegalWork.WorkType.Patent)
 												   .ToList();
-													
+
 				legalWorks.ForEach(legalWork =>
 				{
 					legalWork.PatentNow();
@@ -952,21 +952,25 @@ namespace Trainer_v4
 
 		public static void TakeoverCompanyAction(string input)
 		{
-			SimulatedCompany simulatedCompany = Settings.simulation.Companies
-					.FirstOrDefault(company => company.Value.Name == input).Value;
+			var simulatedCompany = Settings.simulation.Companies
+					.FirstOrDefault(simCompany => simCompany.Value.Name == input).Value;
 
 			if (simulatedCompany == null)
 			{
-				HUD.Instance.AddPopupMessage("Trainer: Company " + input + " not found!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+				WindowManager.SpawnDialog("Trainer: Company " + input + " not found!", false, DialogWindow.DialogType.Information);
 				return;
 			}
 
-			Settings.MyCompany.BuyOut(new Company[1]
-			{
-				simulatedCompany.OwnerCompany
-			}, true);
+			var simulatedCompanyWorth = simulatedCompany.Stocks[0].CurrentWorth;
 
-			HUD.Instance.AddPopupMessage("Trainer: Company " + simulatedCompany.Name + " has been takovered by you!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+			simulatedCompany.BuyOut(new Company[1]
+			{
+				Settings.MyCompany
+			}, false);
+
+			Settings.MyCompany.MakeTransaction(simulatedCompanyWorth, Company.TransactionCategory.Stocks, (string)null, false);
+
+			WindowManager.SpawnDialog("Trainer: Company " + input + " has been takovered by you!", false, DialogWindow.DialogType.Information);
 		}
 
 		public static void TakeoverCompany()
@@ -989,7 +993,6 @@ namespace Trainer_v4
 			}
 
 			Company.MakeSubsidiary(Settings.MyCompany);
-			Company.IsSubsidiary();
 			HUD.Instance.AddPopupMessage("Trainer: Company " + Company.Name + " is now your subsidiary!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
 
@@ -1041,18 +1044,28 @@ namespace Trainer_v4
 
 		#region Add Rep
 
-		public static void AddRepAction(string input)
+		public static void MaxReputation()
 		{
-			var softwareType = MarketSimulation.Active.SoftwareTypes.Values.Where(value => !value.OneClient).GetRandom();
-			var softwareCategory = softwareType.Categories.Keys.GetRandom();
-			Settings.MyCompany.ChangeBusinessRep(5f, "", 1f);
-			Example.AddReputation(softwareType.Name, softwareCategory, input.ConvertToIntDef(10000));
-			HUD.Instance.AddPopupMessage("Trainer: Reputation has been added for SoftwareType: " + softwareType.Name + ", Category: " + softwareCategory, "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0, 1);
+			Settings.MyCompany.ChangeBusinessRep(1f, "Publisher", 1f);
+			Settings.MyCompany.ChangeBusinessRep(1f, "Deal", 1f);
+			Settings.MyCompany.ChangeBusinessRep(1f, "Printing", 1f);
+			Settings.MyCompany.ChangeBusinessRep(1f, "Lawsuit", 1f);
+			Settings.MyCompany.ChangeBusinessRep(1f, "Contract", 1f);
+			WindowManager.SpawnDialog("Trainer: Max reputation is applied to all categories", false, DialogWindow.DialogType.Information);
 		}
 
-		public static void AddRep()
+		public static void MaxMarketRecognition()
 		{
-			WindowManager.SpawnInputDialog("How much reputation do you want to add?", "Add Reputation", "10000", AddRepAction);
+			var softwareTypes = MarketSimulation.Active.SoftwareTypes.Values.Where(value => !value.OneClient).ToList();
+			foreach (var softwareType in softwareTypes)
+			{
+				foreach (var category in softwareType.Categories.ToList())
+				{
+					Example.AddReputation(softwareType.Name, category.Key, int.MaxValue);
+				}
+			}
+
+			WindowManager.SpawnDialog("Trainer: Max market recognition is applied to all software types and categories.", false, DialogWindow.DialogType.Information);
 		}
 
 		#endregion
