@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.7.6**
+
+19.02.2020. for Alpha 11
+- Fixed Auto Distribution Deals option
+
+---
+
 **4.7.5**
 
 14.02.2020. for Alpha 11
