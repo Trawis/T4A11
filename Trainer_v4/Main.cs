@@ -9,7 +9,7 @@ namespace Trainer_v4
 		private TrainerBehaviour _trainerBehaviour;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
-		public static string Version { get { return "(v4.7.7)"; } }
+		public static string Version { get { return "(v4.7.8)"; } }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{

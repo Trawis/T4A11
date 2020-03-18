@@ -607,7 +607,8 @@ namespace Trainer_v4
 			SDateTime time = new SDateTime(1, 70);
 			CompanyType type = new CompanyType();
 			var dict = new Dictionary<string, string[]>();
-			SimulatedCompany simComp = new SimulatedCompany("Trainer Company", time, type, dict, 0f);
+			var sim = new MarketSimulation();
+			SimulatedCompany simComp = new SimulatedCompany("Trainer Company", time, type, dict, 0f, sim);
 			simComp.CanMakeTransaction(1000000000f);
 
 			SoftwareProduct[] Products = Settings.simulation.GetAllProducts().Where(product =>

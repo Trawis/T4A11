@@ -3,6 +3,14 @@ Release notes for changes to the trainer
 
 ---
 
+
+**4.7.8**
+
+18.03.2020. for Alpha 11
+- Fixed for the new update
+
+---
+
 **4.7.7**
 
 10.03.2020. for Alpha 11
