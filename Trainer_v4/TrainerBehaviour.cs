@@ -19,6 +19,8 @@ namespace Trainer_v4
 			get { return PropertyHelper.Settings; }
 		}
 
+		private bool _specializationsLoaded = false;
+
 		private void Start()
 		{
 			PropertyHelper.Random = new Random();
@@ -79,6 +81,12 @@ namespace Trainer_v4
 			if (Input.GetKey(KeyCode.F2))
 			{
 				Main.CloseSettingsWindow();
+			}
+
+			if (!_specializationsLoaded && HUD.Instance.mainReputataionBars.company != null)
+			{
+				RefreshSpecializations();
+				_specializationsLoaded = true;
 			}
 
 			foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
@@ -315,9 +323,9 @@ namespace Trainer_v4
 			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndResearch"))
 			{
 				var researchWorks = Settings.MyCompany.WorkItems
-													  .OfType<ResearchWork>()
-													  .Where(rw => rw.Finished)
-													  .ToList();
+														.OfType<ResearchWork>()
+														.Where(rw => rw.Finished)
+														.ToList();
 
 				researchWorks.ForEach(researchWork =>
 				{
@@ -336,10 +344,10 @@ namespace Trainer_v4
 			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndPatent"))
 			{
 				var legalWorks = Settings.MyCompany.WorkItems
-												   .OfType<LegalWork>()
-												   .Where(lw => lw.CurrentStage() == "Finished" &&
+													 .OfType<LegalWork>()
+													 .Where(lw => lw.CurrentStage() == "Finished" &&
 																lw.Type == LegalWork.WorkType.Patent)
-												   .ToList();
+													 .ToList();
 
 				legalWorks.ForEach(legalWork =>
 				{
@@ -382,6 +390,29 @@ namespace Trainer_v4
 			AI.BoxPrice = PropertyHelper.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
 			Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
 			Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
+		}
+
+		private void RefreshSpecializations()
+		{
+			if (PropertyHelper.SpecializationsList != null && PropertyHelper.SpecializationsList.Count() > 0)
+			{
+				return;
+			}
+
+			var specializations = new Dictionary<string, bool>();
+
+			foreach (var role in PropertyHelper.RolesList)
+			{
+				foreach (var specialization in Settings.GetAllSpecializations(role.Key.ToEmployeeRole()))
+				{
+					if (!specializations.ContainsKey(specialization))
+					{
+						specializations.Add(specialization, false);
+					}
+				}
+			}
+
+			PropertyHelper.SpecializationsList = specializations;
 		}
 
 		//TODO: Automate software phases
@@ -457,11 +488,11 @@ namespace Trainer_v4
 			{
 				foreach (var role in selectedRoles)
 				{
-					actor.employee.ChangeSkillDirect(PropertyHelper.RoleStringToEnum[role.Key], 1f);
+					actor.employee.ChangeSkillDirect(role.Key.ToEmployeeRole(), 1f);
 
 					foreach (var specialization in selectedSpecializations)
 					{
-						actor.employee.AddSpecialization(PropertyHelper.RoleStringToEnum[role.Key], specialization.Key, false, true, 3);
+						actor.employee.AddSpecialization(role.Key.ToEmployeeRole(), specialization.Key, false, true, 3);
 					}
 				}
 			});
@@ -506,6 +537,11 @@ namespace Trainer_v4
 					&& pr.ServerReq > 0
 					&& !pr.ExternalHostingActive)
 								.ToArray();
+
+			if (Products.Length == 0)
+			{
+				return;
+			}
 
 			int index = PropertyHelper.Random.Next(0, Products.Length);
 			ServerDeal deal = new ServerDeal(Products[index]) { Request = true };
@@ -949,6 +985,12 @@ namespace Trainer_v4
 				return;
 			}
 
+			if (!simulatedCompany.CanBuyOut(Settings.MyCompany))
+			{
+				WindowManager.SpawnDialog("Trainer: Company can't be bought!", false, DialogWindow.DialogType.Information);
+				return;
+			}
+
 			var simulatedCompanyWorth = simulatedCompany.Stocks[0].CurrentWorth;
 
 			simulatedCompany.BuyOut(new Company[1]
@@ -957,7 +999,6 @@ namespace Trainer_v4
 			}, false);
 
 			Settings.MyCompany.MakeTransaction(simulatedCompanyWorth, Company.TransactionCategory.Stocks, (string)null, false);
-
 			WindowManager.SpawnDialog("Trainer: Company " + input + " has been takovered by you!", false, DialogWindow.DialogType.Information);
 		}
 

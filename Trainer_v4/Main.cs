@@ -9,11 +9,21 @@ namespace Trainer_v4
 		private TrainerBehaviour _trainerBehaviour;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
-		public static string Version { get { return "(v4.7.9)"; } }
+		public static string Version { get { return "(v4.8.0)"; } }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{
 			_trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
+		}
+
+		public static void OpenSettingsWindow()
+		{
+			SettingsWindow.Show();
+		}
+
+		public static void CloseSettingsWindow()
+		{
+			SettingsWindow.Close();
 		}
 
 		public static void CreateTrainerButton()
@@ -26,16 +36,6 @@ namespace Trainer_v4
 			WindowManager.AddElementToElement(TrainerButton.gameObject,
 					WindowManager.FindElementPath("MainPanel/Holder/FanPanel").gameObject, new Rect(164, 0, 100, 32),
 					new Rect(0, 0, 0, 0));
-		}
-
-		public static void OpenSettingsWindow()
-		{
-			SettingsWindow.Show();
-		}
-
-		public static void CloseSettingsWindow()
-		{
-			SettingsWindow.Close();
 		}
 
 		public static void AttachSkillChangeButtonToEmployeeWindow()

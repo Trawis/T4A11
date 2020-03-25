@@ -3,6 +3,14 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.0**
+
+25.03.2020. for Alpha 11
+- Preventing exceptions
+- Added dynamically specializations loading
+
+---
+
 **4.7.9**
 
 22.03.2020. for Alpha 11
