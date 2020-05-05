@@ -56,18 +56,12 @@ namespace Trainer_v4
 			List<GameObject> column3 = new List<GameObject>();
 			List<GameObject> column4 = new List<GameObject>();
 
-			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-					boxText => PropertyHelper.ProductPriceName = boxText, Window);
 
 			Utils.AddButton("AddMoney".LocDef("Add Money"), new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney, Window);
 
 			Utils.AddButton("MaxReputation".LocDef("Max Reputation"), new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxReputation, Window);
 
-			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
-
-			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
-
-			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
+			Utils.AddButton("SetUltraEfficiency".LocDef("Set UltraEfficiency"), new Rect(Constants.THIRD_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetUltraEfficiency, Window);
 
 			Utils.AddButton("MaxFollowers".LocDef("Max Followers"), new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers, Window);
 
@@ -76,6 +70,16 @@ namespace Trainer_v4
 			//Utils.AddButton("Max Code", new Rect(Constants.THIRD_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxCode, Window);
 
 			//Utils.AddButton("Max Art", new Rect(Constants.FOURTH_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxArt, Window);
+
+
+			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
+				boxText => PropertyHelper.ProductPriceName = boxText, Window);
+
+			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
+
+			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
+
+			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
 
 			Utils.AddButton("TakeoverCompany".LocDef("Takeover Company"), new Rect(Constants.FIRST_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.TakeoverCompany, Window);
 

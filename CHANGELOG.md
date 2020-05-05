@@ -4,6 +4,12 @@ Release notes for changes to the trainer
 **4.8.1**
 
 05.05.2020 for Alpha 11
+- Made the UltraEfficiencyMultiplier dynamic and settable view the settings window
+
+---
+**4.8.1**
+
+05.05.2020 for Alpha 11
 - Re-Implemented disable fires, by setting furniture to be unable to start fires.
 - Optimized the maintenance routines to not do null checks as this is expensive in C#, and implemented core game repairMe calls
 

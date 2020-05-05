@@ -234,13 +234,14 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "FullEfficiency"))
 				{
+					int leadEfficiency = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? PropertyHelper.UltraEfficiencyMultipplier : 4;
 					if (employee.RoleString.Contains("Lead"))
 					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 20 : 4;
+						actor.Effectiveness = leadEfficiency;
 					}
 					else
 					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 10 : 2;
+						actor.Effectiveness = (int)((float)leadEfficiency * 0.5);
 					}
 				}
 
@@ -1106,11 +1107,22 @@ namespace Trainer_v4
 			WindowManager.SpawnDialog("Trainer: Max market recognition is applied to all software types and categories.", false, DialogWindow.DialogType.Information);
 		}
 
-		#endregion
+        #endregion
 
-		#region Overrides
+        #region UltraEfficiency
+		public static void SetUltraEfficiency(string input)
+		{
+			PropertyHelper.UltraEfficiencyMultipplier = input.ConvertToIntDef(20);
+		}
+		public static void SetUltraEfficiency()
+		{
+			WindowManager.SpawnInputDialog("What would you like to make the Ultra Effieciency multiplier? (min 20)", "UltraEfficiency", PropertyHelper.UltraEfficiencyMultipplier.ToString(), SetUltraEfficiency);
+		}
+        #endregion
 
-		public override void OnActivate() { }
+        #region Overrides
+
+        public override void OnActivate() { }
 
 		public override void OnDeactivate() { }
 

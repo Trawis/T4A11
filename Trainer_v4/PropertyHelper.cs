@@ -10,6 +10,9 @@ namespace Trainer_v4
 		public static bool DealIsPushed { get; set; }
 		public static string ProductPriceName { get; set; }
 
+		private static int _UltraEfficiencyStore = 20;
+		public static int UltraEfficiencyMultipplier { get { return _UltraEfficiencyStore; } set { _UltraEfficiencyStore = value > 20 ? value : 20; } }
+
 		public static bool IsGameLoaded
 		{
 			get { return GameSettings.Instance != null && HUD.Instance != null; }
