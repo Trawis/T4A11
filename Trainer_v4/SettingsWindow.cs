@@ -169,8 +169,8 @@ namespace Trainer_v4
 			//Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty(settings, "DisableBurglars"),
 			//    a => PropertyHelper.SetProperty(settings, "DisableBurglars", !PropertyHelper.GetProperty(settings, "DisableBurglars")), ref column3);
 
-			//Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
-			//    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
+			Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
+			    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), column3);
 
 			Utils.AddToggle("AutoDesignEnd".LocDef("Auto Design End"), PropertyHelper.GetProperty(settings, "AutoEndDesign"),
 					a => PropertyHelper.SetProperty(settings, "AutoEndDesign", !PropertyHelper.GetProperty(settings, "AutoEndDesign")), column3);
