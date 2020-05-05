@@ -107,9 +107,19 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
 				{
-					furniture.Parent.Temperature = 21f;
+					// turn off the matches
+					if (furniture.HasUpg && furniture.upg.FireStarter > 0.0f)
+					{
+						furniture.upg.FireStarter = 0.0f;
+					}
+					// put out the fires
 					if (furniture.Parent.IsOnFire)
 					{
+						// prevent scary temps
+						if (furniture.Parent.Temperature > 40f)
+						{
+							furniture.Parent.Temperature = 21f;
+						}
 						furniture.Parent.StopFire();
 					}
 				}
@@ -139,12 +149,12 @@ namespace Trainer_v4
 						case "Sink":
 						case "Toilet":
 						case "Ventilation":
-							if (furniture.upg != null && furniture.upg.Quality < 0.8f)
-							{
-								furniture.upg.Quality = 1f;
-								furniture.upg.Broken = false;
-							}
 							break;
+					}
+					// Just repair everything. If below 80% or if already broken fix it.
+					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
+					{
+						furniture.upg.RepairMe();
 					}
 				}
 			}
@@ -1063,7 +1073,6 @@ namespace Trainer_v4
 			Settings.MyCompany.MakeTransaction(input.ConvertToIntDef(100000), Company.TransactionCategory.Deals);
 			HUD.Instance.AddPopupMessage("Trainer: Money has been added in category Deals!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
-
 		public static void IncreaseMoney()
 		{
 			WindowManager.SpawnInputDialog("How much money do you want to add?", "Add Money", "100000", IncreaseMoneyAction);
