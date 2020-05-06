@@ -686,7 +686,7 @@ namespace Trainer_v4
 			{
 				var item = Settings.sActorManager.Actors[i];
 
-				item.employee.AgeMonth = 240;
+				item.employee.AgeMonth = Employee.Youngest * 12;
 				item.UpdateAgeLook();
 			}
 
