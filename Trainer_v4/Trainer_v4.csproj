@@ -43,36 +43,30 @@
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
-    <Content Include="Libraries\Assembly-CSharp.dll" />
-    <Content Include="Libraries\UnityEngine.CoreModule.dll" />
-    <Content Include="Libraries\UnityEngine.dll" />
-    <Content Include="Libraries\UnityEngine.UI.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <Folder Include="Libraries\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Software Inc_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Software Inc_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Software Inc_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Software Inc_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Software Inc_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
