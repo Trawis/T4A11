@@ -1,7 +1,7 @@
 # Changelog
 Release notes for changes to the trainer
 ---
-**4.8.1**
+**4.8.2**
 
 05.05.2020 for Alpha 11
 - Made the UltraEfficiencyMultiplier dynamic and settable view the settings window
