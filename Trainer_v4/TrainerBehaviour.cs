@@ -107,9 +107,19 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
 				{
-					furniture.Parent.Temperature = 21f;
+					// turn off the matches
+					if (furniture.HasUpg && furniture.upg.FireStarter > 0.0f)
+					{
+						furniture.upg.FireStarter = 0.0f;
+					}
+					// put out the fires
 					if (furniture.Parent.IsOnFire)
 					{
+						// prevent scary temps
+						if (furniture.Parent.Temperature > 40f)
+						{
+							furniture.Parent.Temperature = 21f;
+						}
 						furniture.Parent.StopFire();
 					}
 				}
@@ -139,12 +149,12 @@ namespace Trainer_v4
 						case "Sink":
 						case "Toilet":
 						case "Ventilation":
-							if (furniture.upg != null && furniture.upg.Quality < 0.8f)
-							{
-								furniture.upg.Quality = 1f;
-								furniture.upg.Broken = false;
-							}
 							break;
+					}
+					// Just repair everything. If below 80% or if already broken fix it.
+					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
+					{
+						furniture.upg.RepairMe();
 					}
 				}
 			}
@@ -224,13 +234,14 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "FullEfficiency"))
 				{
+					int leadEfficiency = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? PropertyHelper.UltraEfficiencyMultipplier : 4;
 					if (employee.RoleString.Contains("Lead"))
 					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 20 : 4;
+						actor.Effectiveness = leadEfficiency;
 					}
 					else
 					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 10 : 2;
+						actor.Effectiveness = (int)((float)leadEfficiency * 0.5);
 					}
 				}
 
@@ -675,7 +686,7 @@ namespace Trainer_v4
 			{
 				var item = Settings.sActorManager.Actors[i];
 
-				item.employee.AgeMonth = 240;
+				item.employee.AgeMonth = Employee.Youngest * 12;
 				item.UpdateAgeLook();
 			}
 
@@ -1063,7 +1074,6 @@ namespace Trainer_v4
 			Settings.MyCompany.MakeTransaction(input.ConvertToIntDef(100000), Company.TransactionCategory.Deals);
 			HUD.Instance.AddPopupMessage("Trainer: Money has been added in category Deals!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
-
 		public static void IncreaseMoney()
 		{
 			WindowManager.SpawnInputDialog("How much money do you want to add?", "Add Money", "100000", IncreaseMoneyAction);
@@ -1097,11 +1107,22 @@ namespace Trainer_v4
 			WindowManager.SpawnDialog("Trainer: Max market recognition is applied to all software types and categories.", false, DialogWindow.DialogType.Information);
 		}
 
-		#endregion
+        #endregion
 
-		#region Overrides
+        #region UltraEfficiency
+		public static void SetUltraEfficiency(string input)
+		{
+			PropertyHelper.UltraEfficiencyMultipplier = input.ConvertToIntDef(20);
+		}
+		public static void SetUltraEfficiency()
+		{
+			WindowManager.SpawnInputDialog("What would you like to make the Ultra Effieciency multiplier? (min 20)", "UltraEfficiency", PropertyHelper.UltraEfficiencyMultipplier.ToString(), SetUltraEfficiency);
+		}
+        #endregion
 
-		public override void OnActivate() { }
+        #region Overrides
+
+        public override void OnActivate() { }
 
 		public override void OnDeactivate() { }
 

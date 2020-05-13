@@ -43,13 +43,6 @@
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
-    <Content Include="Libraries\Assembly-CSharp.dll" />
-    <Content Include="Libraries\UnityEngine.CoreModule.dll" />
-    <Content Include="Libraries\UnityEngine.dll" />
-    <Content Include="Libraries\UnityEngine.UI.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +67,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\UnityEngine.UI.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libraries\Assembly-CSharp-firstpass.dll" />
+    <Content Include="Libraries\Assembly-CSharp.dll" />
+    <Content Include="Libraries\UnityEngine.CoreModule.dll" />
+    <Content Include="Libraries\UnityEngine.dll" />
+    <Content Include="Libraries\UnityEngine.UI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
