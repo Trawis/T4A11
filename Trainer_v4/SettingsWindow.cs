@@ -247,7 +247,7 @@ namespace Trainer_v4
 			Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);
 			Utils.CreateGameObjects(Constants.THIRD_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column3.ToArray(), Window);
 			Utils.CreateGameObjects(Constants.FOURTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column4.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.FIFTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column5.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.FIFTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column5.ToArray(), Window, true);
 
 			int[] columnsCount = new int[]
 			{
