@@ -9,7 +9,7 @@ namespace Trainer_v4
 		private TrainerBehaviour _trainerBehaviour;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
-		public static string Version { get { return "(v4.8.2)"; } }
+		public static string Version { get { return "(v4.8.3)"; } }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{
@@ -63,24 +63,32 @@ namespace Trainer_v4
 		{
 			var data = new WriteDictionary();
 
-			foreach (var Pair in PropertyHelper.Settings)
+			foreach (var setting in PropertyHelper.Settings)
 			{
-				data[Pair.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, Pair.Key);
+				data[setting.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, setting.Key);
 			}
-			data["UltraEfficiencyMultiplier"] = PropertyHelper.UltraEfficiencyMultipplier;
+
+			foreach (var store in PropertyHelper.Stores)
+			{
+				data[store.Key] = PropertyHelper.GetProperty(PropertyHelper.Stores, store.Key);
+			}
 
 			return data;
 		}
 
 		public override void Deserialize(WriteDictionary data, GameReader.LoadMode mode)
 		{
-			var keys = PropertyHelper.Settings.Keys.ToList();
-			foreach (var key in keys)
+			var settings = PropertyHelper.Settings.Keys.ToList();
+			foreach (var setting in settings)
 			{
-				PropertyHelper.SetProperty(PropertyHelper.Settings, key, data.Get(key, PropertyHelper.GetProperty(PropertyHelper.Settings, key)));
+				PropertyHelper.SetProperty(PropertyHelper.Settings, setting, data.Get(setting, PropertyHelper.GetProperty(PropertyHelper.Settings, setting)));
 			}
-			PropertyHelper.UltraEfficiencyMultipplier = (int)data.Get("UltraEfficiencyMultiplier", 20);
 
+			var stores = PropertyHelper.Stores.Keys.ToList();
+			foreach (var store in stores)
+			{
+				PropertyHelper.SetProperty(PropertyHelper.Stores, store, data.Get(store, PropertyHelper.GetProperty(PropertyHelper.Stores, store)));
+			}
 		}
 
 		public override string Name

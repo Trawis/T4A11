@@ -1,12 +1,25 @@
 # Changelog
 Release notes for changes to the trainer
+
 ---
+
+**4.8.3**
+
+03.06.2020 for Alpha 11
+- Replaced "Full Efficiency" and "Ultra Efficiency" options with combo boxes
+- Removed Ultra Efficiency multiplier and its settings
+- Added "DisableFires" variable in localization file
+- Removed "FullEfficiency" and "UltraEfficiency" from localization file
+
+---
+
 **4.8.2**
 
 05.05.2020 for Alpha 11
 - Made the UltraEfficiencyMultiplier dynamic and settable view the settings window
 
 ---
+
 **4.8.1**
 
 05.05.2020 for Alpha 11

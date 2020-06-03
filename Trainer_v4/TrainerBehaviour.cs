@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrbCreationExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
@@ -17,6 +18,11 @@ namespace Trainer_v4
 		private static Dictionary<string, bool> TrainerSettings
 		{
 			get { return PropertyHelper.Settings; }
+		}
+
+		private static Dictionary<string, object> Stores
+		{
+			get { return PropertyHelper.Stores; }
 		}
 
 		private bool _specializationsLoaded = false;
@@ -107,15 +113,12 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
 				{
-					// turn off the matches
 					if (furniture.HasUpg && furniture.upg.FireStarter > 0.0f)
 					{
 						furniture.upg.FireStarter = 0.0f;
 					}
-					// put out the fires
 					if (furniture.Parent.IsOnFire)
 					{
-						// prevent scary temps
 						if (furniture.Parent.Temperature > 40f)
 						{
 							furniture.Parent.Temperature = 21f;
@@ -151,7 +154,6 @@ namespace Trainer_v4
 						case "Ventilation":
 							break;
 					}
-					// Just repair everything. If below 80% or if already broken fix it.
 					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
 					{
 						furniture.upg.RepairMe();
@@ -223,7 +225,7 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "LockAge"))
 				{
-					employee.AgeMonth = (int)employee.Age * 12; //20*12
+					employee.AgeMonth = (int)employee.Age * 12;
 					actor.UpdateAgeLook();
 				}
 
@@ -232,18 +234,7 @@ namespace Trainer_v4
 					employee.Stress = 1;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FullEfficiency"))
-				{
-					int leadEfficiency = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? PropertyHelper.UltraEfficiencyMultipplier : 4;
-					if (employee.RoleString.Contains("Lead"))
-					{
-						actor.Effectiveness = leadEfficiency;
-					}
-					else
-					{
-						actor.Effectiveness = (int)((float)leadEfficiency * 0.5);
-					}
-				}
+				actor.Effectiveness = (employee.RoleString.Contains("Lead") ? PropertyHelper.GetProperty(Stores, "LeadEfficiencyStore") : PropertyHelper.GetProperty(Stores, "EfficiencyStore")).MakeFloat();
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
 				{
@@ -684,10 +675,10 @@ namespace Trainer_v4
 		{
 			for (int i = 0; i < Settings.sActorManager.Actors.Count; i++)
 			{
-				var item = Settings.sActorManager.Actors[i];
+				var actor = Settings.sActorManager.Actors[i];
 
-				item.employee.AgeMonth = Employee.Youngest * 12;
-				item.UpdateAgeLook();
+				actor.employee.AgeMonth = Employee.Youngest * 12;
+				actor.UpdateAgeLook();
 			}
 
 			HUD.Instance.AddPopupMessage("Trainer: Employees age has been reset!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
@@ -1107,22 +1098,11 @@ namespace Trainer_v4
 			WindowManager.SpawnDialog("Trainer: Max market recognition is applied to all software types and categories.", false, DialogWindow.DialogType.Information);
 		}
 
-        #endregion
+		#endregion
 
-        #region UltraEfficiency
-		public static void SetUltraEfficiency(string input)
-		{
-			PropertyHelper.UltraEfficiencyMultipplier = input.ConvertToIntDef(20);
-		}
-		public static void SetUltraEfficiency()
-		{
-			WindowManager.SpawnInputDialog("What would you like to make the Ultra Effieciency multiplier? (min 20)", "UltraEfficiency", PropertyHelper.UltraEfficiencyMultipplier.ToString(), SetUltraEfficiency);
-		}
-        #endregion
+		#region Overrides
 
-        #region Overrides
-
-        public override void OnActivate() { }
+		public override void OnActivate() { }
 
 		public override void OnDeactivate() { }
 
