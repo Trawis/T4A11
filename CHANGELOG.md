@@ -3,6 +3,38 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.4**
+
+03.06.2020. for Alpha 11
+- Added labels for combo boxes
+
+---
+
+**4.8.3**
+
+03.06.2020. for Alpha 11
+- Replaced "Full Efficiency" and "Ultra Efficiency" options with combo boxes
+- Removed Ultra Efficiency multiplier and its settings
+- Added "DisableFires" variable in localization file
+- Removed "FullEfficiency" and "UltraEfficiency" from localization file
+
+---
+
+**4.8.2**
+
+05.05.. for Alpha 11
+- Made the UltraEfficiencyMultiplier dynamic and settable view the settings window
+
+---
+
+**4.8.1**
+
+05.05.2020. for Alpha 11
+- Re-Implemented disable fires, by setting furniture to be unable to start fires.
+- Optimized the maintenance routines to not do null checks as this is expensive in C#, and implemented core game repairMe calls
+
+---
+
 **4.8.0**
 
 25.03.2020. for Alpha 11

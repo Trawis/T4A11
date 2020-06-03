@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using OrbCreationExtensions;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils = Trainer_v4.Utilities;
@@ -38,6 +40,8 @@ namespace Trainer_v4
 		private static void Init()
 		{
 			var settings = PropertyHelper.Settings;
+			var stores = PropertyHelper.Stores;
+			var efficiencyValues = PropertyHelper.EfficiencyValues;
 
 			Window = WindowManager.SpawnWindow();
 			Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = _title;
@@ -55,19 +59,12 @@ namespace Trainer_v4
 			List<GameObject> column2 = new List<GameObject>();
 			List<GameObject> column3 = new List<GameObject>();
 			List<GameObject> column4 = new List<GameObject>();
+			List<GameObject> column5 = new List<GameObject>();
 
-			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
-					boxText => PropertyHelper.ProductPriceName = boxText, Window);
 
 			Utils.AddButton("AddMoney".LocDef("Add Money"), new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney, Window);
 
 			Utils.AddButton("MaxReputation".LocDef("Max Reputation"), new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxReputation, Window);
-
-			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
-
-			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
-
-			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
 
 			Utils.AddButton("MaxFollowers".LocDef("Max Followers"), new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers, Window);
 
@@ -76,6 +73,16 @@ namespace Trainer_v4
 			//Utils.AddButton("Max Code", new Rect(Constants.THIRD_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxCode, Window);
 
 			//Utils.AddButton("Max Art", new Rect(Constants.FOURTH_COLUMN, Constants.SECOND_ROW, Constants.Y_BUTTON_WIDTH, Constants.Y_BUTTON_HEIGHT), TrainerBehaviour.MaxArt, Window);
+
+
+			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
+				boxText => PropertyHelper.ProductPriceName = boxText, Window);
+
+			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
+
+			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
+
+			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
 
 			Utils.AddButton("TakeoverCompany".LocDef("Takeover Company"), new Rect(Constants.FIRST_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.TakeoverCompany, Window);
 
@@ -123,9 +130,6 @@ namespace Trainer_v4
 			Utils.AddToggle("FreeStaff".LocDef("Free Staff"), PropertyHelper.GetProperty(settings, "FreeStaff"),
 					a => PropertyHelper.SetProperty(settings, "FreeStaff", !PropertyHelper.GetProperty(settings, "FreeStaff")), column2);
 
-			Utils.AddToggle("FullEfficiency".LocDef("Full Efficiency"), PropertyHelper.GetProperty(settings, "FullEfficiency"),
-					a => PropertyHelper.SetProperty(settings, "FullEfficiency", !PropertyHelper.GetProperty(settings, "FullEfficiency")), column2);
-
 			Utils.AddToggle("FullSatisfaction".LocDef("Full Satisfaction"), PropertyHelper.GetProperty(settings, "FullSatisfaction"),
 					a => PropertyHelper.SetProperty(settings, "FullSatisfaction", !PropertyHelper.GetProperty(settings, "FullSatisfaction")), column2);
 
@@ -137,9 +141,6 @@ namespace Trainer_v4
 
 			Utils.AddToggle("NoSickness".LocDef("No Sickness"), PropertyHelper.GetProperty(settings, "NoSickness"),
 					a => PropertyHelper.SetProperty(settings, "NoSickness", !PropertyHelper.GetProperty(settings, "NoSickness")), column2);
-
-			Utils.AddToggle("UltraEfficiency".LocDef("Ultra Efficiency (Tick Full Eff first)"), PropertyHelper.GetProperty(settings, "UltraEfficiency"),
-					a => PropertyHelper.SetProperty(settings, "UltraEfficiency", !PropertyHelper.GetProperty(settings, "UltraEfficiency")), column2);
 
 			#endregion
 
@@ -169,8 +170,8 @@ namespace Trainer_v4
 			//Utils.AddToggle("Disable Burglars", PropertyHelper.GetProperty(settings, "DisableBurglars"),
 			//    a => PropertyHelper.SetProperty(settings, "DisableBurglars", !PropertyHelper.GetProperty(settings, "DisableBurglars")), ref column3);
 
-			//Utils.AddToggle("Disable Fires", PropertyHelper.GetProperty(settings, "DisableFires"),
-			//    a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), ref column3);
+			Utils.AddToggle("DisableFires".LocDef("Disable Fires"), PropertyHelper.GetProperty(settings, "DisableFires"),
+					a => PropertyHelper.SetProperty(settings, "DisableFires", !PropertyHelper.GetProperty(settings, "DisableFires")), column3);
 
 			Utils.AddToggle("AutoDesignEnd".LocDef("Auto Design End"), PropertyHelper.GetProperty(settings, "AutoEndDesign"),
 					a => PropertyHelper.SetProperty(settings, "AutoEndDesign", !PropertyHelper.GetProperty(settings, "AutoEndDesign")), column3);
@@ -223,16 +224,34 @@ namespace Trainer_v4
 
 			Utils.AddToggle("ReduceBoxPrice".LocDef("Reduce Box Price"), PropertyHelper.GetProperty(settings, "ReduceBoxPrice"),
 								a => PropertyHelper.SetProperty(settings, "ReduceBoxPrice", !PropertyHelper.GetProperty(settings, "ReduceBoxPrice")), column4);
+
+			#endregion
+
+			#region column5
+
+			GUICombobox efficiencyComboBox = Utils.AddComboBox("Efficiency", efficiencyValues, PropertyHelper.GetIndex(efficiencyValues, stores, "EfficiencyStore", 2), column5);
+			efficiencyComboBox.OnSelectedChanged.AddListener(delegate ()
+			{
+				PropertyHelper.SetProperty(stores, "EfficiencyStore", efficiencyValues[efficiencyComboBox.Selected].Value);
+			});
+
+			GUICombobox leadEfficiencyComboBox = Utils.AddComboBox("Lead Efficiency", PropertyHelper.EfficiencyValues, PropertyHelper.GetIndex(efficiencyValues, stores, "LeadEfficiencyStore", 2), column5);
+			leadEfficiencyComboBox.OnSelectedChanged.AddListener(delegate ()
+			{
+				PropertyHelper.SetProperty(stores, "LeadEfficiencyStore", efficiencyValues[leadEfficiencyComboBox.Selected].Value);
+			});
+
 			#endregion
 
 			Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
 			Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);
 			Utils.CreateGameObjects(Constants.THIRD_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column3.ToArray(), Window);
 			Utils.CreateGameObjects(Constants.FOURTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column4.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.FIFTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column5.ToArray(), Window, true);
 
 			int[] columnsCount = new int[]
 			{
-				column1.Count(), column2.Count(), column3.Count(), column4.Count()
+				column1.Count(), column2.Count(), column3.Count(), column4.Count(), column5.Count()
 			};
 
 			Utils.SetWindowSize(columnsCount, Constants.X_SETTINGS_WINDOW, Constants.Y_SETTINGS_WINDOW_OFFSET, Window);

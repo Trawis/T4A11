@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrbCreationExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
@@ -17,6 +18,11 @@ namespace Trainer_v4
 		private static Dictionary<string, bool> TrainerSettings
 		{
 			get { return PropertyHelper.Settings; }
+		}
+
+		private static Dictionary<string, object> Stores
+		{
+			get { return PropertyHelper.Stores; }
 		}
 
 		private bool _specializationsLoaded = false;
@@ -107,9 +113,16 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
 				{
-					furniture.Parent.Temperature = 21f;
+					if (furniture.HasUpg && furniture.upg.FireStarter > 0.0f)
+					{
+						furniture.upg.FireStarter = 0.0f;
+					}
 					if (furniture.Parent.IsOnFire)
 					{
+						if (furniture.Parent.Temperature > 40f)
+						{
+							furniture.Parent.Temperature = 21f;
+						}
 						furniture.Parent.StopFire();
 					}
 				}
@@ -139,12 +152,11 @@ namespace Trainer_v4
 						case "Sink":
 						case "Toilet":
 						case "Ventilation":
-							if (furniture.upg != null && furniture.upg.Quality < 0.8f)
-							{
-								furniture.upg.Quality = 1f;
-								furniture.upg.Broken = false;
-							}
 							break;
+					}
+					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
+					{
+						furniture.upg.RepairMe();
 					}
 				}
 			}
@@ -213,7 +225,7 @@ namespace Trainer_v4
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "LockAge"))
 				{
-					employee.AgeMonth = (int)employee.Age * 12; //20*12
+					employee.AgeMonth = (int)employee.Age * 12;
 					actor.UpdateAgeLook();
 				}
 
@@ -222,17 +234,7 @@ namespace Trainer_v4
 					employee.Stress = 1;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FullEfficiency"))
-				{
-					if (employee.RoleString.Contains("Lead"))
-					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 20 : 4;
-					}
-					else
-					{
-						actor.Effectiveness = PropertyHelper.GetProperty(TrainerSettings, "UltraEfficiency") ? 10 : 2;
-					}
-				}
+				actor.Effectiveness = (employee.RoleString.Contains("Lead") ? PropertyHelper.GetProperty(Stores, "LeadEfficiencyStore") : PropertyHelper.GetProperty(Stores, "EfficiencyStore")).MakeFloat();
 
 				if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
 				{
@@ -673,10 +675,10 @@ namespace Trainer_v4
 		{
 			for (int i = 0; i < Settings.sActorManager.Actors.Count; i++)
 			{
-				var item = Settings.sActorManager.Actors[i];
+				var actor = Settings.sActorManager.Actors[i];
 
-				item.employee.AgeMonth = 240;
-				item.UpdateAgeLook();
+				actor.employee.AgeMonth = Employee.Youngest * 12;
+				actor.UpdateAgeLook();
 			}
 
 			HUD.Instance.AddPopupMessage("Trainer: Employees age has been reset!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
@@ -1063,7 +1065,6 @@ namespace Trainer_v4
 			Settings.MyCompany.MakeTransaction(input.ConvertToIntDef(100000), Company.TransactionCategory.Deals);
 			HUD.Instance.AddPopupMessage("Trainer: Money has been added in category Deals!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
-
 		public static void IncreaseMoney()
 		{
 			WindowManager.SpawnInputDialog("How much money do you want to add?", "Add Money", "100000", IncreaseMoneyAction);
