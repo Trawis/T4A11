@@ -10,7 +10,7 @@ namespace Trainer_v4
 {
 	public class TrainerBehaviour : ModBehaviour
 	{
-		private bool _specializationsLoaded = false;
+		private bool _specializationsLoaded;
 
 		private static GameSettings Settings => GameSettings.Instance;
 		private static Dictionary<string, bool> TrainerSettings => Helpers.Settings;
@@ -42,15 +42,14 @@ namespace Trainer_v4
 						}
 						break;
 					case "MainScene":
-						Main.CreateTrainerButton();
-						Main.AttachSkillChangeButtonToEmployeeWindow();
+						Main.CreateUIButtons();
 						break;
 					case "Customization":
-						ActorCustomization.StartYears = new []
+						ActorCustomization.StartYears = new[]
 						{
 							1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
 						};
-						ActorCustomization.StartLoans = new []
+						ActorCustomization.StartLoans = new[]
 						{
 							0, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000
 						};
@@ -146,6 +145,7 @@ namespace Trainer_v4
 						default:
 							break;
 					}
+
 					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
 					{
 						furniture.upg.RepairMe();
@@ -343,7 +343,7 @@ namespace Trainer_v4
 
 			if (Helpers.GetProperty(TrainerSettings, "NoEducationCost"))
 			{
-				EducationWindow.EdCost = new []
+				EducationWindow.EdCost = new[]
 				{
 					0f, 0f, 0f
 				};
@@ -652,6 +652,7 @@ namespace Trainer_v4
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, 3);
 							break;
 						default:
+							Logger.Log("Unsupported role");
 							break;
 					}
 				}

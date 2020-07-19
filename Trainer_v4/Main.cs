@@ -7,6 +7,7 @@ namespace Trainer_v4
 	public class Main : ModMeta
 	{
 		private TrainerBehaviour _trainerBehaviour;
+		public override string Name => Helpers.TrainerVersion;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
 
@@ -25,28 +26,13 @@ namespace Trainer_v4
 			SettingsWindow.Close();
 		}
 
-		public static void CreateTrainerButton()
+		public static void CreateUIButtons()
 		{
-			TrainerButton = WindowManager.SpawnButton();
-			TrainerButton.GetComponentInChildren<Text>().text = Helpers.TrainerVersion;
-			TrainerButton.onClick.AddListener(() => SettingsWindow.Show());
-			TrainerButton.name = "TrainerButton";
+			TrainerButton = Utilities.CreateUIButton(() => SettingsWindow.Show(), Helpers.TrainerVersion, "TrainerButton");
+			SkillChangeButton = Utilities.CreateUIButton(() => EmployeeSkillChangeWindow.Show(), "Skill Change", "EmployeeSkillButton");
 
-			WindowManager.AddElementToElement(TrainerButton.gameObject,
-					WindowManager.FindElementPath("MainPanel/Holder/FanPanel").gameObject, new Rect(164, 0, 100, 32),
-					new Rect(0, 0, 0, 0));
-		}
-
-		public static void AttachSkillChangeButtonToEmployeeWindow()
-		{
-			SkillChangeButton = WindowManager.SpawnButton();
-			SkillChangeButton.GetComponentInChildren<Text>().text = "Skill Change";
-			SkillChangeButton.onClick.AddListener(() => EmployeeSkillChangeWindow.Show());
-			SkillChangeButton.name = "EmployeeSkillButton";
-
-			WindowManager.AddElementToElement(SkillChangeButton.gameObject,
-					WindowManager.FindElementPath("ActorWindow/ContentPanel/Panel").gameObject, new Rect(0, 0, 100, 32),
-					new Rect(0, 0, 0, 0));
+			Utilities.AddElementToElement(TrainerButton.gameObject, "MainPanel/Holder/FanPanel", new Rect(164, 0, 100, 32));
+			Utilities.AddElementToElement(SkillChangeButton.gameObject, "ActorWindow/ContentPanel/Panel", new Rect(0, 0, 100, 32));
 		}
 
 		public override void ConstructOptionsScreen(RectTransform parent, bool inGame)
@@ -61,7 +47,6 @@ namespace Trainer_v4
 		public override WriteDictionary Serialize(GameReader.LoadMode mode)
 		{
 			var data = new WriteDictionary();
-
 			foreach (var setting in Helpers.Settings)
 			{
 				data[setting.Key] = Helpers.GetProperty(Helpers.Settings, setting.Key);
@@ -87,14 +72,6 @@ namespace Trainer_v4
 			foreach (var store in stores)
 			{
 				Helpers.SetProperty(Helpers.Stores, store, data.Get(store, Helpers.GetProperty(Helpers.Stores, store)));
-			}
-		}
-
-		public override string Name
-		{
-			get
-			{
-				return Helpers.TrainerVersion;
 			}
 		}
 	}

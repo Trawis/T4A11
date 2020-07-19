@@ -72,8 +72,8 @@ namespace Trainer_v4
 
 			int[] columnsCount = new int[]
 			{
-								roleToggles.Count(),
-								specializationToggles.Count()
+				roleToggles.Count(),
+					specializationToggles.Count()
 			};
 
 			Utils.SetWindowSize(columnsCount, Constants.X_EMPLOYEESKILLCHANGE_WINDOW, Constants.Y_EMPLOYEESKILLCHANGE_WINDOW_OFFSET, Window);

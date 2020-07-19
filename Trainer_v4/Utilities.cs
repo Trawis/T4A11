@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using OrbCreationExtensions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -72,6 +71,21 @@ namespace Trainer_v4
 						new Rect(column, (i + skipRows - (isComboBox ? 1 : 0)) * Constants.ELEMENT_HEIGHT + (isComboBox && i % 2 == 0 ? 16 : 0), Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT),
 						new Rect(0, 0, 0, 0));
 			}
+		}
+
+		public static Button CreateUIButton(UnityAction action, string title, string name)
+		{
+			var button = WindowManager.SpawnButton();
+			button.GetComponentInChildren<Text>().text = title;
+			button.onClick.AddListener(action);
+			button.name = name;
+
+			return button;
+		}
+
+		public static void AddElementToElement(GameObject gameObject, string path, Rect location)
+		{
+			WindowManager.AddElementToElement(gameObject, WindowManager.FindElementPath(path).gameObject, location, new Rect(0, 0, 0, 0));
 		}
 
 		public static void SetWindowSize(int[] colums, int xWindowSize, int yWindowOffset, GUIWindow window)

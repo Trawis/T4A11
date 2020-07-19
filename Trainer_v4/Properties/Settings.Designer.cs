@@ -34,7 +34,7 @@ namespace Trainer_v4.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4.8.4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("4.8.5")]
         public string Version {
             get {
                 return ((string)(this["Version"]));

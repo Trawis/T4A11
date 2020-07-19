@@ -61,7 +61,6 @@ namespace Trainer_v4
 
 			Utils.AddButton("AddMoney".LocDef("Add Money"), new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney, Window);
 			Utils.AddButton("MaxFollowers".LocDef("Max Followers"), new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers, Window);
-			Utils.AddButton("AddQuality".LocDef("Add Quality"), new Rect(Constants.FIRST_COLUMN, Constants.THIRD_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddQuality, Window);
 			Utils.AddButton("MaxReputation".LocDef("Max Reputation"), new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxReputation, Window);
 			Utils.AddButton("FixBugs".LocDef("Fix Bugs"), new Rect(Constants.SECOND_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.FixBugs, Window);
 			Utils.AddButton("Discord".LocDef("DISCORD"), new Rect(Constants.FIFTH_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), () => TrainerBehaviour.ShowDiscordInvite(), Window);
@@ -90,7 +89,7 @@ namespace Trainer_v4
 
 			if (Helpers.IsDEV)
 			{
-				Utils.AddButton("Test".LocDef("Test"), TrainerBehaviour.Test, column1);
+				Utils.AddButton("Test".LocDef("Test"), TrainerBehaviour.AddQuality, column1);
 			}
 
 			#endregion
