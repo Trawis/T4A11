@@ -10,26 +10,15 @@ namespace Trainer_v4
 {
 	public class TrainerBehaviour : ModBehaviour
 	{
-		private static GameSettings Settings
-		{
-			get { return GameSettings.Instance; }
-		}
-
-		private static Dictionary<string, bool> TrainerSettings
-		{
-			get { return PropertyHelper.Settings; }
-		}
-
-		private static Dictionary<string, object> Stores
-		{
-			get { return PropertyHelper.Stores; }
-		}
-
 		private bool _specializationsLoaded = false;
+
+		private static GameSettings Settings => GameSettings.Instance;
+		private static Dictionary<string, bool> TrainerSettings => Helpers.Settings;
+		private static Dictionary<string, object> Stores => Helpers.Stores;
 
 		private void Start()
 		{
-			PropertyHelper.Random = new Random();
+			Helpers.Random = new Random();
 
 			if (!isActiveAndEnabled)
 			{
@@ -57,11 +46,11 @@ namespace Trainer_v4
 						Main.AttachSkillChangeButtonToEmployeeWindow();
 						break;
 					case "Customization":
-						ActorCustomization.StartYears = new int[]
+						ActorCustomization.StartYears = new []
 						{
 							1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
 						};
-						ActorCustomization.StartLoans = new int[]
+						ActorCustomization.StartLoans = new []
 						{
 							0, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000
 						};
@@ -74,7 +63,7 @@ namespace Trainer_v4
 
 		private void Update()
 		{
-			if (!isActiveAndEnabled || !PropertyHelper.IsGameLoaded)
+			if (!isActiveAndEnabled || !Helpers.IsGameLoaded)
 			{
 				return;
 			}
@@ -91,13 +80,14 @@ namespace Trainer_v4
 
 			if (!_specializationsLoaded && HUD.Instance.mainReputataionBars.company != null)
 			{
-				RefreshSpecializations();
+				LoadSpecializations();
 				_specializationsLoaded = true;
+				ShowDiscordInvite(displayAsPopup: true);
 			}
 
 			foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
 			{
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
+				if (Helpers.GetProperty(TrainerSettings, "NoiseReduction"))
 				{
 					furniture.ActorNoise = 0f;
 					furniture.EnvironmentNoise = 0f;
@@ -105,13 +95,13 @@ namespace Trainer_v4
 					furniture.Noisiness = 0;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoWaterElectricity"))
+				if (Helpers.GetProperty(TrainerSettings, "NoWaterElectricity"))
 				{
 					furniture.Water = 0;
 					furniture.Wattage = 0;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "DisableFires"))
+				if (Helpers.GetProperty(TrainerSettings, "DisableFires"))
 				{
 					if (furniture.HasUpg && furniture.upg.FireStarter > 0.0f)
 					{
@@ -127,13 +117,13 @@ namespace Trainer_v4
 					}
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
+				if (Helpers.GetProperty(TrainerSettings, "IncreaseBookshelfSkill") && furniture.Type == "Bookshelf")
 				{
 					furniture.AuraValues[1] = 0.75f;
 				}
 
 				//TODO: else 0.25
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoMaintenance"))
+				if (Helpers.GetProperty(TrainerSettings, "NoMaintenance"))
 				{
 					switch (furniture.Type)
 					{
@@ -153,6 +143,8 @@ namespace Trainer_v4
 						case "Toilet":
 						case "Ventilation":
 							break;
+						default:
+							break;
 					}
 					if (furniture.HasUpg && (furniture.upg.Quality < 0.8f || furniture.upg.Broken))
 					{
@@ -165,22 +157,22 @@ namespace Trainer_v4
 			{
 				Room room = Settings.sRoomManager.Rooms[i];
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "CleanRooms"))
+				if (Helpers.GetProperty(TrainerSettings, "CleanRooms"))
 				{
 					room.ClearDirt();
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "TemperatureLock"))
+				if (Helpers.GetProperty(TrainerSettings, "TemperatureLock"))
 				{
 					room.Temperature = 21.4f;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FullEnvironment"))
+				if (Helpers.GetProperty(TrainerSettings, "FullEnvironment"))
 				{
 					room.FurnEnvironment = 4;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FullRoomBrightness"))
+				if (Helpers.GetProperty(TrainerSettings, "FullRoomBrightness"))
 				{
 					room.IndirectLighting = 8;
 				}
@@ -191,26 +183,7 @@ namespace Trainer_v4
 				Actor actor = Settings.sActorManager.Actors[i];
 				Employee employee = Settings.sActorManager.Actors[i].employee;
 
-				//if (PropertyHelper.GetProperty(TrainerSettings, "DisableSkillDecay"))
-				//{
-				//    for (int index = 0; index < 5; index++)
-				//    {
-				//        if (employee.IsRole((Employee.EmployeeRole)index))
-				//        {
-				//            employee.ChangeSkillDirect((Employee.EmployeeRole)index, employee.GetSkill((Employee.EmployeeRole)index));
-				//            foreach (var specialization in Settings.Specializations)
-				//            {
-				//                employee.SetSpecialization(Employee.EmployeeRole.Designer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Designer, specialization));
-				//                employee.SetSpecialization(Employee.EmployeeRole.Artist, specialization, employee.GetSpecialization(Employee.EmployeeRole.Artist, specialization));
-				//                employee.SetSpecialization(Employee.EmployeeRole.Programmer, specialization, employee.GetSpecialization(Employee.EmployeeRole.Programmer, specialization));
-				//                employee.SetSpecialization(Employee.EmployeeRole.Lead, specialization, employee.GetSpecialization(Employee.EmployeeRole.Lead, specialization));
-				//                employee.SetSpecialization(Employee.EmployeeRole.Service, specialization, employee.GetSpecialization(Employee.EmployeeRole.Service, specialization));
-				//            }
-				//        }
-				//    }
-				//}
-
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoSickness") && actor.SpecialState == Actor.HomeState.Sick)
+				if (Helpers.GetProperty(TrainerSettings, "NoSickness") && actor.SpecialState == Actor.HomeState.Sick)
 				{
 					var sickActors = TimeOfDay.Instance.Sick;
 
@@ -223,25 +196,25 @@ namespace Trainer_v4
 					}
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "LockAge"))
+				if (Helpers.GetProperty(TrainerSettings, "LockAge"))
 				{
 					employee.AgeMonth = (int)employee.Age * 12;
 					actor.UpdateAgeLook();
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoStress"))
+				if (Helpers.GetProperty(TrainerSettings, "NoStress"))
 				{
 					employee.Stress = 1;
 				}
 
-				actor.Effectiveness = (employee.RoleString.Contains("Lead") ? PropertyHelper.GetProperty(Stores, "LeadEfficiencyStore") : PropertyHelper.GetProperty(Stores, "EfficiencyStore")).MakeFloat();
+				actor.Effectiveness = (employee.RoleString.Contains("Lead") ? Helpers.GetProperty(Stores, "LeadEfficiencyStore") : Helpers.GetProperty(Stores, "EfficiencyStore")).MakeFloat();
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FullSatisfaction"))
+				if (Helpers.GetProperty(TrainerSettings, "FullSatisfaction"))
 				{
 					employee.JobSatisfaction = 2f;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoNeeds"))
+				if (Helpers.GetProperty(TrainerSettings, "NoNeeds"))
 				{
 					employee.Bladder = 1;
 					employee.Hunger = 1;
@@ -249,25 +222,25 @@ namespace Trainer_v4
 					employee.Social = 1;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "FreeEmployees"))
+				if (Helpers.GetProperty(TrainerSettings, "FreeEmployees"))
 				{
 					employee.ChangeSalary(0f, 0f, actor, false);
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoiseReduction"))
+				if (Helpers.GetProperty(TrainerSettings, "NoiseReduction"))
 				{
 					actor.Noisiness = 0;
 				}
 
-				if (PropertyHelper.GetProperty(TrainerSettings, "NoVacation"))
+				if (Helpers.GetProperty(TrainerSettings, "NoVacation"))
 				{
 					actor.VacationMonth = SDateTime.NextMonth(24);
 				}
 
-				actor.WalkSpeed = PropertyHelper.GetProperty(TrainerSettings, "IncreaseWalkSpeed") ? 4f : 2f;
+				actor.WalkSpeed = Helpers.GetProperty(TrainerSettings, "IncreaseWalkSpeed") ? 4f : 2f;
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "AutoDistributionDeals"))
+			if (Helpers.GetProperty(TrainerSettings, "AutoDistributionDeals"))
 			{
 				Settings.Distribution.TimeToCancel = -999;
 				foreach (var company in Settings.simulation.Companies)
@@ -276,30 +249,30 @@ namespace Trainer_v4
 				}
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "MoreHostingDeals"))
+			if (Helpers.GetProperty(TrainerSettings, "MoreHostingDeals"))
 			{
 				int inGameHour = TimeOfDay.Instance.Hour;
 
-				if ((inGameHour == 9 || inGameHour == 15) && !PropertyHelper.DealIsPushed)
+				if ((inGameHour == 9 || inGameHour == 15) && !Helpers.DealIsPushed)
 				{
 					PushDeal();
 				}
-				else if (inGameHour != 9 && inGameHour != 15 && PropertyHelper.DealIsPushed)
+				else if (inGameHour != 9 && inGameHour != 15 && Helpers.DealIsPushed)
 				{
-					PropertyHelper.DealIsPushed = false;
+					Helpers.DealIsPushed = false;
 				}
 
-				if (!PropertyHelper.RewardIsGained && inGameHour == 12)
+				if (!Helpers.RewardIsGained && inGameHour == 12)
 				{
 					PushReward();
 				}
-				else if (inGameHour != 12 && PropertyHelper.RewardIsGained)
+				else if (inGameHour != 12 && Helpers.RewardIsGained)
 				{
-					PropertyHelper.RewardIsGained = false;
+					Helpers.RewardIsGained = false;
 				}
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "DisableBurglars"))
+			if (Helpers.GetProperty(TrainerSettings, "DisableBurglars"))
 			{
 				foreach (var burglar in Settings.sActorManager.Others["Burglars"])
 				{
@@ -309,7 +282,7 @@ namespace Trainer_v4
 				}
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndDesign"))
+			if (Helpers.GetProperty(TrainerSettings, "AutoEndDesign"))
 			{
 				var designDocuments = Settings.MyCompany.WorkItems
 														.OfType<DesignDocument>()
@@ -322,7 +295,7 @@ namespace Trainer_v4
 				});
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndResearch"))
+			if (Helpers.GetProperty(TrainerSettings, "AutoEndResearch"))
 			{
 				var researchWorks = Settings.MyCompany.WorkItems
 														.OfType<ResearchWork>()
@@ -343,7 +316,7 @@ namespace Trainer_v4
 				});
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "AutoEndPatent"))
+			if (Helpers.GetProperty(TrainerSettings, "AutoEndPatent"))
 			{
 				var legalWorks = Settings.MyCompany.WorkItems
 													 .OfType<LegalWork>()
@@ -358,52 +331,51 @@ namespace Trainer_v4
 			}
 
 			//TODO: add printspeed and printprice when it's disabled (else)
-			if (PropertyHelper.GetProperty(TrainerSettings, "FreePrint"))
+			if (Helpers.GetProperty(TrainerSettings, "FreePrint"))
 			{
 				Settings.ProductPrinters.ForEach(p => p.PrintPrice = 0f);
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "IncreasePrintSpeed"))
+			if (Helpers.GetProperty(TrainerSettings, "IncreasePrintSpeed"))
 			{
 				Settings.ProductPrinters.ForEach(p => p.PrintSpeed = 2f);
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "NoEducationCost"))
+			if (Helpers.GetProperty(TrainerSettings, "NoEducationCost"))
 			{
-				EducationWindow.EdCost = new float[3]
+				EducationWindow.EdCost = new []
 				{
 					0f, 0f, 0f
 				};
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "FreeStaff"))
+			if (Helpers.GetProperty(TrainerSettings, "FreeStaff"))
 			{
 				Settings.StaffSalaryDue = 0f;
 			}
 
-			if (PropertyHelper.GetProperty(TrainerSettings, "NoServerCost"))
+			if (Helpers.GetProperty(TrainerSettings, "NoServerCost"))
 			{
 				Settings.ServerCost = 0f;
 			}
 
-			//LoanWindow.factor = 250000;
 			GameSettings.MaxFloor = 100; //10 default
-			AI.MaxBoxes = PropertyHelper.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
-			AI.BoxPrice = PropertyHelper.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
-			Server.ISPCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
-			Settings.ExpansionCost = PropertyHelper.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
+			AI.MaxBoxes = Helpers.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
+			AI.BoxPrice = Helpers.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
+			Server.ISPCost = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
+			Settings.ExpansionCost = Helpers.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 		}
 
-		private void RefreshSpecializations()
+		private static void LoadSpecializations()
 		{
-			if (PropertyHelper.SpecializationsList != null && PropertyHelper.SpecializationsList.Count() > 0)
+			if (Helpers.SpecializationsList != null && Helpers.SpecializationsList.Count() > 0)
 			{
 				return;
 			}
 
 			var specializations = new Dictionary<string, bool>();
 
-			foreach (var role in PropertyHelper.RolesList)
+			foreach (var role in Helpers.RolesList)
 			{
 				foreach (var specialization in Settings.GetAllSpecializations(role.Key.ToEmployeeRole()))
 				{
@@ -414,61 +386,27 @@ namespace Trainer_v4
 				}
 			}
 
-			PropertyHelper.SpecializationsList = specializations;
+			Helpers.SpecializationsList = specializations;
 		}
 
-		//TODO: Automate software phases
-		public static void CheckDesign(DesignDocument document)
+		public static void ShowDiscordInvite(bool displayAsPopup = false)
 		{
-			var actors = GameSettings.Instance.sActorManager.Actors;
-			Actor bestActor = actors.FirstOrDefault();
-
-			foreach (var actor in actors)
+			string message = "Join us on our discord server\nhttps://discord.io/trainer";
+			if (displayAsPopup)
 			{
-				if (actor.employee.GetSkill(Employee.EmployeeRole.Designer) > bestActor.employee.GetSkill(Employee.EmployeeRole.Designer))
-				{
-					bestActor = actor;
-				}
-			}
-
-			if (!document.HasFinished)
-			{
-				document.DoWork(bestActor, 1f, 1f, false);
-			}
-
-			if (document.Done)
-			{
-				document.PromoteAction();
-			}
-		}
-
-		public static void CheckSoftwareProgress(SoftwareAlpha software)
-		{
-			string softwareName = software.SoftwareName;
-
-			if (!software.InBeta)
-			{
-				MaxCodeAction(softwareName);
-				MaxArtAction(softwareName);
-
-				software.PromoteAction();
+				HUD.Instance.AddPopupMessage(message, "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 			}
 			else
 			{
-				FixBugsAction(softwareName);
+				WindowManager.SpawnDialog(message, false, DialogWindow.DialogType.Information);
 			}
-		}
-
-		public static void CheckResearch()
-		{
-
 		}
 
 		public static void SetSkillPerEmployee()
 		{
 			var selectedActors = SelectorController.Instance.Selected.OfType<Actor>().ToList();
-			var selectedRoles = PropertyHelper.RolesList.Where(r => r.Value).ToList();
-			var selectedSpecializations = PropertyHelper.SpecializationsList.Where(s => s.Value).ToList();
+			var selectedRoles = Helpers.RolesList.Where(r => r.Value).ToList();
+			var selectedSpecializations = Helpers.SpecializationsList.Where(s => s.Value).ToList();
 
 			if (selectedActors.Count == 0)
 			{
@@ -506,10 +444,9 @@ namespace Trainer_v4
 			HUD.Instance.AddPopupMessage("Trainer: All loans are cleared!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
 		}
 
-		public void PushReward()
+		public static void PushReward()
 		{
-			var Deals = HUD.Instance.dealWindow.GetActiveDeals().Where(deal => deal.ToString() == "ServerDeal")
-					.ToArray();
+			var Deals = HUD.Instance.dealWindow.GetActiveDeals().Where(deal => deal.ToString() == "ServerDeal").ToArray();
 
 			if (!Deals.Any())
 			{
@@ -518,16 +455,15 @@ namespace Trainer_v4
 
 			for (int i = 0; i < Deals.Length; i++)
 			{
-				Settings.MyCompany.MakeTransaction(PropertyHelper.Random.Next(500, 50000),
-							 Company.TransactionCategory.Deals);
+				Settings.MyCompany.MakeTransaction(Helpers.Random.Next(500, 50000), Company.TransactionCategory.Deals);
 			}
 
-			PropertyHelper.RewardIsGained = true;
+			Helpers.RewardIsGained = true;
 		}
 
-		public void PushDeal()
+		public static void PushDeal()
 		{
-			PropertyHelper.DealIsPushed = true;
+			Helpers.DealIsPushed = true;
 
 			SoftwareProduct[] Products = Settings.simulation.GetAllProducts().Where(pr =>
 						(pr.Type.ToString() == "CMS"
@@ -545,15 +481,10 @@ namespace Trainer_v4
 				return;
 			}
 
-			int index = PropertyHelper.Random.Next(0, Products.Length);
+			int index = Helpers.Random.Next(0, Products.Length);
 			ServerDeal deal = new ServerDeal(Products[index]) { Request = true };
 			deal.StillValid(true);
 			HUD.Instance.dealWindow.InsertDeal(deal);
-		}
-
-		public static void ChangeEducationDays()
-		{
-			throw new NotImplementedException();
 		}
 
 		public static void Test()
@@ -566,7 +497,6 @@ namespace Trainer_v4
 				{
 					if (designDocument.Parent == null && designDocument.Iteration < 3)
 					{
-						//designDocument.Working.Clear();
 						for (int index = 0; index < designDocument.Features.Length; index++)
 						{
 							designDocument.Features[index].ArtDone = designDocument.Features[index].CodeDone = false;
@@ -594,7 +524,7 @@ namespace Trainer_v4
 
 		public static void HREmployees()
 		{
-			if (!PropertyHelper.IsGameLoaded || SelectorController.Instance == null)
+			if (!Helpers.IsGameLoaded || SelectorController.Instance == null)
 			{
 				return;
 			}
@@ -686,7 +616,7 @@ namespace Trainer_v4
 
 		public static void EmployeesToMax()
 		{
-			if (!PropertyHelper.IsGameLoaded || SelectorController.Instance == null)
+			if (!Helpers.IsGameLoaded || SelectorController.Instance == null)
 			{
 				return;
 			}
@@ -721,6 +651,8 @@ namespace Trainer_v4
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Marketing", false, true, 3);
 							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, 3);
 							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -730,7 +662,7 @@ namespace Trainer_v4
 
 		public static void UnlockAllSpace()
 		{
-			if (!PropertyHelper.IsGameLoaded)
+			if (!Helpers.IsGameLoaded)
 			{
 				return;
 			}
@@ -741,7 +673,7 @@ namespace Trainer_v4
 
 		public static void UnlockFurniture()
 		{
-			if (!PropertyHelper.IsGameLoaded)
+			if (!Helpers.IsGameLoaded)
 			{
 				return;
 			}
@@ -773,9 +705,9 @@ namespace Trainer_v4
 
 		#endregion
 
-		#region Max Code
+		#region Add Quality
 
-		public static void MaxCodeAction(string input)
+		public static void AddQualityAction(string input)
 		{
 			WorkItem WorkItem = Settings.MyCompany.WorkItems
 					.Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
@@ -786,69 +718,13 @@ namespace Trainer_v4
 				return;
 			}
 
-			var code = ((SoftwareAlpha)WorkItem);
-
-			//float optimalProgress = 0f;
-
-			for (int i = 1; i < 5; i++)
-			{
-				//float p = SoftwareAlpha.FinalQualityCalc(
-				//    (Mathf.Pow(10, i) - 1f) / Mathf.Pow(10, i),
-				//    SoftwareAlpha.GetMaxCodeQuality(code.CodeProgress)
-				//);
-
-				//if (p > optimalProgress)
-				//{
-				//    optimalProgress = p;
-				//}
-			}
-
-			//code.CodeProgress = optimalProgress;
+			var softwareAlpha = ((SoftwareAlpha)WorkItem);
+			softwareAlpha.AddQuality(10f, 10f, false);
 		}
 
-		public static void MaxCode()
+		public static void AddQuality()
 		{
-			WindowManager.SpawnInputDialog("Type product name:", "Max Code", "", MaxCodeAction);
-		}
-
-		#endregion
-
-		#region Max Art
-
-		public static void MaxArtAction(string input)
-		{
-			WorkItem WorkItem = Settings.MyCompany.WorkItems
-					.Where(item => item.GetType() == typeof(SoftwareAlpha)).FirstOrDefault(item =>
-							(item as SoftwareAlpha).Name == input && !(item as SoftwareAlpha).InBeta);
-
-			if (WorkItem == null)
-			{
-				return;
-			}
-
-			var art = ((SoftwareAlpha)WorkItem);
-
-			//float optimalProgress = 0;
-
-			for (int i = 1; i < 5; i++)
-			{
-				//float p = SoftwareAlpha.FinalQualityCalc(
-				//    (Mathf.Pow(10, i) - 1f) / Mathf.Pow(10, i),
-				//    SoftwareAlpha.GetMaxCodeQuality(art.ArtProgress)
-				//);
-
-				//if (p > optimalProgress)
-				//{
-				//    optimalProgress = p;
-				//}
-			}
-
-			//art.ArtProgress = optimalProgress;
-		}
-
-		public static void MaxArt()
-		{
-			WindowManager.SpawnInputDialog("Type product name:", "Max Art", "", MaxArtAction);
+			WindowManager.SpawnInputDialog("Type product name:", "Add Quality", "", AddQualityAction);
 		}
 
 		#endregion
@@ -910,7 +786,7 @@ namespace Trainer_v4
 		public static void SetProductPriceAction(string input)
 		{
 			SoftwareProduct Product =
-					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
+					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == Helpers.ProductPriceName);
 
 			if (Product == null)
 			{
@@ -933,7 +809,7 @@ namespace Trainer_v4
 		public static void SetProductStockAction(string input)
 		{
 			SoftwareProduct Product =
-					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
+					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == Helpers.ProductPriceName);
 
 			if (Product == null)
 			{
@@ -956,7 +832,7 @@ namespace Trainer_v4
 		public static void AddActiveUsersAction(string input)
 		{
 			SoftwareProduct Product =
-					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == PropertyHelper.ProductPriceName);
+					Settings.MyCompany.Products.FirstOrDefault(product => product.Name == Helpers.ProductPriceName);
 
 			if (Product == null)
 			{
@@ -995,7 +871,7 @@ namespace Trainer_v4
 
 			var simulatedCompanyWorth = simulatedCompany.Stocks[0].CurrentWorth;
 
-			simulatedCompany.BuyOut(new Company[1]
+			simulatedCompany.BuyOut(new Company[]
 			{
 				Settings.MyCompany
 			}, false);
@@ -1102,9 +978,9 @@ namespace Trainer_v4
 
 		#region Overrides
 
-		public override void OnActivate() { }
+		public override void OnActivate() { /* Mandatory but not needed */ }
 
-		public override void OnDeactivate() { }
+		public override void OnDeactivate() { /* Mandatory but not needed */ }
 
 		#endregion
 	}

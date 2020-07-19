@@ -4,27 +4,19 @@ using OrbCreationExtensions;
 
 namespace Trainer_v4
 {
-	public static class PropertyHelper
+	public static class Helpers
 	{
-		public static System.Random Random { get; set; }
+		public static bool IsGameLoaded => GameSettings.Instance != null && HUD.Instance != null;
+		public static string Version => $"(v{Properties.Settings.Default.Version})";
+		public static string TrainerVersion => $"Trainer v{Properties.Settings.Default.Version}";
+		public static bool IsDEV => Properties.Settings.Default.DEV;
+		public static string DiscordUrl => Properties.Settings.Default.DiscordUrl;
+
+		public static Random Random { get; set; }
 		public static bool RewardIsGained { get; set; }
 		public static bool DealIsPushed { get; set; }
 		public static string ProductPriceName { get; set; }
-
-		public static bool IsGameLoaded
-		{
-			get { return GameSettings.Instance != null && HUD.Instance != null; }
-		}
-
-		public static bool IsNewGameStarted
-		{
-			get { return ActorCustomization.Instance != null; }
-		}
-
-		public static float[] MaxDistributionPercentage
-		{
-			get { return new[] { 1f, 0.75f, 0.5f }; }
-		}
+		public static Dictionary<string, bool> SpecializationsList { get; set; }
 
 		public static List<KeyValuePair<string, object>> EfficiencyValues
 		{
@@ -42,7 +34,7 @@ namespace Trainer_v4
 			}
 		}
 
-		private static Dictionary<string, bool> _settings = new Dictionary<string, bool>
+		public static Dictionary<string, bool> Settings { get; } = new Dictionary<string, bool>
 		{
 			{"NoStress", false},
 			{"NoVacation", false},
@@ -79,7 +71,7 @@ namespace Trainer_v4
 			{"ReduceBoxPrice", false}
 		};
 
-		private static Dictionary<string, bool> _rolesList = new Dictionary<string, bool>
+		public static Dictionary<string, bool> RolesList { get; } = new Dictionary<string, bool>
 		{
 			{"Lead", false},
 			{"Service", false},
@@ -88,28 +80,13 @@ namespace Trainer_v4
 			{"Designer", false}
 		};
 
-		private static Dictionary<string, object> _stores = new Dictionary<string, object>
+		public static Dictionary<string, object> Stores { get; } = new Dictionary<string, object>
 		{
 			{"EfficiencyStore", 2},
 			{"LeadEfficiencyStore", 4}
 		};
 
-		public static Dictionary<string, bool> Settings
-		{
-			get { return _settings; }
-		}
-
-		public static Dictionary<string, bool> RolesList
-		{
-			get { return _rolesList; }
-		}
-
-		public static Dictionary<string, object> Stores
-		{
-			get { return _stores; }
-		}
-
-		public static Dictionary<string, bool> SpecializationsList { get; set; }
+		#region methods
 
 		public static bool GetProperty(Dictionary<string, bool> properties, string key)
 		{
@@ -154,9 +131,24 @@ namespace Trainer_v4
 				case 4:
 					return values.FindIndex(x => x.Value.MakeBool() == GetProperty(properties, store).MakeBool());
 				default:
-					throw new NotImplementedException("Method GetIndex received an unkown value type as parameter");
+					"Method GetIndex received an unkown value type as parameter".Log();
+					return -1;
 			}
 		}
+
+		public static void TryExecute(Action action)
+		{
+			try
+			{
+				action.Invoke();
+			}
+			catch (Exception ex)
+			{
+				ex.LogException();
+			}
+		}
+
+		#endregion
 
 		#region extensions
 

@@ -9,7 +9,6 @@ namespace Trainer_v4
 		private TrainerBehaviour _trainerBehaviour;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
-		public static string Version { get { return "(v4.8.4)"; } }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{
@@ -29,7 +28,7 @@ namespace Trainer_v4
 		public static void CreateTrainerButton()
 		{
 			TrainerButton = WindowManager.SpawnButton();
-			TrainerButton.GetComponentInChildren<Text>().text = "Trainer " + Version;
+			TrainerButton.GetComponentInChildren<Text>().text = Helpers.TrainerVersion;
 			TrainerButton.onClick.AddListener(() => SettingsWindow.Show());
 			TrainerButton.name = "TrainerButton";
 
@@ -63,14 +62,14 @@ namespace Trainer_v4
 		{
 			var data = new WriteDictionary();
 
-			foreach (var setting in PropertyHelper.Settings)
+			foreach (var setting in Helpers.Settings)
 			{
-				data[setting.Key] = PropertyHelper.GetProperty(PropertyHelper.Settings, setting.Key);
+				data[setting.Key] = Helpers.GetProperty(Helpers.Settings, setting.Key);
 			}
 
-			foreach (var store in PropertyHelper.Stores)
+			foreach (var store in Helpers.Stores)
 			{
-				data[store.Key] = PropertyHelper.GetProperty(PropertyHelper.Stores, store.Key);
+				data[store.Key] = Helpers.GetProperty(Helpers.Stores, store.Key);
 			}
 
 			return data;
@@ -78,16 +77,16 @@ namespace Trainer_v4
 
 		public override void Deserialize(WriteDictionary data, GameReader.LoadMode mode)
 		{
-			var settings = PropertyHelper.Settings.Keys.ToList();
+			var settings = Helpers.Settings.Keys.ToList();
 			foreach (var setting in settings)
 			{
-				PropertyHelper.SetProperty(PropertyHelper.Settings, setting, data.Get(setting, PropertyHelper.GetProperty(PropertyHelper.Settings, setting)));
+				Helpers.SetProperty(Helpers.Settings, setting, data.Get(setting, Helpers.GetProperty(Helpers.Settings, setting)));
 			}
 
-			var stores = PropertyHelper.Stores.Keys.ToList();
+			var stores = Helpers.Stores.Keys.ToList();
 			foreach (var store in stores)
 			{
-				PropertyHelper.SetProperty(PropertyHelper.Stores, store, data.Get(store, PropertyHelper.GetProperty(PropertyHelper.Stores, store)));
+				Helpers.SetProperty(Helpers.Stores, store, data.Get(store, Helpers.GetProperty(Helpers.Stores, store)));
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace Trainer_v4
 		{
 			get
 			{
-				return "Trainer " + Version;
+				return Helpers.TrainerVersion;
 			}
 		}
 	}
