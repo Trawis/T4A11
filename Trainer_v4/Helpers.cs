@@ -9,7 +9,7 @@ namespace Trainer_v4
 		public static bool IsGameLoaded => GameSettings.Instance != null && HUD.Instance != null;
 		public static string Version => $"(v{Properties.Settings.Default.Version})";
 		public static string TrainerVersion => $"Trainer v{Properties.Settings.Default.Version}";
-		public static bool IsDEV => Properties.Settings.Default.DEV;
+		public static bool IsDebug => Properties.Settings.Default.Debug;
 		public static string DiscordUrl => Properties.Settings.Default.DiscordUrl;
 
 		public static Random Random { get; set; }

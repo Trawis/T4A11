@@ -26,9 +26,9 @@ namespace Trainer_v4.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DEV {
+        public bool Debug {
             get {
-                return ((bool)(this["DEV"]));
+                return ((bool)(this["Debug"]));
             }
         }
         

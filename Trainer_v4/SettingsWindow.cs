@@ -87,7 +87,7 @@ namespace Trainer_v4
 			Utils.AddButton("UnlockAllFurniture".LocDef("Unlock all furniture"), TrainerBehaviour.UnlockFurniture, column1);
 			Utils.AddButton("UnlockAllSpace".LocDef("Unlock all space"), TrainerBehaviour.UnlockAllSpace, column1);
 
-			if (Helpers.IsDEV)
+			if (Helpers.IsDebug)
 			{
 				Utils.AddButton("Test".LocDef("Test"), TrainerBehaviour.AddQuality, column1);
 			}
@@ -113,7 +113,7 @@ namespace Trainer_v4
 			Utils.AddToggle("NoSickness".LocDef("No Sickness"), Helpers.GetProperty(settings, "NoSickness"),
 					a => Helpers.SetProperty(settings, "NoSickness", !Helpers.GetProperty(settings, "NoSickness")), column2);
 
-			if (Helpers.IsDEV)
+			if (Helpers.IsDebug)
 			{
 				bool isOn = false;
 				Utils.AddToggle("Test".LocDef("Test"), isOn, a => isOn = !isOn, column2);
