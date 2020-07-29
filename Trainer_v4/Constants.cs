@@ -2,15 +2,10 @@
 {
 	public static class Constants
 	{
-		public static readonly int SETTINGS_WINDOW_SKIP_ROWS = 7;
-
 		public static readonly int ELEMENT_WIDTH = 150;
 		public static readonly int ELEMENT_HEIGHT = 32;
 
-		public static readonly int Y_SETTINGS_WINDOW_OFFSET = 260;
 		public static readonly int X_SETTINGS_WINDOW = 831;
-
-		public static readonly int Y_EMPLOYEESKILLCHANGE_WINDOW_OFFSET = 64;
 		public static readonly int X_EMPLOYEESKILLCHANGE_WINDOW = 300;
 
 		public static readonly int FIRST_COLUMN = 1;

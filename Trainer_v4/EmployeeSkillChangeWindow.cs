@@ -67,16 +67,16 @@ namespace Trainer_v4
 												specializationToggles);
 			}
 
-			Utils.CreateGameObjects(Constants.FIRST_COLUMN, 1, roleToggles.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.SECOND_COLUMN, 1, specializationToggles.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.FIRST_COLUMN, roleToggles.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.SECOND_COLUMN, specializationToggles.ToArray(), Window);
 
 			int[] columnsCount = new int[]
 			{
 				roleToggles.Count(),
-					specializationToggles.Count()
+				specializationToggles.Count()
 			};
 
-			Utils.SetWindowSize(columnsCount, Constants.X_EMPLOYEESKILLCHANGE_WINDOW, Constants.Y_EMPLOYEESKILLCHANGE_WINDOW_OFFSET, Window);
+			Utils.SetWindowSize(columnsCount.Max(), Constants.X_EMPLOYEESKILLCHANGE_WINDOW, Window);
 		}
 	}
 }

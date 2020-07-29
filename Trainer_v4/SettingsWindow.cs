@@ -59,23 +59,15 @@ namespace Trainer_v4
 			List<GameObject> column4 = new List<GameObject>();
 			List<GameObject> column5 = new List<GameObject>();
 
-			Utils.AddButton("AddMoney".LocDef("Add Money"), new Rect(Constants.FIRST_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.IncreaseMoney, Window);
-			Utils.AddButton("MaxFollowers".LocDef("Max Followers"), new Rect(Constants.FIRST_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxFollowers, Window);
-			Utils.AddButton("MaxReputation".LocDef("Max Reputation"), new Rect(Constants.SECOND_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.MaxReputation, Window);
-			Utils.AddButton("FixBugs".LocDef("Fix Bugs"), new Rect(Constants.SECOND_COLUMN, Constants.SECOND_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.FixBugs, Window);
-			Utils.AddButton("Discord".LocDef("DISCORD"), new Rect(Constants.FIFTH_COLUMN, Constants.FIRST_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), () => TrainerBehaviour.ShowDiscordInvite(), Window);
-
-			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), new Rect(Constants.FIRST_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), boxText => Helpers.ProductPriceName = boxText, Window);
-
-			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), new Rect(Constants.SECOND_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductPrice, Window);
-			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), new Rect(Constants.THIRD_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SetProductStock, Window);
-			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), new Rect(Constants.FOURTH_COLUMN, Constants.FOURTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.AddActiveUsers, Window);
-			Utils.AddButton("TakeoverCompany".LocDef("Takeover Company"), new Rect(Constants.FIRST_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.TakeoverCompany, Window);
-			Utils.AddButton("SubsidiaryCompany".LocDef("Subsidiary Company"), new Rect(Constants.SECOND_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.SubDCompany, Window);
-			Utils.AddButton("Bankrupt".LocDef("Bankrupt"), new Rect(Constants.THIRD_COLUMN, Constants.SIXTH_ROW, Constants.ELEMENT_WIDTH, Constants.ELEMENT_HEIGHT), TrainerBehaviour.ForceBankrupt, Window);
-
 			#region column1
 
+			Utils.AddButton("AddMoney".LocDef("Add Money"), TrainerBehaviour.IncreaseMoney, column1);
+			Utils.AddButton("MaxFollowers".LocDef("Max Followers"), TrainerBehaviour.MaxFollowers, column1);
+			Utils.AddEmptyBox(column1);
+			Utils.AddInputBox("ProductName".LocDef("Product Name Here"), boxText => Helpers.ProductPriceName = boxText, column1);
+			Utils.AddEmptyBox(column1);
+			Utils.AddButton("TakeoverCompany".LocDef("Takeover Company"),TrainerBehaviour.TakeoverCompany, column1);
+			Utils.AddEmptyBox(column1);
 			Utils.AddButton("BankruptAll".LocDef("AI Bankrupt All"), TrainerBehaviour.AIBankrupt, column1);
 			Utils.AddButton("DaysPerMonth".LocDef("Days per month"), TrainerBehaviour.MonthDays, column1);
 			Utils.AddButton("ClearAllLoans".LocDef("Clear all loans"), TrainerBehaviour.ClearLoans, column1);
@@ -95,7 +87,13 @@ namespace Trainer_v4
 			#endregion
 
 			#region column2
-
+			Utils.AddButton("MaxReputation".LocDef("Max Reputation"), TrainerBehaviour.MaxReputation, column2);
+			Utils.AddButton("FixBugs".LocDef("Fix Bugs"), TrainerBehaviour.FixBugs, column2);
+			Utils.AddEmptyBox(column2);
+			Utils.AddButton("SetProductPrice".LocDef("Set Product Price"), TrainerBehaviour.SetProductPrice, column2);
+			Utils.AddEmptyBox(column2);
+			Utils.AddButton("SubsidiaryCompany".LocDef("Subsidiary Company"), TrainerBehaviour.SubDCompany, column2);
+			Utils.AddEmptyBox(column2);
 			Utils.AddToggle("DisableNeeds".LocDef("Disable Needs"), Helpers.GetProperty(settings, "NoNeeds"),
 					a => Helpers.SetProperty(settings, "NoNeeds", !Helpers.GetProperty(settings, "NoNeeds")), column2);
 			Utils.AddToggle("DisableStress".LocDef("Disable Stress"), Helpers.GetProperty(settings, "NoStress"),
@@ -122,6 +120,13 @@ namespace Trainer_v4
 			#endregion
 
 			#region column3
+			Utils.AddEmptyBox(column3);
+			Utils.AddEmptyBox(column3);
+			Utils.AddEmptyBox(column3);
+			Utils.AddButton("SetProductStock".LocDef("Set Product Stock"), TrainerBehaviour.SetProductStock, column3);
+			Utils.AddEmptyBox(column3);
+			Utils.AddButton("Bankrupt".LocDef("Bankrupt"), TrainerBehaviour.ForceBankrupt, column3);
+			Utils.AddEmptyBox(column3);
 
 			Utils.AddToggle("FullEnvironment".LocDef("Full Environment"), Helpers.GetProperty(settings, "FullEnvironment"),
 					a => Helpers.SetProperty(settings, "FullEnvironment", !Helpers.GetProperty(settings, "FullEnvironment")), column3);
@@ -152,6 +157,13 @@ namespace Trainer_v4
 
 			#region column4
 
+			Utils.AddEmptyBox(column4);
+			Utils.AddEmptyBox(column4);
+			Utils.AddEmptyBox(column4);
+			Utils.AddButton("SetActiveUsers".LocDef("Set Active Users"), TrainerBehaviour.AddActiveUsers, column4);
+			Utils.AddEmptyBox(column4);
+			Utils.AddEmptyBox(column4);
+			Utils.AddEmptyBox(column4);
 			Utils.AddToggle("Auto Distribution Deals", Helpers.GetProperty(settings, "AutoDistributionDeals"),
 				a => Helpers.SetProperty(settings, "AutoDistributionDeals", !Helpers.GetProperty(settings, "AutoDistributionDeals")), column4);
 			Utils.AddToggle("FreePrint".LocDef("Free Print"), Helpers.GetProperty(settings, "FreePrint"),
@@ -178,6 +190,12 @@ namespace Trainer_v4
 			#endregion
 
 			#region column5
+			Utils.AddEmptyBox(column5);
+			Utils.AddButton("Discord".LocDef("DISCORD"),  () => TrainerBehaviour.ShowDiscordInvite(), column5);
+			Utils.AddEmptyBox(column5);
+			Utils.AddEmptyBox(column5);
+			Utils.AddEmptyBox(column5);
+			Utils.AddEmptyBox(column5);
 
 			GUICombobox efficiencyComboBox = Utils.AddComboBox("Efficiency", efficiencyValues, Helpers.GetIndex(efficiencyValues, stores, "EfficiencyStore", 2), column5);
 			efficiencyComboBox.OnSelectedChanged.AddListener(() => Helpers.SetProperty(stores, "EfficiencyStore", efficiencyValues[efficiencyComboBox.Selected].Value));
@@ -187,18 +205,18 @@ namespace Trainer_v4
 
 			#endregion
 
-			Utils.CreateGameObjects(Constants.FIRST_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column1.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.SECOND_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column2.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.THIRD_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column3.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.FOURTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column4.ToArray(), Window);
-			Utils.CreateGameObjects(Constants.FIFTH_COLUMN, Constants.SETTINGS_WINDOW_SKIP_ROWS, column5.ToArray(), Window, isComboBox: true);
+			Utils.CreateGameObjects(Constants.FIRST_COLUMN, column1.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.SECOND_COLUMN, column2.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.THIRD_COLUMN, column3.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.FOURTH_COLUMN, column4.ToArray(), Window);
+			Utils.CreateGameObjects(Constants.FIFTH_COLUMN, column5.ToArray(), Window, isComboBox: true);
 
 			int[] columnsCount = new int[]
 			{
 				column1.Count(), column2.Count(), column3.Count(), column4.Count(), column5.Count()
 			};
 
-			Utils.SetWindowSize(columnsCount, Constants.X_SETTINGS_WINDOW, Constants.Y_SETTINGS_WINDOW_OFFSET, Window);
+			Utils.SetWindowSize(columnsCount.Max(), Constants.X_SETTINGS_WINDOW, Window);
 		}
 	}
 }
