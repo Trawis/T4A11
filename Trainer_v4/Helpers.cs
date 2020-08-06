@@ -7,10 +7,10 @@ namespace Trainer_v4
 	public static class Helpers
 	{
 		public static bool IsGameLoaded => GameSettings.Instance != null && HUD.Instance != null;
-		public static string Version => $"(v{Properties.Settings.Default.Version})";
-		public static string TrainerVersion => $"Trainer v{Properties.Settings.Default.Version}";
-		public static bool IsDebug => Properties.Settings.Default.Debug;
-		public static string DiscordUrl => Properties.Settings.Default.DiscordUrl;
+		public static string Version => "4.8.5";
+		public static string TrainerVersion => $"Trainer v{Version}";
+		public static bool IsDebug => false;
+		public static string DiscordUrl => "https://discord.com/invite/J584aG";
 
 		public static Random Random { get; set; }
 		public static bool RewardIsGained { get; set; }

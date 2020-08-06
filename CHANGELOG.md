@@ -3,6 +3,14 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.5**
+
+07.08.2020. for Alpha 11
+- Refactoring
+- Added logger
+
+---
+
 **4.8.4**
 
 03.06.2020. for Alpha 11

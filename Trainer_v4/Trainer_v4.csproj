@@ -39,17 +39,14 @@
     <Compile Include="EmployeeSkillChangeWindow.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="SettingsWindow.cs" />
     <Compile Include="TrainerBehaviour.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,13 +77,6 @@
     <Content Include="Libraries\UnityEngine.dll" />
     <Content Include="Libraries\UnityEngine.UI.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET TrainerWorkshopPath=D:\SteamLibrary\steamapps\workshop\content\362620\1884023959
@@ -94,9 +84,6 @@
 if exist "%25TrainerWorkshopPath%25" (
 del "%25TrainerWorkshopPath%25\*.cs"
 copy "$(ProjectDir)*.cs" "%25TrainerWorkshopPath%25"
-copy "$(ProjectDir)app.config" "%25TrainerWorkshopPath%25"
-if not exist "%25TrainerWorkshopPath%25\Properties" mkdir "%25TrainerWorkshopPath%25\Properties"
-copy "$(ProjectDir)Properties\*" "%25TrainerWorkshopPath%25\Properties"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
