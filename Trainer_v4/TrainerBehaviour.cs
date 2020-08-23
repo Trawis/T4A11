@@ -143,7 +143,6 @@ namespace Trainer_v4
 						case "Ventilation":
 							break;
 						default:
-							Logger.Log("Unsupported furniture type");
 							break;
 					}
 

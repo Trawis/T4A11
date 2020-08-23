@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.6**
+
+23.08.2020. for Alpha 11
+- Fixed performance issues when "No Maintenance" option is enabled
+
+---
+
 **4.8.5**
 
 07.08.2020. for Alpha 11
