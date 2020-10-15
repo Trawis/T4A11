@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.7**
+15.10.2020. for Alpha 11
+- Updated libraries to v11.7.3
+- Fixed overlapping labels with toggles on employee skill change window
+
+---
+
 **4.8.6**
 
 23.08.2020. for Alpha 11

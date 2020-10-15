@@ -42,6 +42,8 @@ namespace Trainer_v4
 
 			List<GameObject> roleToggles = new List<GameObject>();
 			List<GameObject> specializationToggles = new List<GameObject>();
+			Utils.AddEmptyBox(roleToggles);
+			Utils.AddEmptyBox(specializationToggles);
 
 			Utils.AddLabel("Roles", new Rect(10, 5, 150, 32), Window);
 			Utils.AddLabel("Specializations", new Rect(161, 5, 150, 32), Window);
