@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.8**
+29.10.2020. for Alpha 11
+- Updated libraries to v11.7.8
+- Dynamically load specializations for Max Skill of employees option
+
+---
+
 **4.8.7**
 15.10.2020. for Alpha 11
 - Updated libraries to v11.7.3

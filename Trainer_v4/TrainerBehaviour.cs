@@ -628,32 +628,9 @@ namespace Trainer_v4
 				{
 					actor.employee.ChangeSkillDirect((Employee.EmployeeRole)index, 1f);
 
-					switch ((Employee.EmployeeRole)index)
+					foreach (var specialization in Settings.GetAllSpecializations((Employee.EmployeeRole)index))
 					{
-						case Employee.EmployeeRole.Lead:
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "HR", false, true, 3);
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Automation", false, true, 3);
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Socialization", false, true, 3);
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Lead, "Multitasking", false, true, 3);
-							break;
-						case Employee.EmployeeRole.Designer:
-						case Employee.EmployeeRole.Programmer:
-							actor.employee.AddSpecialization((Employee.EmployeeRole)index, "System", false, true, 3);
-							actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Network", false, true, 3);
-							goto case Employee.EmployeeRole.Artist;
-						case Employee.EmployeeRole.Artist:
-							actor.employee.AddSpecialization((Employee.EmployeeRole)index, "2D", false, true, 3);
-							actor.employee.AddSpecialization((Employee.EmployeeRole)index, "3D", false, true, 3);
-							actor.employee.AddSpecialization((Employee.EmployeeRole)index, "Audio", false, true, 3);
-							break;
-						case Employee.EmployeeRole.Service:
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Support", false, true, 3);
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Marketing", false, true, 3);
-							actor.employee.AddSpecialization(Employee.EmployeeRole.Service, "Law", false, true, 3);
-							break;
-						default:
-							Logger.Log("Unsupported role");
-							break;
+						actor.employee.AddSpecialization((Employee.EmployeeRole)index, specialization, false, true, 3);
 					}
 				}
 			}
