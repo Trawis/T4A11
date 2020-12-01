@@ -362,7 +362,7 @@ namespace Trainer_v4
 			GameSettings.MaxFloor = 100; //10 default
 			AI.MaxBoxes = Helpers.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
 			AI.BoxPrice = Helpers.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
-			Server.ISPCost = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
+			Settings.Environment.ISPCostFactor = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
 			Settings.ExpansionCost = Helpers.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 		}
 
