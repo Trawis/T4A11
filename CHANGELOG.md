@@ -3,6 +3,12 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.11**
+01.12.2020. for Alpha 11
+- Fixed Settings and Employee Skill Change Window toggle
+
+---
+
 **4.8.10**
 01.12.2020. for Alpha 11
 - Updated libraries to v11.7.17

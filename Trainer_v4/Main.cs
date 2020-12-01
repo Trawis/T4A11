@@ -18,17 +18,23 @@ namespace Trainer_v4
 
 		public static void OpenSettingsWindow()
 		{
-			SettingsWindow.Show();
+			if (!SettingsWindow.Shown)
+			{
+				SettingsWindow.Toggle();
+			}
 		}
 
 		public static void CloseSettingsWindow()
 		{
-			SettingsWindow.Close();
+			if (SettingsWindow.Shown)
+      {
+				SettingsWindow.Toggle();
+			}
 		}
 
 		public static void CreateUIButtons()
 		{
-			TrainerButton = Utilities.CreateUIButton(() => SettingsWindow.Show(), Helpers.TrainerVersion, "TrainerButton");
+			TrainerButton = Utilities.CreateUIButton(() => SettingsWindow.Toggle(), Helpers.TrainerVersion, "TrainerButton");
 			SkillChangeButton = Utilities.CreateUIButton(() => EmployeeSkillChangeWindow.Show(), "Skill Change", "EmployeeSkillButton");
 
 			Utilities.AddElementToElement(TrainerButton.gameObject, "MainPanel/Holder/FanPanel", new Rect(164, 0, 100, 32));

@@ -11,19 +11,17 @@ namespace Trainer_v4
 		private static readonly string _title = "Employee Skill Change, by Trawis";
 
 		public static GUIWindow Window { get; set; }
-		public static bool Shown { get; set; }
 
 		public static void Show()
 		{
-			if (Shown)
+			if (Window == null)
 			{
-				Window.Close();
-				Shown = false;
-				return;
+				CreateWindow();
 			}
-
-			CreateWindow();
-			Shown = true;
+			else
+			{
+				Window.Toggle();
+			}
 		}
 
 		private static void CreateWindow()
@@ -32,13 +30,6 @@ namespace Trainer_v4
 			Window.InitialTitle = Window.TitleText.text = Window.NonLocTitle = _title;
 			Window.name = "EmployeeSkillChange";
 			Window.MainPanel.name = "EmployeeSkillChangePanel";
-
-			if (Window.name == "EmployeeSkillChange")
-			{
-				Window.GetComponentsInChildren<Button>()
-					.SingleOrDefault(x => x.name == "CloseButton")
-					.onClick.AddListener(() => Shown = false);
-			}
 
 			List<GameObject> roleToggles = new List<GameObject>();
 			List<GameObject> specializationToggles = new List<GameObject>();

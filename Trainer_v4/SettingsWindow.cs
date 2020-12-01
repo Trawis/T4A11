@@ -13,26 +13,18 @@ namespace Trainer_v4
 		public static GUIWindow Window { get; set; }
 		public static bool Shown { get; set; }
 
-		public static void Show()
+		public static void Toggle()
 		{
-			if (Shown)
+			if (Window == null)
 			{
-				Window.Close();
-				Shown = false;
-				return;
+				Init();
+			}
+			else
+			{
+				Window.Toggle();
 			}
 
-			Init();
-			Shown = true;
-		}
-
-		public static void Close()
-		{
-			if (Shown)
-			{
-				Window.Close();
-				Shown = false;
-			}
+			Shown = Window.Shown;
 		}
 
 		private static void Init()
@@ -46,14 +38,14 @@ namespace Trainer_v4
 			Window.name = "TrainerSettings";
 			Window.MainPanel.name = "TrainerSettingsPanel";
 
-			if (Window.name == "TrainerSettings")
-			{
-				Window.GetComponentsInChildren<Button>()
-					.SingleOrDefault(x => x.name == "CloseButton")
-					.onClick.AddListener(() => Shown = false);
-			}
+      if (Window.name == "TrainerSettings")
+      {
+        Window.GetComponentsInChildren<Button>()
+          .SingleOrDefault(x => x.name == "CloseButton")
+          .onClick.AddListener(() => Shown = false);
+      }
 
-			List<GameObject> column1 = new List<GameObject>();
+      List<GameObject> column1 = new List<GameObject>();
 			List<GameObject> column2 = new List<GameObject>();
 			List<GameObject> column3 = new List<GameObject>();
 			List<GameObject> column4 = new List<GameObject>();
