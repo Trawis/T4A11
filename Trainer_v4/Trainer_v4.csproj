@@ -77,6 +77,9 @@
     <Content Include="Libraries\UnityEngine.dll" />
     <Content Include="Libraries\UnityEngine.UI.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Localization\English\Trainer.tyd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET TrainerWorkshopPath=D:\SteamLibrary\steamapps\workshop\content\362620\1884023959

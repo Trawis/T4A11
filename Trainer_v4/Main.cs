@@ -6,14 +6,13 @@ namespace Trainer_v4
 {
 	public class Main : ModMeta
 	{
-		private TrainerBehaviour _trainerBehaviour;
 		public override string Name => Helpers.TrainerVersion;
 		public static Button TrainerButton { get; set; }
 		public static Button SkillChangeButton { get; set; }
 
 		public override void Initialize(ModController.DLLMod parentMod)
 		{
-			_trainerBehaviour = parentMod.Behaviors.OfType<TrainerBehaviour>().First();
+			base.Initialize(parentMod);
 		}
 
 		public static void OpenSettingsWindow()

@@ -3,6 +3,16 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.13**
+04.12.2020. for Alpha 11
+- Improved Reduce Internet Cost option
+- Fixed No Sickness bug
+- Fixed Efficiency and Lead Efficiency bug
+- Fixed saving and loading Trainer Settings
+- Other fixes and improvements
+
+---
+
 **4.8.12**
 04.12.2020. for Alpha 11
 - Fixed Reduce Internet Cost option

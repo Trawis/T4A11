@@ -11,7 +11,7 @@ namespace Trainer_v4
 	public class TrainerBehaviour : ModBehaviour
 	{
 		private bool _specializationsLoaded;
-		private float _currentEnvironmentISPCostFactor;
+		private float _defaultEnvironmentISPCostFactor;
 
 		private static GameSettings Settings => GameSettings.Instance;
 		private static Dictionary<string, bool> TrainerSettings => Helpers.Settings;
@@ -85,10 +85,9 @@ namespace Trainer_v4
 				ShowDiscordInvite(displayAsPopup: true);
 			}
 
-			if (_currentEnvironmentISPCostFactor.IsZero())
+			if (_defaultEnvironmentISPCostFactor.IsZero())
       {
-				_currentEnvironmentISPCostFactor = Settings.Environment.ISPCostFactor;
-				Logger.Log($"Environment ISP Cost Factor: {_currentEnvironmentISPCostFactor}");
+				_defaultEnvironmentISPCostFactor = Settings.Environment.ISPCostFactor;
 			}
 
 			foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
@@ -171,17 +170,22 @@ namespace Trainer_v4
 
 				if (Helpers.GetProperty(TrainerSettings, "TemperatureLock"))
 				{
-					room.Temperature = 21.4f;
+					room.Temperature = 21f;
 				}
 
 				if (Helpers.GetProperty(TrainerSettings, "FullEnvironment"))
 				{
-					room.FurnEnvironment = 4;
+					room.FurnEnvironment = 8;
 				}
 
 				if (Helpers.GetProperty(TrainerSettings, "FullRoomBrightness"))
 				{
-					room.IndirectLighting = 8;
+					room.IndirectLighting = 16;
+				}
+
+				if (Helpers.GetProperty(TrainerSettings, "NoSickness"))
+				{
+					room.GermCount = 0f;
 				}
 			}
 
@@ -190,17 +194,11 @@ namespace Trainer_v4
 				Actor actor = Settings.sActorManager.Actors[i];
 				Employee employee = Settings.sActorManager.Actors[i].employee;
 
-				if (Helpers.GetProperty(TrainerSettings, "NoSickness") && actor.SpecialState == Actor.HomeState.Sick)
+				if (Helpers.GetProperty(TrainerSettings, "NoSickness"))
 				{
-					var sickActors = TimeOfDay.Instance.Sick;
-
-					if (sickActors != null)
-					{
-						if (sickActors.Contains(actor))
-						{
-							TimeOfDay.Instance.Sick.Remove(actor);
-						}
-					}
+					actor.GermAdd = 0f;
+					actor.GermCount = 0f;
+					TimeOfDay.Instance.Sick.Clear();
 				}
 
 				if (Helpers.GetProperty(TrainerSettings, "LockAge"))
@@ -219,18 +217,27 @@ namespace Trainer_v4
 				if (Helpers.GetProperty(TrainerSettings, "FullSatisfaction"))
 				{
 					employee.JobSatisfaction = 2f;
+					employee.ActiveComplaint = false;
+					employee.Thoughts.List.RemoveAll(x => x.Mood.Negative || x.Mood.Sue || !string.IsNullOrEmpty(x.Mood.QuitReason));
+					employee.SetMood("LoveWork", actor, 1f);
 				}
 
 				if (Helpers.GetProperty(TrainerSettings, "NoNeeds"))
 				{
-					employee.Bladder = 1;
-					employee.Hunger = 1;
-					employee.Energy = 1;
-					employee.Social = 1;
+					employee.Bladder = 1f;
+					employee.Hunger = 1f;
+					employee.Energy = 1f;
+					employee.Social = 1f;
+					employee.Posture = 1f;
+					employee.Diligence = 1f;
+					employee.HadProperFood = true;
 				}
 
 				if (Helpers.GetProperty(TrainerSettings, "FreeEmployees"))
 				{
+					employee.Salary = 0f;
+					employee.AskedFor = 0f;
+					employee.Demanded = 0f;
 					employee.ChangeSalary(0f, 0f, actor, false);
 				}
 
@@ -366,10 +373,17 @@ namespace Trainer_v4
 				Settings.ServerCost = 0f;
 			}
 
+			if (Helpers.GetProperty(TrainerSettings, "NoWaterElectricity"))
+			{
+				Settings.ElectricityBill = 0f;
+				Settings.SolarPanelBill = 0f;
+			}
+
 			GameSettings.MaxFloor = 100; //10 default
 			AI.MaxBoxes = Helpers.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
+			AI.MaxBoxCarry = Helpers.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 18 : 9;
 			AI.BoxPrice = Helpers.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
-			Settings.Environment.ISPCostFactor = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? _currentEnvironmentISPCostFactor / 2f : _currentEnvironmentISPCostFactor;
+			Settings.Environment.ISPCostFactor = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? _defaultEnvironmentISPCostFactor / 2f : _defaultEnvironmentISPCostFactor;
 			Settings.ExpansionCost = Helpers.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 		}
 
