@@ -11,6 +11,7 @@ namespace Trainer_v4
 	public class TrainerBehaviour : ModBehaviour
 	{
 		private bool _specializationsLoaded;
+		private float _currentEnvironmentISPCostFactor;
 
 		private static GameSettings Settings => GameSettings.Instance;
 		private static Dictionary<string, bool> TrainerSettings => Helpers.Settings;
@@ -82,6 +83,12 @@ namespace Trainer_v4
 				LoadSpecializations();
 				_specializationsLoaded = true;
 				ShowDiscordInvite(displayAsPopup: true);
+			}
+
+			if (_currentEnvironmentISPCostFactor.IsZero())
+      {
+				_currentEnvironmentISPCostFactor = Settings.Environment.ISPCostFactor;
+				Logger.Log($"Environment ISP Cost Factor: {_currentEnvironmentISPCostFactor}");
 			}
 
 			foreach (Furniture furniture in Settings.sRoomManager.AllFurniture)
@@ -362,7 +369,7 @@ namespace Trainer_v4
 			GameSettings.MaxFloor = 100; //10 default
 			AI.MaxBoxes = Helpers.GetProperty(TrainerSettings, "IncreaseCourierCapacity") ? 108 : 54;
 			AI.BoxPrice = Helpers.GetProperty(TrainerSettings, "ReduceBoxPrice") ? 62.5f : 125;
-			Settings.Environment.ISPCostFactor = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? 15f : 30f;
+			Settings.Environment.ISPCostFactor = Helpers.GetProperty(TrainerSettings, "ReduceISPCost") ? _currentEnvironmentISPCostFactor / 2f : _currentEnvironmentISPCostFactor;
 			Settings.ExpansionCost = Helpers.GetProperty(TrainerSettings, "ReduceExpansionCost") ? 175f : 350f;
 		}
 

@@ -3,6 +3,12 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.12**
+04.12.2020. for Alpha 11
+- Fixed Reduce Internet Cost option
+
+---
+
 **4.8.11**
 01.12.2020. for Alpha 11
 - Fixed Settings and Employee Skill Change Window toggle
