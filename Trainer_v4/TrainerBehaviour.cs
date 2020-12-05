@@ -218,7 +218,14 @@ namespace Trainer_v4
 				{
 					employee.JobSatisfaction = 2f;
 					employee.ActiveComplaint = false;
-					employee.Thoughts.List.RemoveAll(x => x.Mood.Negative || x.Mood.Sue || !string.IsNullOrEmpty(x.Mood.QuitReason));
+					foreach (var thought in employee.Thoughts.Values.ToList())
+          {
+						if (thought.Mood.Negative || thought.Mood.Sue || !string.IsNullOrEmpty(thought.Mood.QuitReason))
+            {
+							employee.Thoughts.Remove(thought.Thought);
+						}
+          }
+
 					employee.SetMood("LoveWork", actor, 1f);
 				}
 

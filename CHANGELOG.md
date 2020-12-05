@@ -3,6 +3,12 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.14**
+05.12.2020. for Alpha 11
+- Fixed Full Satisfaction
+
+---
+
 **4.8.13**
 04.12.2020. for Alpha 11
 - Improved Reduce Internet Cost option
