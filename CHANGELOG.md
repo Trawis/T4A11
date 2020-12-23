@@ -3,6 +3,12 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.15**
+23.12.2020. for Alpha 11
+- Update libraries
+
+---
+
 **4.8.14**
 05.12.2020. for Alpha 11
 - Fixed Full Satisfaction
