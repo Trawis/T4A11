@@ -3,9 +3,16 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.16**
+20.02.2021. for Alpha 11
+- Added new start years
+- Updated libraries
+
+---
+
 **4.8.15**
 23.12.2020. for Alpha 11
-- Update libraries
+- Updated libraries
 
 ---
 

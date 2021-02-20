@@ -48,7 +48,7 @@ namespace Trainer_v4
 					case "Customization":
 						ActorCustomization.StartYears = new[]
 						{
-							1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030
+							1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030, 2035, 2040, 2045, 2050, 2060, 2070, 2080, 2090, 2100
 						};
 						ActorCustomization.StartLoans = new[]
 						{
