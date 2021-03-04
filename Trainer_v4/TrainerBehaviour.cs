@@ -430,7 +430,7 @@ namespace Trainer_v4
 			}
 		}
 
-		public static void SetSkillPerEmployee()
+		public static void SetSkillPerEmployeeAction(string input)
 		{
 			var selectedActors = SelectorController.Instance.Selected.OfType<Actor>().ToList();
 			var selectedRoles = Helpers.RolesList.Where(r => r.Value).ToList();
@@ -452,18 +452,34 @@ namespace Trainer_v4
 				return;
 			}
 
-			selectedActors.ForEach(actor =>
-			{
-				foreach (var role in selectedRoles)
-				{
-					actor.employee.ChangeSkillDirect(role.Key.ToEmployeeRole(), 1f);
+			int amount;
+      if (!int.TryParse(input, out amount) || amount == 0 || amount < -3 || amount > 3)
+      {
+				WindowManager.SpawnDialog("Invalid input!\nAllowed inputs are: -3, -2, -1, 1, 2, 3", false, DialogWindow.DialogType.Error);
+				return;
+      }
+      else
+      {
+        selectedActors.ForEach(actor =>
+        {
+          foreach (var role in selectedRoles)
+          {
+            actor.employee.ChangeSkillDirect(role.Key.ToEmployeeRole(), 1f);
 
-					foreach (var specialization in selectedSpecializations)
-					{
-						actor.employee.AddSpecialization(role.Key.ToEmployeeRole(), specialization.Key, false, true, 3);
-					}
-				}
-			});
+            foreach (var specialization in selectedSpecializations)
+            {
+              actor.employee.AddSpecialization(role.Key.ToEmployeeRole(), specialization.Key, false, true, amount);
+            }
+          }
+        });
+
+        HUD.Instance.AddPopupMessage("Trainer: Employee skills/specializations are set!", "Cogs", PopupManager.PopUpAction.None, 0, 0, 0, 0);
+      }
+    }
+
+		public static void SetSkillPerEmployee()
+		{
+			WindowManager.SpawnInputDialog("How many specialization stars do you want?\nMin = -3, Max = 3", "Stars amount", "3", SetSkillPerEmployeeAction);
 		}
 
 		public static void ClearLoans()

@@ -3,6 +3,13 @@ Release notes for changes to the trainer
 
 ---
 
+**4.8.17**
+04.03.2021. for Alpha 11
+- Added input dialog for specialization stars on Employee Skill Change window (now you can add or subtract specialization stars per employee)
+- Updated libraries
+
+---
+
 **4.8.16**
 20.02.2021. for Alpha 11
 - Added new start years

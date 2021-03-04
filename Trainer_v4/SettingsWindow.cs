@@ -8,7 +8,7 @@ namespace Trainer_v4
 {
 	public class SettingsWindow : MonoBehaviour
 	{
-		private static readonly string _title = $"Trainer Settings, by Trawis (v{Helpers.Version}";
+		private static readonly string _title = $"Trainer Settings, by Trawis (v{Helpers.Version})";
 
 		public static GUIWindow Window { get; set; }
 		public static bool Shown { get; set; }

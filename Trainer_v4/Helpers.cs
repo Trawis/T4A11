@@ -7,7 +7,7 @@ namespace Trainer_v4
 	public static class Helpers
 	{
 		public static bool IsGameLoaded => GameSettings.Instance != null && HUD.Instance != null;
-		public static string Version => "4.8.16";
+		public static string Version => "4.8.17";
 		public static string TrainerVersion => $"Trainer v{Version}";
 		public static bool IsDebug => false;
 		public static string DiscordUrl => "https://discord.com/invite/J584aG";
