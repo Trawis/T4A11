@@ -263,10 +263,30 @@ namespace Trainer_v4
 
 			if (Helpers.GetProperty(TrainerSettings, "AutoDistributionDeals"))
 			{
-				Settings.Distribution.TimeToCancel = -999;
-				foreach (var company in Settings.simulation.Companies)
-				{
-					company.Value.HasDistributionDeal = true;
+				//TimeOfDay.OnDayPassed
+				//TimeOfDay.OnMonthPassed
+				//bool canHandleLoad = true;
+				if (Settings.Distribution != null && Settings.Distribution.Open)
+        {
+					//var serverGroup = Settings.GetServerGroup(Settings.Distribution.ServerName);
+					//canHandleLoad = serverGroup.Available >= 0.2f;
+
+					Settings.Distribution.TimeToCancel = -10f;
+
+					foreach (var company in Settings.simulation.GetAllCompanies())
+					{
+						if (!company.IsPlayerOwned())
+            {
+							SimulatedCompany simulatedCompany = company as SimulatedCompany;
+							if (simulatedCompany != null)
+							{
+								simulatedCompany.DistributionDealCooldown = 0;
+							}
+
+							company.HasDistributionDeal = true;
+							//MarketSimulation.DistributionStandardCut = company.HasDistributionDeal ? 1f : 0.3f;
+						}
+					}
 				}
 			}
 
